@@ -1,86 +1,94 @@
 #include <stdio.h>
 #include <wininet.h>
 #include "Request.h"
+#include "cJSON\cJSON.h"
 
 
-char* strcut(char* str, unsigned int start, unsigned int end)
+BOOL parseJSON(const char* reqBuffer, IPINFO* pIpInfo)
 {
-	if (!strlen(str) || start >= end)
+	BOOL retResult = 1; // if value is 1 that's o'k
+	cJSON* pData = cJSON_Parse(reqBuffer);
+	if (pData != NULL)
 	{
-		return NULL;
-	}
-
-	size_t strSize = end - start + 2;
-	char* retStr = (char*)calloc(strSize, sizeof(char));
-	memset(retStr, strSize, '\0');
-
-	for (int i = 0; i < strSize - 1; i++)
-	{
-		retStr[i] = str[i + start];
-	}
-
-	return retStr;
-}
-
-
-BOOL parseRequestBuffer(char* reqBuffer, IPINFO* stInfo)
-{
-	if (!strlen(reqBuffer))
-	{
-		return 0;
-	}
-
-	typedef struct
-	{
-		int start, end;
-	} pair;
-
-	pair array[6] = {0};
-	unsigned int curPairIndex = 0;
-	for (unsigned i = 0; i < sizeof(array) / sizeof(array[0]); i++)
-	{
-		array[i].start = -1;
-		array[i].end = - 1;
-	}
-
-	for (unsigned i = 0; reqBuffer[i]; i++)
-	{
-		// ascii: 34 - "
-		if (reqBuffer[i] == 34)
+		const cJSON* status = cJSON_GetObjectItemCaseSensitive(pData, "status");
+		if (status->valuestring != NULL && strcmp(status->valuestring, "success") == 0)
 		{
-			if (array[curPairIndex].start == -1)
-			{
-				array[curPairIndex].start = i;
-			}
-			else
-			{
-				array[curPairIndex].end = i;
-				++curPairIndex;
-			}
+			const char 
+				*continent = cJSON_GetObjectItemCaseSensitive(pData, "continent")->valuestring,
+				*continentCode = cJSON_GetObjectItemCaseSensitive(pData, "continentCode")->valuestring,
+				*country = cJSON_GetObjectItemCaseSensitive(pData, "country")->valuestring,
+				*countryCode = cJSON_GetObjectItemCaseSensitive(pData, "countryCode")->valuestring,
+				*region = cJSON_GetObjectItemCaseSensitive(pData, "region")->valuestring,
+				*regionName = cJSON_GetObjectItemCaseSensitive(pData, "regionName")->valuestring,
+				*city = cJSON_GetObjectItemCaseSensitive(pData, "city")->valuestring,
+				*district = cJSON_GetObjectItemCaseSensitive(pData, "district")->valuestring,
+				*zip = cJSON_GetObjectItemCaseSensitive(pData, "zip")->valuestring;
+			
+			const double
+				lat = cJSON_GetObjectItemCaseSensitive(pData, "lat")->valuedouble,
+				lon = cJSON_GetObjectItemCaseSensitive(pData, "lon")->valuedouble;
+
+			const char* timezone = cJSON_GetObjectItemCaseSensitive(pData, "timezone")->valuestring;
+			const unsigned int offset = cJSON_GetObjectItemCaseSensitive(pData, "offset")->valueint;
+
+			const char
+				*currency = cJSON_GetObjectItemCaseSensitive(pData, "currency")->valuestring,
+				*isp = cJSON_GetObjectItemCaseSensitive(pData, "isp")->valuestring,
+				*org = cJSON_GetObjectItemCaseSensitive(pData, "org")->valuestring,
+				*as = cJSON_GetObjectItemCaseSensitive(pData, "as")->valuestring,
+				*asName = cJSON_GetObjectItemCaseSensitive(pData, "asname")->valuestring,
+				*reverse = cJSON_GetObjectItemCaseSensitive(pData, "reverse")->valuestring;
+			
+			const unsigned int
+				mobile = cJSON_GetObjectItemCaseSensitive(pData, "mobile")->valueint,
+				proxy = cJSON_GetObjectItemCaseSensitive(pData, "proxy")->valueint,
+				hosting = cJSON_GetObjectItemCaseSensitive(pData, "hosting")->valueint;
+			
+			const char* query = cJSON_GetObjectItemCaseSensitive(pData, "query")->valuestring;
+
+			strcpy(pIpInfo->continent, continent);
+			strcpy(pIpInfo->continentCode, continentCode);
+			strcpy(pIpInfo->country, country);
+			strcpy(pIpInfo->countryCode, countryCode);
+			strcpy(pIpInfo->region, region);
+			strcpy(pIpInfo->regionName, regionName);
+			strcpy(pIpInfo->city, city);
+			strcpy(pIpInfo->district, district);
+			strcpy(pIpInfo->zip, zip);
+			pIpInfo->lat = lat;
+			pIpInfo->lon = lon;
+			strcpy(pIpInfo->timezone, timezone);
+			pIpInfo->offset = offset;
+			strcpy(pIpInfo->currency, currency);
+			strcpy(pIpInfo->isp, isp);
+			strcpy(pIpInfo->org, org);
+			strcpy(pIpInfo->as, as);
+			strcpy(pIpInfo->asName, asName);
+			strcpy(pIpInfo->reverse, reverse);
+			pIpInfo->mobile = mobile;
+			pIpInfo->proxy = proxy;
+			pIpInfo->hosting = hosting;
+			strcpy(pIpInfo->query, query);
 		}
 	}
 
-	char* strings[6] = {0};
-	for (unsigned i = 0; i < sizeof(array) / sizeof(pair); i++)
+	else
 	{
-		strings[i] = strcut(reqBuffer, array[i].start + 1, array[i].end - 1);
+		const char *error_ptr = cJSON_GetErrorPtr();
+		if (error_ptr != NULL)
+		{
+			fprintf(stderr, "Error before: %s\n", error_ptr);
+			retResult = 0;
+		}
 	}
-
-	strcpy(stInfo->ip, strings[1]);
-	strcpy(stInfo->country, strings[3]);
-	strcpy(stInfo->countryCode, strings[5]);
-
-	for (unsigned i = 0; i < sizeof(strings) / sizeof(strings[0]); i++)
-	{
-		free(strings[i]);
-	}
-
-	return 1;
+	cJSON_Delete(pData);
+	return retResult;
 }
 
 
-BOOL SendRequest(
-	const char* url, 
+BOOL sendRequest(
+	const char* url,
+	const char* params,
 	char* reqBuffer, 
 	size_t reqBufferSize)
 {
@@ -95,7 +103,7 @@ BOOL SendRequest(
 		if (hInetSession != NULL)
 		{
 			HINTERNET hInetSessionRequest = HttpOpenRequestA(hInetSession,
-				"GET", "/", "HTTP/1.1", NULL, NULL,
+				"GET", params, "HTTP/1.1", NULL, NULL,
 				INTERNET_FLAG_RELOAD, 0);
 			if (hInetSessionRequest != NULL)
 			{
@@ -108,7 +116,7 @@ BOOL SendRequest(
 						reqBufferSize - 1, &dwReadBytes);
 					if (readResult)
 					{
-						reqBuffer[dwReadBytes] = 0;
+						reqBuffer[dwReadBytes] = '\0';
 						retResult = 1;
 					}
 				}
