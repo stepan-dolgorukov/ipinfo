@@ -6,7 +6,7 @@
 int main(void)
 {
 	char reqBuffer[1024] = {};
-	if (sendRequest("ip-api.com", "json/?fields=66846719", reqBuffer, sizeof(reqBuffer) * sizeof(char) - sizeof(char)))
+	if (sendRequest("ip-api.com", "json/?fields=66846719", reqBuffer, sizeof(reqBuffer) * sizeof(char)))
 	{
 		IPINFO stIpInfo = {};
 		if (parseJSON(reqBuffer, &stIpInfo))
