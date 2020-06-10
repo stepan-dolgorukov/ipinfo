@@ -1,12 +1,13 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <wininet.h>
 #include "Request.h"
-#include "cJSON\cJSON.h"
+#include "..\cJSON\cJSON.h"
 
 
-BOOL parseJSON(const char* reqBuffer, IPINFO* pIpInfo)
+bool parseJSON(const char* reqBuffer, IPINFO* pIpInfo)
 {
-	BOOL retResult = 1; // if value is 1 that's o'k
+	bool retResult = true; // if value is 1 that's o'k
 	cJSON* pData = cJSON_Parse(reqBuffer);
 	if (pData != NULL)
 	{
@@ -29,7 +30,7 @@ BOOL parseJSON(const char* reqBuffer, IPINFO* pIpInfo)
 				lon = cJSON_GetObjectItemCaseSensitive(pData, "lon")->valuedouble;
 
 			const char* timezone = cJSON_GetObjectItemCaseSensitive(pData, "timezone")->valuestring;
-			const unsigned int offset = cJSON_GetObjectItemCaseSensitive(pData, "offset")->valueint;
+			const u_int offset = cJSON_GetObjectItemCaseSensitive(pData, "offset")->valueint;
 
 			const char
 				*currency = cJSON_GetObjectItemCaseSensitive(pData, "currency")->valuestring,
@@ -39,7 +40,7 @@ BOOL parseJSON(const char* reqBuffer, IPINFO* pIpInfo)
 				*asName = cJSON_GetObjectItemCaseSensitive(pData, "asname")->valuestring,
 				*reverse = cJSON_GetObjectItemCaseSensitive(pData, "reverse")->valuestring;
 			
-			const unsigned int
+			const u_int
 				mobile = cJSON_GetObjectItemCaseSensitive(pData, "mobile")->valueint,
 				proxy = cJSON_GetObjectItemCaseSensitive(pData, "proxy")->valueint,
 				hosting = cJSON_GetObjectItemCaseSensitive(pData, "hosting")->valueint;
@@ -74,25 +75,31 @@ BOOL parseJSON(const char* reqBuffer, IPINFO* pIpInfo)
 
 	else
 	{
-		const char *error_ptr = cJSON_GetErrorPtr();
+		const char* error_ptr = cJSON_GetErrorPtr();
 		if (error_ptr != NULL)
 		{
-			fprintf(stderr, "Error before: %s\n", error_ptr);
-			retResult = 0;
+			fprintf(stderr, "Parsing error before: %s\n", error_ptr);
+			retResult = false;
 		}
+
+		else
+		{
+			fprintf(stderr, "Unexpected parsing error.\n");
+		}
+		
 	}
 	cJSON_Delete(pData);
 	return retResult;
 }
 
 
-BOOL sendRequest(
+bool sendRequest(
 	const char* url,
 	const char* params,
 	char* reqBuffer, 
 	size_t reqBufferSize)
 {
-	BOOL retResult = 0;
+	bool retResult = false;
 	HINTERNET hInet = InternetOpenA("User Agent",
 		INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
 	if (hInet != NULL)
@@ -117,7 +124,7 @@ BOOL sendRequest(
 					if (readResult)
 					{
 						reqBuffer[dwReadBytes] = '\0';
-						retResult = 1;
+						retResult = true;
 					}
 				}
 			}

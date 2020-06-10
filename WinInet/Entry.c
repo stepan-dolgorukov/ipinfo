@@ -1,21 +1,15 @@
 #include <stdio.h>
-#include <wininet.h>
+#include <stdbool.h>
 #include "Request.h"
 
 
 int main(void)
 {
-	const char
-		*pUrl = "ip-api.com",
-		*pParams = "json/?fields=66846719";
-
 	char reqBuffer[1024] = {};
-	BOOL sendResult = sendRequest(pUrl, pParams, reqBuffer, sizeof(reqBuffer) * sizeof(char));
-	if (sendResult)
+	if (sendRequest("ip-api.com", "json/?fields=66846719", reqBuffer, sizeof(reqBuffer) * sizeof(char) - sizeof(char)))
 	{
 		IPINFO stIpInfo = {};
-		BOOL parseResult = parseJSON(reqBuffer, &stIpInfo);
-		if (parseResult)
+		if (parseJSON(reqBuffer, &stIpInfo))
 		{
 			printf("Continent name: %s\n", stIpInfo.continent);
 			printf("Two-letter continent code: %s\n",  stIpInfo.continentCode);
@@ -42,17 +36,9 @@ int main(void)
 			printf("IP used for the query: %s\n", stIpInfo.query);
 		}
 
-		else
-		{
-			printf("Couldn't parse a returned json\n");
-		}
-		
+		else fprintf(stderr, "Couldn't parse returned JSON object.\n");
 	}
 
-	else
-	{
-		printf("Couldn't send a request\n");
-	}
-	
+	else fprintf(stderr, "Couldn't connect success to the server.\n");
 	return 0;
 }
