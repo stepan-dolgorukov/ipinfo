@@ -41,6 +41,7 @@ static std::pair<std::uint8_t,
     CURL *curl{nullptr};
     std::string res_data{};
     std::string url{"http://ipwhois.app/json/"};
+    CURLcode status{};
 
     if (nullptr != ip &&
         0u != ip->length())
@@ -71,23 +72,36 @@ static std::pair<std::uint8_t,
     curl_easy_setopt(curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP);
     curl_easy_setopt(curl, CURLOPT_PORT, 80);
 
-    if (CURLE_OK != curl_easy_perform(curl))
+    status = curl_easy_perform(curl);
+
+    if (CURLE_OK != status);
     {
         #ifdef DEBUG_MODE
-        spdlog::error("[{} | {} | {}] Couldn't send the data to {}.",
-                      __FILE__, __LINE__, __FUNCTION__, url);
+        const char * const curl_error = curl_easy_strerror(status);
 
+        if (nullptr != curl_error)
+        {
+            spdlog::error("[{} | {} | {}] Couldn't send the data to {}. "
+                          "CURL error message: {}.", __FILE__, __LINE__,
+                          __FUNCTION__, url, curl_error);
+        }
+
+        else
+        {
+            spdlog::error("[{} | {} | {}] Couldn't send the data to {}. "
+                          "No information about CURL error.",
+                          __FILE__, __LINE__, __FUNCTION__, url);
+        }
         #endif
-        return std::make_pair(1u, std::string{0});
+        return std::make_pair(1u, std::string{});
     }
 
     #ifdef DEBUG_MODE
     spdlog::info("[{} | {} | {}] Successfully data sending to {}.",
                  __FILE__, __LINE__, __FUNCTION__, url);
     #endif
-
-    curl_easy_cleanup(curl);
     
+    curl_easy_cleanup(curl);
     return std::make_pair(0u, res_data);
 }
 
@@ -97,6 +111,7 @@ static std::uint8_t parse_node(const cJSON * const data,
                                node<T> * const node)
 {
     if (nullptr == data ||
+        nullptr == node ||
         0u == node->json_name.length())
     {
         #ifdef DEBUG_MODE
@@ -104,14 +119,6 @@ static std::uint8_t parse_node(const cJSON * const data,
                       __FILE__, __LINE__, __FUNCTION__);
         #endif
         return EXIT_FAILURE;
-    }
-
-    if (0u == node->description.length())
-    {
-        #ifdef DEBUG_MODE
-        spdlog::warn("[{} | {} | {}] Description on the node is empty.",
-                      __FILE__, __LINE__, __FUNCTION__);
-        #endif
     }
 
     const cJSON *item{nullptr};
@@ -124,10 +131,10 @@ static std::uint8_t parse_node(const cJSON * const data,
     if (nullptr == item)
     {
         #ifdef DEBUG_MODE
-        spdlog::error("[{} | {} | {}] Couldn't find the node with "
-                      "the name <{}> ({}) in the JSON object.",
+        spdlog::error("[{} | {} | {}] Couldn't find the "
+                      "\"{}\" node in the JSON object.",
                       __FILE__, __LINE__, __FUNCTION__,
-                      node->json_name, node->description);
+                      node->json_name);
         #endif
         return EXIT_FAILURE;
     }
@@ -138,7 +145,7 @@ static std::uint8_t parse_node(const cJSON * const data,
         {
             #ifdef DEBUG_MODE
             spdlog::error("[{} | {} | {}] Couldn't correctly "
-                          "parse the <{}> ({}) JSON node.",
+                          "parse the \"{}\" JSON node.",
                           __FILE__, __LINE__, __FUNCTION__,
                           node->json_name, node->description);
             #endif
@@ -162,7 +169,7 @@ static std::uint8_t parse_node(const cJSON * const data,
         {
             #ifdef DEBUG_MODE
             spdlog::error("[{} | {} | {}] Couldn't correctly "
-                          "parse the <{}> ({}) JSON node.",
+                          "parse the \"{}\" JSON node.",
                           __FILE__, __LINE__, __FUNCTION__,
                           node->json_name, node->description);
             #endif
@@ -181,10 +188,10 @@ static std::uint8_t parse_node(const cJSON * const data,
     }
 
     #ifdef DEBUG_MODE
-    spdlog::info("[{} | {} | {}] Node <{}> ({}) has "
+    spdlog::info("[{} | {} | {}] Node \"{}\" has "
                  "been parsed successfully.",
-                  __FILE__, __LINE__, __FUNCTION__,
-                  node->json_name, node->description);
+                 __FILE__, __LINE__, __func__,
+                 node->json_name, node->description);
     #endif
     return EXIT_SUCCESS;
 }
@@ -195,6 +202,7 @@ std::uint8_t parse_node(const cJSON * const data,
                         node<std::string> * const node)
 {    
     if (nullptr == data ||
+        nullptr == node ||
         0u == node->json_name.length())
     {
         #ifdef DEBUG_MODE
@@ -202,14 +210,6 @@ std::uint8_t parse_node(const cJSON * const data,
                       __FILE__, __LINE__, __FUNCTION__);
         #endif
         return EXIT_FAILURE;
-    }
-
-    if (0u == node->description.length())
-    {
-        #ifdef DEBUG_MODE
-        spdlog::warn("[{} | {} | {}] Description on the node is empty.",
-                      __FILE__, __LINE__, __FUNCTION__);
-        #endif
     }
 
     const cJSON *item{nullptr};
@@ -222,7 +222,7 @@ std::uint8_t parse_node(const cJSON * const data,
     {
         #ifdef DEBUG_MODE
         spdlog::error("[{} | {} | {}] Couldn't find the "
-                      "node with the name \"{}\" in the JSON.",
+                      "\"{}\" node in the JSON object.",
                       __FILE__, __LINE__, __FUNCTION__,
                       node->json_name);
         #endif
@@ -243,7 +243,7 @@ std::uint8_t parse_node(const cJSON * const data,
     }
 
     #ifdef DEBUG_MODE
-    spdlog::info("[{} | {} | {}] Node \"{}\" ({}) has "
+    spdlog::info("[{} | {} | {}] Node \"{}\" has "
                  "been parsed successfully.",
                  __FILE__, __LINE__, __func__,
                  node->json_name, node->description);
@@ -302,19 +302,18 @@ static std::uint8_t parse_data(const std::string * const json,
         #ifdef DEBUG_MODE
         if (0u == parse_node<std::string>(data, &ip_info->err_msg))
         {
-            spdlog::debug("[{} | {} | {}] Server error message (from the "
-                          "JSON): \"{}\".", __FILE__, __LINE__, __FUNCTION__,
+            spdlog::debug("[{} | {} | {}] Server error message: \"{}\".",
+                          __FILE__, __LINE__, __FUNCTION__,
                           ip_info->err_msg.value);
         }
 
         else
         {
-            spdlog::error("[{} | {} | {}] Couldn't get from the "
-                          "JSON object the server error message.",
+            spdlog::error("[{} | {} | {}] Couldn't get the "
+                          "errormessage from the JSON.",
                           __FILE__, __LINE__, __FUNCTION__);
         }
         #endif
-
         return EXIT_FAILURE;
     }
     
@@ -373,7 +372,7 @@ std::uint8_t get_ip_info(ip_info_t * const ip_info,
     {
         #ifdef DEBUG_MODE
         spdlog::error("[{} | {} | {}] Couldn't get "
-                      "an answer from the server.",
+                      "any answer from the server.",
                       __FILE__, __LINE__, __FUNCTION__);
         #endif
         return EXIT_FAILURE;
@@ -383,7 +382,6 @@ std::uint8_t get_ip_info(ip_info_t * const ip_info,
     spdlog::debug("[{} | {} | {}] Received JSON object: \"{}\".",
                   __FILE__, __LINE__, __FUNCTION__, json);
     #endif
-
     return parse_data(&json, ip_info);
 }
 
@@ -397,6 +395,8 @@ void print_ip_info(const ip_info_t * const ip_info)
                       "the IP information structure.",
                       __FILE__, __LINE__, __FUNCTION__);
         #endif
+
+        return;
     }
 
     std::cout << ip_info->ip.description << ": "

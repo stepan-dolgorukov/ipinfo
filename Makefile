@@ -10,5 +10,5 @@ SPDLOG = -I"sources/spdlog/include"
 FILES = $(IPINFO) $(CJSON) $(SPDLOG) sources/main.cpp
 
 $(TARGET):
-	@echo "Let's build ipinfo..."
+	@echo "Let's build ipinfo as an application..."
 	$(CXX) $(FLAGS) $(FILES) $(LINKER) -o ./binaries/$(TARGET)

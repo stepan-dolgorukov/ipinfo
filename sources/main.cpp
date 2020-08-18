@@ -8,17 +8,33 @@
 #include "spdlog/spdlog.h"
 #include "ipinfo/ipinfo.h"
 
-// Using example.
+// Using example (as an app).
+// I recommend you to OFF the debug mode in this case.
+
 int main(int argc, char* argv[])
 {
+    for (size_t i = 0u; i < argc; i++)
+    {
+        if (0 == std::string(argv[i]).compare("--help") ||
+            0 == std::string(argv[i]).compare("-h"))
+        {
+            std::cout << "How to use ipinfo as application? "
+                         "Easy: (./)ipinfo [ip]." << std::endl;
+
+            std::cout << "If [ip] option is empty, you'll get the "
+                         "information about your outside machine IP." << std::endl;
+
+            return 0;
+        }
+    }
+
     std::string ip{};
+    ip_info_t ip_info{};
 
     if (2 <= argc)
     {
-        ip = std::string(argv[1]);
+        ip.append(argv[1]);
     }
-
-    ip_info_t ip_info{};
 
     switch (get_ip_info(&ip_info, ip.empty() ? nullptr : &ip))
     {
