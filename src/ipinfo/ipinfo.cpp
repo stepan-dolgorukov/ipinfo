@@ -74,7 +74,7 @@ static std::pair<std::uint8_t,
 
     status = curl_easy_perform(curl);
 
-    if (CURLE_OK != status);
+    if (CURLcode::CURLE_OK != status)
     {
         #ifdef DEBUG_MODE
         const char * const curl_error = curl_easy_strerror(status);
@@ -93,6 +93,7 @@ static std::pair<std::uint8_t,
                           __FILE__, __LINE__, __FUNCTION__, url);
         }
         #endif
+
         return std::make_pair(1u, std::string{});
     }
 
