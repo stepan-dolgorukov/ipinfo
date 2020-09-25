@@ -1,3 +1,3 @@
 .vscode
-binaries/
-!binaries/README.md
+bin/
+!bin/README.md
