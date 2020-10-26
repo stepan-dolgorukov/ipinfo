@@ -1,12 +1,11 @@
 .vscode
 
 obj/*.o
+lib/*.so
 
 example/bin/*
+!example/bin/.gitkeep
+
 example/obj/*.o
 example/lib/*.so
 example/include/ipinfo/*.h
-
-!lib
-
-lib/libipinfo.so
