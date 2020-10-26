@@ -7,4 +7,6 @@ example/obj/*.o
 example/lib/*.so
 example/include/ipinfo/*.h
 
+!lib
+
 lib/libipinfo.so
