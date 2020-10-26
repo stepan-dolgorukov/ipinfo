@@ -1,0 +1,10 @@
+.vscode
+
+obj/*
+
+example/bin/*
+example/obj/*.o
+example/lib/*.so
+example/include/ipinfo/
+
+lib/libipinfo.so
