@@ -31,15 +31,15 @@ LDFLAGS := -lcurl
 
 
 $(LIB_DIR)/libipinfo.so: $(OBJ_DIR)/cJSON.o \
-						 $(OBJ_DIR)/ipinfo.o \
-						 $(OBJ_DIR)/ipinfo_extra.o \
-						 $(OBJ_DIR)/ipinfo_parsing.o \
+						 $(OBJ_DIR)/ipinfo_main.o \
+						 $(OBJ_DIR)/ipinfo_util.o \
+						 $(OBJ_DIR)/ipinfo_parse.o \
 						 $(OBJ_DIR)/ipinfo_request.o
 	$(CXX) \
 	$(OBJ_DIR)/cJSON.o \
-	$(OBJ_DIR)/ipinfo.o \
-	$(OBJ_DIR)/ipinfo_extra.o \
-	$(OBJ_DIR)/ipinfo_parsing.o \
+	$(OBJ_DIR)/ipinfo_main.o \
+	$(OBJ_DIR)/ipinfo_util.o \
+	$(OBJ_DIR)/ipinfo_parse.o \
 	$(OBJ_DIR)/ipinfo_request.o \
 	$(LDFLAGS) \
 	-o $(LIB_DIR)/libipinfo.so \
@@ -53,24 +53,24 @@ $(OBJ_DIR)/cJSON.o: $(SRC_DIR)/cJSON/cJSON.c
 	-I $(INCLUDE_DIR)/cJSON
 
 
-$(OBJ_DIR)/ipinfo.o: $(SRC_DIR)/ipinfo/ipinfo.cpp
+$(OBJ_DIR)/ipinfo_main.o: $(SRC_DIR)/ipinfo/ipinfo_main.cpp
 	$(CXX) $(CXXFLAGS) -fPIC \
-	-c $(SRC_DIR)/ipinfo/ipinfo.cpp \
-	-o $(OBJ_DIR)/ipinfo.o \
+	-c $(SRC_DIR)/ipinfo/ipinfo_main.cpp \
+	-o $(OBJ_DIR)/ipinfo_main.o \
 	-I $(INCLUDE_DIR)/ipinfo
 
 
-$(OBJ_DIR)/ipinfo_extra.o: $(SRC_DIR)/ipinfo/ipinfo_extra.cpp
+$(OBJ_DIR)/ipinfo_util.o: $(SRC_DIR)/ipinfo/ipinfo_util.cpp
 	$(CXX) $(CXXFLAGS) -fPIC \
-	-c $(SRC_DIR)/ipinfo/ipinfo_extra.cpp \
-	-o $(OBJ_DIR)/ipinfo_extra.o \
+	-c $(SRC_DIR)/ipinfo/ipinfo_util.cpp \
+	-o $(OBJ_DIR)/ipinfo_util.o \
 	-I $(INCLUDE_DIR)/ipinfo
 
 
-$(OBJ_DIR)/ipinfo_parsing.o: $(SRC_DIR)/ipinfo/ipinfo_parsing.cpp
+$(OBJ_DIR)/ipinfo_parse.o: $(SRC_DIR)/ipinfo/ipinfo_parse.cpp
 	$(CXX) $(CXXFLAGS) -fPIC \
-	-c $(SRC_DIR)/ipinfo/ipinfo_parsing.cpp \
-	-o $(OBJ_DIR)/ipinfo_parsing.o \
+	-c $(SRC_DIR)/ipinfo/ipinfo_parse.cpp \
+	-o $(OBJ_DIR)/ipinfo_parse.o \
 	-I $(INCLUDE_DIR)/ipinfo
 
 

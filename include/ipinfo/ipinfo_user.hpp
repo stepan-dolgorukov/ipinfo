@@ -1,11 +1,11 @@
-#ifndef __IPINFO__USER__FUNCS__H__
-    #define __IPINFO__USER__FUNCS__H__
+#ifndef __IPINFO__USER__HPP__
+    #define __IPINFO__USER__HPP__
 
 
     #include <string>
 
 
-    #include "ipinfo_types.h"
+    #include "ipinfo_types.hpp"
 
 
     namespace ipinfo

@@ -1,9 +1,10 @@
-#ifndef __IPINFO__REQUEST__FUNCS__H__
-    #define __IPINFO__REQUEST__FUNCS__H__
-
+#ifndef __IPINFO__REQUEST__HPP__
+    #define __IPINFO__REQUEST__HPP__
 
     #include <math.h>
-    #include "ipinfo.h"
+
+
+    #include "ipinfo.hpp"
 
 
     namespace ipinfo

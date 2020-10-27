@@ -1,5 +1,5 @@
-#ifndef __IPINFO__VALUES__H__
-    #define __IPINFO__VALUES__H__
+#ifndef __IPINFO__VALUES__HPP__
+    #define __IPINFO__VALUES__HPP__
 
 
     #include <string>

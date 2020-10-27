@@ -50,11 +50,14 @@ $(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp
 
 
 copy:
+	# copying library and header files \
+	# from project directory
 	cp ../lib/libipinfo.so $(LIB_DIR)
-	cp ../include/ipinfo/ipinfo.h $(INCLUDE_DIR)/ipinfo
-	cp ../include/ipinfo/ipinfo_types.h $(INCLUDE_DIR)/ipinfo
-	cp ../include/ipinfo/ipinfo_values.h $(INCLUDE_DIR)/ipinfo
-	cp ../include/ipinfo/ipinfo_user_funcs.h $(INCLUDE_DIR)/ipinfo
+	cp ../include/ipinfo/ipinfo.hpp $(INCLUDE_DIR)/ipinfo
+	cp ../include/ipinfo/ipinfo_user.hpp $(INCLUDE_DIR)/ipinfo
+	cp ../include/ipinfo/ipinfo_print.hpp $(INCLUDE_DIR)/ipinfo
+	cp ../include/ipinfo/ipinfo_types.hpp $(INCLUDE_DIR)/ipinfo
+	cp ../include/ipinfo/ipinfo_values.hpp $(INCLUDE_DIR)/ipinfo
 
 
 clean:

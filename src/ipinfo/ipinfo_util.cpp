@@ -2,8 +2,8 @@
 #include <iostream>
 
 
-#include "../../include/ipinfo/ipinfo.h"
-#include "../../include/ipinfo/ipinfo_extra_funcs.h"
+#include "../../include/ipinfo/ipinfo.hpp"
+#include "../../include/ipinfo/ipinfo_util.hpp"
 
 
 namespace ipinfo

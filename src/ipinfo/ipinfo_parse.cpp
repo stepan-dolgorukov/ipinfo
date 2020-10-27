@@ -1,8 +1,9 @@
 #include "../../include/cJSON/cJSON.h"
-#include "../../include/ipinfo/ipinfo.h"
-#include "../../include/ipinfo/ipinfo_extra_funcs.h"
 
-// #include<iostream>
+#include "../../include/ipinfo/ipinfo.hpp"
+#include "../../include/ipinfo/ipinfo_util.hpp"
+#include "../../include/ipinfo/ipinfo_parse.hpp"
+
 
 namespace ipinfo
 {

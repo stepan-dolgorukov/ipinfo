@@ -1,9 +1,9 @@
 #include <curl/curl.h>
 
 
-#include "../../include/ipinfo/ipinfo.h"
-#include "../../include/ipinfo/ipinfo_request_funcs.h"
-#include "../../include/ipinfo/ipinfo_extra_funcs.h"
+#include "../../include/ipinfo/ipinfo.hpp"
+#include "../../include/ipinfo/ipinfo_util.hpp"
+#include "../../include/ipinfo/ipinfo_request.hpp"
 
 
 namespace ipinfo

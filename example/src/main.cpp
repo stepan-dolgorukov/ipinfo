@@ -1,4 +1,4 @@
-#include "../include/ipinfo/ipinfo.h"
+#include "../include/ipinfo/ipinfo.hpp"
 
 
 int main(void)

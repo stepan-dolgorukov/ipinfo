@@ -1,8 +1,8 @@
-#ifndef __IPINFO__PARSING__FUNCS__H__
-    #define __IPINFO__PARSING__FUNCS__H__
+#ifndef __IPINFO__PARSE__HPP__
+    #define __IPINFO__PARSE__HPP__
 
-
-    #include "ipinfo.h"
+    #include "ipinfo.hpp"
+    
     #include "../cJSON/cJSON.h"
 
 

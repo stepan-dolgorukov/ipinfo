@@ -5,10 +5,12 @@
 
 
 #include "../../include/cJSON/cJSON.h"
-#include "../../include/ipinfo/ipinfo.h"
-#include "../../include/ipinfo/ipinfo_request_funcs.h"
-#include "../../include/ipinfo/ipinfo_parsing_funcs.h"
-#include "../../include/ipinfo/ipinfo_extra_funcs.h"
+
+#include "../../include/ipinfo/ipinfo.hpp"
+#include "../../include/ipinfo/ipinfo_util.hpp"
+#include "../../include/ipinfo/ipinfo_print.hpp"
+#include "../../include/ipinfo/ipinfo_parse.hpp"
+#include "../../include/ipinfo/ipinfo_request.hpp"
 
 
 namespace ipinfo
