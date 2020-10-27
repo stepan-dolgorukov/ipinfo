@@ -4,20 +4,20 @@
 DEBUG_MODE = 1
 
 
-BIN_DIR = 		bin
-OBJ_DIR = 		obj
-SRC_DIR = 		src
-LIB_DIR = 		lib
-INCLUDE_DIR = 	include
+BIN_DIR :=		bin
+OBJ_DIR :=		obj
+SRC_DIR :=		src
+LIB_DIR :=		lib
+INCLUDE_DIR :=	include
 
 
-CXX = g++
-CXXFLAGS = -std=c++2a \
-		   -Wall \
-		   -Wextra \
-		   -Wunreachable-code \
-		   -Wpedantic \
-		   -pipe
+CXX := g++
+CXXFLAGS := -std=c++2a \
+			-Wall \
+			-Wextra \
+			-Wunreachable-code \
+			-Wpedantic \
+			-pipe
 
 
 ifeq ($(DEBUG_MODE), 1)
@@ -29,9 +29,9 @@ else
 endif
 
 
-LDFLAGS = -L$(LIB_DIR) \
-		  -lipinfo \
-		  -Wl,-rpath=lib
+LDFLAGS := -L$(LIB_DIR) \
+			-lipinfo \
+			-Wl,-rpath=lib
 
 
 $(BIN)/ipinfo: $(OBJ_DIR)/main.o \

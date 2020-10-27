@@ -1,21 +1,21 @@
 .PHONY: clean
 
 
-DEBUG_MODE = 1
+DEBUG_MODE := 1
 
 
-OBJ_DIR = 	obj
-SRC_DIR = 	src
-LIB_DIR = 	lib
+OBJ_DIR := 	obj
+SRC_DIR := 	src
+LIB_DIR := 	lib
 
 
-CXX = g++
-CXXFLAGS = -std=c++2a \
-		   -Wall \
-		   -Wextra \
-		   -Wunreachable-code \
-		   -Wpedantic \
-		   -pipe
+CXX := g++
+CXXFLAGS := -std=c++2a \
+			-Wall \
+			-Wextra \
+			-Wunreachable-code \
+			-Wpedantic \
+			-pipe
 
 
 ifeq ($(DEBUG_MODE), 1)
@@ -27,7 +27,7 @@ else
 endif
 
 
-LDFLAGS = -lcurl
+LDFLAGS := -lcurl
 
 
 $(LIB_DIR)/libipinfo.so: $(OBJ_DIR)/cJSON.o \
