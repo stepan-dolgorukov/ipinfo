@@ -6,8 +6,11 @@ int main(void)
     ipinfo::info_t info{};
     ipinfo::error_t error{};
     
-    ipinfo::get_info(info, {"8.8.8.8"}, {"English"}, error);
-    ipinfo::print_info(info);
+    ipinfo::get_info(info, \
+                     std::string{"8.8.8.8"}, \
+                     std::string{"English"}, \
+                     error);
     
-    return (0);
+    ipinfo::print_info(info);
+    return {0};
 }

@@ -1,10 +1,3 @@
-#include <iostream>
-#include <typeinfo>
-#include <math.h>
-#include <curl/curl.h>
-
-
-#include "../../include/cJSON/cJSON.h"
 
 #include "../../include/ipinfo/ipinfo.hpp"
 #include "../../include/ipinfo/ipinfo_util.hpp"
@@ -15,21 +8,25 @@
 
 namespace ipinfo
 {
-    void
-        get_info(ipinfo::info_t &info,
-                 const std::string &ip,
-                 const std::string &lang,
+    void \
+        get_info(ipinfo::info_t &info, \
+                 const std::string &ip, \
+                 const std::string &lang, \
                  ipinfo::error_t &error)
     {
-        std::map<const std::string,
+        std::map<const std::string, \
                  std::string> full_urls{};
-        
-        std::map<const std::string,
+
+        std::map<const std::string, \
                  std::string> answers{};
 
         ipinfo::clear_info(info);
-        
-        for (const std::string &host : ipinfo::avail_hosts)
+        ipinfo::set_error(error, \
+                          ipinfo::ui8{0u}, \
+                          std::string{"No error"}, \
+                          std::string{0});
+
+        for (const auto &host : ipinfo::avail_hosts)
         {
             ipinfo::get_full_url(host, ip, lang, full_urls[host], error);
             ipinfo::get_data(full_urls.at(host), answers[host], error);
@@ -40,7 +37,7 @@ namespace ipinfo
     }
 
 
-    void
+    void \
         print_info(const ipinfo::info_t &info)
     {
         ipinfo::print_node<std::string>(info.ip);

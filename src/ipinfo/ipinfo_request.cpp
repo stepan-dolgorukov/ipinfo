@@ -9,9 +9,9 @@
 namespace ipinfo
 {
     static ipinfo::sz
-        recv_data(const char * const data,
-                const ipinfo::sz ch_sz,
-                const ipinfo::sz amount,
+        recv_data(const char * const data, \
+                const ipinfo::sz ch_sz, \
+                const ipinfo::sz amount, \
                 std::string * const answer)
     {
         if ((0u < amount) &&
@@ -29,8 +29,8 @@ namespace ipinfo
 
 
     void
-        set_req_info_fields(const std::string &host,
-                            std::string &url,
+        set_req_info_fields(const std::string &host, \
+                            std::string &url, \
                             ipinfo::error_t &error)
     {
         if (host.empty())
@@ -65,9 +65,9 @@ namespace ipinfo
 
 
     void
-        set_req_lang(const std::string &host,
-                     std::string &full_url,
-                     const std::string &lang,
+        set_req_lang(const std::string &host, \
+                     std::string &full_url, \
+                     const std::string &lang, \
                      ipinfo::error_t &error)
     {
         if (host.empty())
@@ -110,10 +110,10 @@ namespace ipinfo
 
 
     void
-        get_full_url(const std::string &host,
-                     const std::string &ip,
-                     const std::string &lang,
-                     std::string &full_url,
+        get_full_url(const std::string &host, \
+                     const std::string &ip, \
+                     const std::string &lang, \
+                     std::string &full_url, \
                      ipinfo::error_t &error)
     {
         if (host.empty())
@@ -138,14 +138,16 @@ namespace ipinfo
 
 
     void
-        get_data(const std::string &full_url,
-                 std::string &answer,
+        get_data(const std::string &full_url, \
+                 std::string &answer, \
                  ipinfo::error_t &error)
     {
 
         if (full_url.empty())
         {
-            ipinfo::set_error(error, (1u), ("Empty full URL string"), __func__);
+            ipinfo::set_error(error, (1u), \
+                              std::string{"Empty full URL string"}, \
+                              std::string{ __func__});
             return;
         }
 
@@ -154,26 +156,46 @@ namespace ipinfo
 
         if (nullptr == session)
         {
-            ipinfo::set_error(error, (1u), ("Start of a libcurl session failed"), __func__);
+            ipinfo::set_error(error, (1u), \
+                              std::string{"Start of a libcurl" \
+                                          "session failed"}, \
+                              std::string{__func__});
             return;
         }
 
         answer.clear();
-        curl_easy_setopt(session, CURLOPT_URL, full_url.c_str());
-        
-        curl_easy_setopt(session, CURLOPT_WRITEDATA, &answer);
-        curl_easy_setopt(session, CURLOPT_WRITEFUNCTION, recv_data);
-        
-        curl_easy_setopt(session, CURLOPT_PROTOCOLS, CURLPROTO_HTTP);
-        curl_easy_setopt(session, CURLOPT_PORT, (80));
-        curl_easy_setopt(session, CURLOPT_USERAGENT, ("ipinfo module"));
+
+        curl_easy_setopt(session, \
+                         CURLOPT_URL, \
+                         full_url.c_str());
+
+        curl_easy_setopt(session, \
+                         CURLOPT_WRITEDATA, \
+                         (&answer));
+
+        curl_easy_setopt(session, \
+                         CURLOPT_WRITEFUNCTION,\
+                         (&recv_data));
+
+        curl_easy_setopt(session, \
+                         CURLOPT_PROTOCOLS, \
+                         CURLPROTO_HTTP);
+
+        curl_easy_setopt(session, \
+                         CURLOPT_PORT, (80));
+
+        curl_easy_setopt(session, \
+                         CURLOPT_USERAGENT, \
+                         ("ipinfo module"));
 
         code = curl_easy_perform(session);
 
         if (CURLcode::CURLE_OK != code)
         {
-            ipinfo::set_error(error, (1u), ("Data sending using " \
-                                            "libcurl got fail."), __func__);
+            ipinfo::set_error(error, (1u), \
+                              std::string{"Data sending using" \
+                                          "libcurl got fail."}, \
+                              std::string{__func__});
         }
 
         return;

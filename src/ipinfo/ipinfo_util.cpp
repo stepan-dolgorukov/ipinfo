@@ -8,10 +8,10 @@
 
 namespace ipinfo
 {
-    void
-        set_error(ipinfo::error_t &error,
-                    const ipinfo::ui8 code,
-                    const std::string &description,
+    void \
+        set_error(ipinfo::error_t &error, \
+                    const ipinfo::ui8 code, \
+                    const std::string &description, \
                     const std::string &function_name)
     {
         error.code = (code);
@@ -22,7 +22,7 @@ namespace ipinfo
     }
 
 
-    template<typename T> static void
+    template<typename T> static void \
         clear_node(node<T> &node)
     {
         for (const auto &host : ipinfo::avail_hosts)
@@ -45,7 +45,7 @@ namespace ipinfo
     }
 
 
-    template<> void
+    template<> void \
         clear_node(node<std::string> &node)
     {
         for (const auto &host : ipinfo::avail_hosts)
@@ -59,7 +59,7 @@ namespace ipinfo
     }
 
 
-    void
+    void \
         clear_info(ipinfo::info_t &info)
     {
         ipinfo::clear_node<ipinfo::bl>(info.status);
@@ -113,18 +113,18 @@ namespace ipinfo
     }
 
 
-    ipinfo::dbl
-        round_dbl(const ipinfo::dbl val,
+    ipinfo::dbl \
+        round_dbl(const ipinfo::dbl value, \
                   const ipinfo::sz places)
     {
-        const auto div
+        const auto div \
         {
             std::pow((10u), places)
         };
         
-        const auto rounded_val
+        const auto rounded_val \
         {
-            (std::floor(val * div)) / (div)
+            (std::floor(value * div)) / (div)
         };
         
         return (rounded_val);

@@ -1,7 +1,6 @@
 #ifndef __IPINFO__VALUES__HPP__
     #define __IPINFO__VALUES__HPP__
 
-
     #include <string>
     #include <array>
     #include <vector>
@@ -16,9 +15,9 @@
             "ipwhois.app"
         };
 
-        
-        const std::map<const std::string,
-                       const std::map<const std::string,
+
+        const std::map<const std::string, \
+                       const std::map<const std::string, \
                                       const std::string>> avail_langs
         {
             {
@@ -54,7 +53,7 @@
             }
         };
 
-        const std::map<const std::string,
+        const std::map<const std::string, \
                        const std::string> req_paths
         {
             {
@@ -68,8 +67,8 @@
             }
         };
 
-        const std::map<const std::string,
-                       const std::map<const std::string,
+        const std::map<const std::string, \
+                       const std::map<const std::string, \
                                       const std::string>> req_prefixes
         {
             {
@@ -90,7 +89,7 @@
         };
 
 
-        const std::map<const std::string,
+        const std::map<const std::string, \
                        const std::vector<std::string>> req_params
         {
             {

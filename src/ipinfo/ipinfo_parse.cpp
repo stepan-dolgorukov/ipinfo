@@ -308,7 +308,9 @@ namespace ipinfo
 
         if (item_node.json_name.empty())
         {
-            ipinfo::set_error(error, (1u), ("Empty name of a JSON node"), __func__);
+            ipinfo::set_error(error, (1u),
+                              std::string{"Empty JSON node name"},
+                              std::string{__func__});
             return;
         }
 
@@ -349,16 +351,17 @@ namespace ipinfo
     }
 
 
-    template<> void
-        parse_json_node(const cJSON &data,
-                        const std::string &host,
-                        ipinfo::node<std::string> &node,
+    template<> void \
+        parse_json_node(const cJSON &data, \
+                        const std::string &host, \
+                        ipinfo::node<std::string> &node, \
                         ipinfo::error_t &error)
     {
         if (host.empty())
         {
-            ipinfo::set_error(error, (1u),
-                              std::string{"Empty host string"},
+            ipinfo::set_error(error, \
+                              ipinfo::ui8{1u}, \
+                              std::string{"Empty host string"}, \
                               std::string{__func__});
             return;
         }
@@ -366,12 +369,12 @@ namespace ipinfo
         const cJSON * item{nullptr};
         const char * node_name{nullptr};
         
-        auto &current_node
+        auto &current_node \
         {
             node.content.at(host)
         };
 
-        if (current_node.json_name.empty())
+        if (current_node.json_name.empty()) \
         {
             return;
         }
@@ -386,7 +389,7 @@ namespace ipinfo
 
         if (cJSON_IsString(item))
         {
-            const std::string item_value
+            const std::string item_value \
             {
                 item->valuestring
             };
@@ -406,30 +409,36 @@ namespace ipinfo
     }
 
 
-    void
-        parse_data(const std::string &host,
-                   const std::string &json,
-                   ipinfo::info_t &info,
+    void \
+        parse_data(const std::string &host, \
+                   const std::string &json, \
+                   ipinfo::info_t &info, \
                    ipinfo::error_t &error)
     {
         if (host.empty())
         {
-            ipinfo::set_error(error, (1u), ("Empty host string"), __func__);
+            ipinfo::set_error(error, \
+                              ipinfo::ui8{1u}, \
+                              std::string{"Empty host string"}, \
+                              std::string{__func__});
             return;
         }
 
         if (json.empty())
         {
-            ipinfo::set_error(error, (1u), ("Empty JSON data string"), __func__);
+            ipinfo::set_error(error, \
+                              ipinfo::ui8{1u}, \
+                              std::string{"Empty JSON data string"}, \
+                              std::string{__func__});
             return;
         }
     
-        const auto &status
+        const auto &status \
         {
             info.status.content.at(host)
         };
         
-        const cJSON * const data
+        const cJSON * const data \
         {
             cJSON_Parse(json.c_str())
         };
@@ -444,19 +453,22 @@ namespace ipinfo
 
         if (!(status.is_parsed))
         {
-            ipinfo::set_error(error, (1u),
-                              std::string{"Couldn't parse a request status"},
+            ipinfo::set_error(error, \
+                              ipinfo::ui8{1u}, \
+                              std::string{"Couldn't parse a " \
+                                          "request status"},
                               std::string{__func__});
             return;
         }
 
         else
         {
-            
+
             if (!(status.value))
             {
-                ipinfo::set_error(error, (1u),
-                                  std::string{"A request status" \
+                ipinfo::set_error(error, \
+                                  ipinfo::ui8{1u}, \
+                                  std::string{"A request status " \
                                               "isn't success"},
                                   std::string{__func__});
                 

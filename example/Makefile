@@ -51,7 +51,7 @@ $(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp
 
 copy:
 	# copying library and header files \
-	# from project directory
+	# from ipinfo project directory
 	cp ../lib/libipinfo.so $(LIB_DIR)
 	cp ../include/ipinfo/ipinfo.hpp $(INCLUDE_DIR)/ipinfo
 	cp ../include/ipinfo/ipinfo_user.hpp $(INCLUDE_DIR)/ipinfo

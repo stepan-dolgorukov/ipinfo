@@ -1,10 +1,8 @@
 #ifndef __IPINFO__TYPES__HPP__
     #define __IPINFO__TYPES__HPP__
 
-
     #include <map>
     #include <string>
-
 
     #include "ipinfo_values.hpp"
 
