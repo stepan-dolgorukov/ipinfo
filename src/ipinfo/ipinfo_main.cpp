@@ -58,7 +58,7 @@ namespace ipinfo
         ipinfo::print_node<std::string>(info.city);
         ipinfo::print_node<std::string>(info.city_district);
         ipinfo::print_node<std::string>(info.zip_code);
-        
+
         ipinfo::print_node<ipinfo::dbl>(info.latitude);
         ipinfo::print_node<ipinfo::dbl>(info.longitude);
 
