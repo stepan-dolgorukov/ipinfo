@@ -23,7 +23,16 @@
 
         ipinfo::dbl \
             round_dbl(const ipinfo::dbl val, \
-                      const ipinfo::sz places);
+                      const ipinfo::ui8 places);
+
+
+        bool \
+            is_host_avail(const std::string &host);
+
+
+        bool \
+            is_lang_avail(const std::string &host, \
+                            const std::string &lang);
     }
 
 #endif

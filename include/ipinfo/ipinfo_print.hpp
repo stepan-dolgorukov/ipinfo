@@ -1,6 +1,8 @@
 #ifndef __IPINFO__PRINT__HPP__
     #define __IPINFO__PRINT__HPP__
 
+    #include <iostream>
+
     #include "ipinfo.hpp"
 
 

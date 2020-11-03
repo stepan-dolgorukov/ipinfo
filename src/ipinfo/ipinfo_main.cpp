@@ -1,3 +1,5 @@
+#include <string>
+
 
 #include "../../include/ipinfo/ipinfo.hpp"
 #include "../../include/ipinfo/ipinfo_util.hpp"

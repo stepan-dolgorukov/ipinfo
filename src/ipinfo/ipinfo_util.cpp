@@ -63,7 +63,7 @@ namespace ipinfo
     {
         ipinfo::clear_node<ipinfo::bl>(info.status);
         ipinfo::clear_node<std::string>(info.error_msg);
-        
+
         ipinfo::clear_node<std::string>(info.ip);
         ipinfo::clear_node<std::string>(info.ip_type);
         ipinfo::clear_node<std::string>(info.reverse_dns);
@@ -114,19 +114,62 @@ namespace ipinfo
 
     ipinfo::dbl \
         round_dbl(const ipinfo::dbl value, \
-                  const ipinfo::sz places)
+                  const ipinfo::ui8 places)
     {
         const auto div \
         {
-            std::pow((10u), places)
+            std::pow(ipinfo::ui32{10u}, places)
         };
-        
+
         const auto rounded_val \
         {
             (std::floor(value * div)) / (div)
         };
-        
-        return (rounded_val);
+
+        return (ipinfo::dbl{rounded_val});
     }
 
+
+    bool \
+        is_host_avail(const std::string &host)
+    {
+        if (host.empty())
+        {
+            return bool{false};
+        }
+
+        for (const auto &v : ipinfo::avail_hosts)
+        {
+            if (int{0} == (v.compare(host)))
+            {
+                return (bool{true});
+            }
+        }
+
+        return (bool{false});
+    }
+
+
+    bool \
+        is_lang_avail(const std::string &host, \
+                      const std::string &lang)
+    {
+        if (lang.empty())
+        {
+            return bool{false};
+        }
+
+        if (ipinfo::is_host_avail(host))
+        {
+            for (const auto &pair : ipinfo::avail_langs.at(host))
+            {
+                if (int{0} == pair.first.compare(lang))
+                {
+                    return bool{true};
+                }
+            }
+        }
+
+        return (bool{false});
+    }
 }

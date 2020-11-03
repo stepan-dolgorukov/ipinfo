@@ -520,7 +520,7 @@
                         avail_hosts.at(0u),
                         {
                             .is_parsed{false},
-                            .value{0},
+                            .value{0.0},
                             .str_value{0},
                             .json_name{"lat"}
                         }
@@ -530,7 +530,7 @@
                         avail_hosts.at(1u),
                         {
                             .is_parsed{false},
-                            .value{0},
+                            .value{0.0},
                             .str_value{0},
                             .json_name{"latitude"}
                         }
@@ -549,9 +549,9 @@
                         avail_hosts.at(0u),
                         {
                             .is_parsed{false},
-                            .value{0},
+                            .value{0.0},
                             .str_value{0},
-                            .json_name{"lat"}
+                            .json_name{"lon"}
                         }
                     },
 
@@ -559,7 +559,7 @@
                         avail_hosts.at(1u),
                         {
                             .is_parsed{false},
-                            .value{0},
+                            .value{0.0},
                             .str_value{0},
                             .json_name{"longitude"}
                         }
@@ -571,7 +571,7 @@
             ipinfo::node <std::string> city_timezone
             {
                 .description{"City timezone"},
-                
+
                 .content
                 {
                     {
