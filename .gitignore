@@ -6,6 +6,11 @@ lib/*.so
 example/bin/*
 !example/bin/.gitkeep
 
-example/obj/*.o
-example/lib/*.so
-example/include/ipinfo/*.h
+example/include/ipinfo/*
+!example/include/ipinfo/.gitkeep
+
+example/obj/*
+!example/obj/.gitkeep
+
+example/lib/*
+!example/lib/.gitkeep
