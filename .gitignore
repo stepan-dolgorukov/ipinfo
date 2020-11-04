@@ -1,7 +1,12 @@
 .vscode
 
-obj/*.o
-lib/*.so
+
+obj/*
+!obj/.gitkeep
+
+lib/*
+!obj/.gitkeep
+
 
 example/bin/*
 !example/bin/.gitkeep
