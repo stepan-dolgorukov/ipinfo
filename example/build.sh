@@ -1,4 +1,5 @@
 #!/bin/bash
 
-(make copy) &&
-(make --jobs=4 --always-make --makefile=Makefile)
+
+(make copy --makefile=Makefile) && \
+(make --jobs=8 --always-make --makefile=Makefile)
