@@ -9,9 +9,9 @@ namespace ipinfo
 {
     void \
         set_error(ipinfo::error_t &error, \
-                    const ipinfo::ui8 code, \
-                    const std::string &description, \
-                    const std::string &function_name)
+                  const ipinfo::ui8 code, \
+                  const std::string &description, \
+                  const std::string &function_name)
     {
         error.code = (code);
         error.description = (description);
@@ -171,5 +171,20 @@ namespace ipinfo
         }
 
         return (bool{false});
+    }
+
+
+    bool \
+        is_status_success(const ipinfo::info_t &info)
+    {
+        for (const auto &host : ipinfo::avail_hosts)
+        {
+            if (info.status.content.at(host).value)
+            {
+                return bool{true};
+            }
+        }
+
+        return bool{false};
     }
 }

@@ -291,7 +291,7 @@ namespace ipinfo
                 return;
             }
 
-            if ((int{0} == host.compare(ipinfo::avail_hosts.at(0u))) && \
+            if ((int{0} == host.compare(ipinfo::avail_hosts.at(std::uint8_t{0u}))) && \
                 (int{0} == std::string{"status"}.compare(current_node.json_name)))
             {
 

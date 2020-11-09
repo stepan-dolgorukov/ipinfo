@@ -42,6 +42,13 @@ namespace ipinfo
     void \
         print_info(const ipinfo::info_t &info)
     {
+        if (!(ipinfo::is_status_success(info)))
+        {
+            std::cout << std::string{"All hosts have returned a negative "
+                                     "request status codes."} << std::endl;
+            return;
+        }
+
         ipinfo::print_node<std::string>(info.ip);
         ipinfo::print_node<std::string>(info.ip_type);
 
