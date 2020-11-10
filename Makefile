@@ -15,32 +15,32 @@ RM := /usr/bin/rm
 
 CXX := /usr/bin/g++
 CXXFLAGS := -std=c++2a \
-			-Wall \
-			-Wextra \
-			-Wpedantic \
-			-Wunreachable-code \
-			-pipe \
+            -Wall \
+            -Wextra \
+            -Wpedantic \
+            -Wunreachable-code \
+            -pipe \
 
 
 ifeq ($(DEBUG_MODE), 1)
-	CXXFLAGS += -g3 \
-				-O0
+    CXXFLAGS += -g3 \
+                -O0
 else
-	CXXFLAGS += -Os \
-				-march=native
+    CXXFLAGS += -Os \
+                -march=native
 endif
 
 
 LDFLAGS := -L$(LIB_DIR) \
-		   -l:libcurl.so.4.7.0 \
-		   -l:libcjson.so.1.7.14 \
-		   -Wl,-rpath=lib
+           -l:libcurl.so.4.7.0 \
+           -l:libcjson.so.1.7.14 \
+           -Wl,-rpath=lib
 
 
 $(LIB_DIR)/libipinfo.so: $(OBJ_DIR)/ipinfo_main.o \
-						 $(OBJ_DIR)/ipinfo_parse.o \
-						 $(OBJ_DIR)/ipinfo_util.o \
-						 $(OBJ_DIR)/ipinfo_request.o
+                         $(OBJ_DIR)/ipinfo_parse.o \
+                         $(OBJ_DIR)/ipinfo_util.o \
+                         $(OBJ_DIR)/ipinfo_request.o
 	$(CXX) \
 	$? \
 	-o $@ \
