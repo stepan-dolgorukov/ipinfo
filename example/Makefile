@@ -4,11 +4,11 @@
 
 DEBUG_MODE := 1
 
-BIN_DIR 	:=	bin
-OBJ_DIR 	:=	obj
-SRC_DIR 	:=	src
-LIB_DIR 	:=	lib
-INCLUDE_DIR	:=	include
+BIN_DIR     := bin
+OBJ_DIR     := obj
+SRC_DIR     := src
+LIB_DIR     := lib
+INCLUDE_DIR	:= include
 
 
 RM := /usr/bin/rm
@@ -34,10 +34,10 @@ endif
 
 
 LDFLAGS := -L$(LIB_DIR) \
-		   -l:libipinfo.so \
-		   -l:libcurl.so.4.7.0 \
-		   -l:libcjson.so.1.7.14 \
-		   -Wl,-rpath=lib
+           -l:libipinfo.so \
+           -l:libcurl.so.4.7.0 \
+           -l:libcjson.so.1.7.14 \
+           -Wl,-rpath=lib
 
 
 $(BIN_DIR)/ipinfo: $(OBJ_DIR)/main.o \
