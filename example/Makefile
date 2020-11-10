@@ -1,5 +1,5 @@
 .PHONY: copy \
-		clean
+        clean
 
 
 DEBUG_MODE := 1
