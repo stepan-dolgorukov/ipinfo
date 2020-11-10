@@ -31,11 +31,13 @@ else
 endif
 
 
-LDFLAGS := -lcurl
+LDFLAGS := -L$(LIB_DIR) \
+		   -l:libcurl.so.4.7.0 \
+		   -l:libcjson.so.1.7.14 \
+		   -Wl,-rpath=lib
 
 
-$(LIB_DIR)/libipinfo.so: $(OBJ_DIR)/cJSON.o \
-						 $(OBJ_DIR)/ipinfo_main.o \
+$(LIB_DIR)/libipinfo.so: $(OBJ_DIR)/ipinfo_main.o \
 						 $(OBJ_DIR)/ipinfo_parse.o \
 						 $(OBJ_DIR)/ipinfo_util.o \
 						 $(OBJ_DIR)/ipinfo_request.o

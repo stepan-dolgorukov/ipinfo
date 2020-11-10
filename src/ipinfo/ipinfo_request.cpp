@@ -1,8 +1,10 @@
 #include <string>
 #include <cstddef>
 
-#include <curl/curl.h>
-#include <curl/easy.h>
+//#include <curl/curl.h>
+//#include <curl/easy.h>
+
+#include "../include/curl/curl.h"
 
 #include "../../include/ipinfo/ipinfo.hpp"
 #include "../../include/ipinfo/ipinfo_util.hpp"

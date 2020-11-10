@@ -4,10 +4,10 @@
 
 DEBUG_MODE := 1
 
-BIN_DIR :=		bin
-OBJ_DIR :=		obj
-SRC_DIR :=		src
-LIB_DIR :=		lib
+BIN_DIR 	:=	bin
+OBJ_DIR 	:=	obj
+SRC_DIR 	:=	src
+LIB_DIR 	:=	lib
 INCLUDE_DIR :=	include
 
 
@@ -34,7 +34,9 @@ endif
 
 
 LDFLAGS := -L$(LIB_DIR) \
-			-lipinfo \
+		   -l:libipinfo.so \
+		   -l:libcurl.so.4.7.0 \
+		   -l:libcjson.so.1.7.14 \
 			-Wl,-rpath=lib
 
 
@@ -54,12 +56,16 @@ $(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp
 
 
 copy:
-	$(CP) ../lib/libipinfo.so $(LIB_DIR)
-	$(CP) ../include/ipinfo/ipinfo.hpp $(INCLUDE_DIR)/ipinfo
-	$(CP) ../include/ipinfo/ipinfo_user.hpp $(INCLUDE_DIR)/ipinfo
-	$(CP) ../include/ipinfo/ipinfo_print.hpp $(INCLUDE_DIR)/ipinfo
-	$(CP) ../include/ipinfo/ipinfo_types.hpp $(INCLUDE_DIR)/ipinfo
-	$(CP) ../include/ipinfo/ipinfo_values.hpp $(INCLUDE_DIR)/ipinfo
+	$(CP) ../lib/libcjson.so                    $(LIB_DIR)
+	$(CP) ../lib/libcjson.so.1                  $(LIB_DIR)
+	$(CP) ../lib/libcjson.so.1.7.14             $(LIB_DIR)
+	$(CP) ../lib/libcurl.so.4.7.0               $(LIB_DIR)
+	$(CP) ../lib/libipinfo.so                   $(LIB_DIR)
+	$(CP) ../include/ipinfo/ipinfo.hpp          $(INCLUDE_DIR)/ipinfo
+	$(CP) ../include/ipinfo/ipinfo_user.hpp     $(INCLUDE_DIR)/ipinfo
+	$(CP) ../include/ipinfo/ipinfo_print.hpp    $(INCLUDE_DIR)/ipinfo
+	$(CP) ../include/ipinfo/ipinfo_types.hpp    $(INCLUDE_DIR)/ipinfo
+	$(CP) ../include/ipinfo/ipinfo_values.hpp   $(INCLUDE_DIR)/ipinfo
 
 
 clean:

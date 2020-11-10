@@ -4,8 +4,7 @@
 obj/*
 !obj/.gitkeep
 
-lib/*
-!obj/.gitkeep
+lib/libipinfo.so
 
 
 example/bin/*
