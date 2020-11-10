@@ -17,19 +17,19 @@ CP := /usr/bin/cp
 
 CXX := /usr/bin/g++
 CXXFLAGS := -std=c++2a \
-			-Wall \
-			-Wextra \
-			-Wpedantic \
-			-Wunreachable-code \
-			-pipe
+            -Wall \
+            -Wextra \
+            -Wpedantic \
+            -Wunreachable-code \
+            -pipe
 
 
 ifeq ($(DEBUG_MODE), 1)
-	CXXFLAGS += -g3 \
-				-O0
+    CXXFLAGS += -g3 \
+                -O0
 else
-	CXXFLAGS += -Os \
-				-march=native
+    CXXFLAGS += -Os \
+                -march=native
 endif
 
 
@@ -41,7 +41,7 @@ LDFLAGS := -L$(LIB_DIR) \
 
 
 $(BIN_DIR)/ipinfo: $(OBJ_DIR)/main.o \
-				   $(LIB_DIR)/libipinfo.so
+                   $(LIB_DIR)/libipinfo.so
 	$(CXX) \
 	$(LDFLAGS) \
 	$? \
