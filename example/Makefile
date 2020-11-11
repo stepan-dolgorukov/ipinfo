@@ -56,7 +56,6 @@ $(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp
 
 
 copy:
-	$(CP) ../lib/libcjson.so                    $(LIB_DIR)
 	$(CP) ../lib/libcjson.so.1                  $(LIB_DIR)
 	$(CP) ../lib/libcjson.so.1.7.14             $(LIB_DIR)
 	$(CP) ../lib/libcurl.so.4.7.0               $(LIB_DIR)
