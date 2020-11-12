@@ -6,7 +6,6 @@
 #include "../../include/ipinfo/ipinfo_parse.hpp"
 #include "../../include/ipinfo/ipinfo_request.hpp"
 
-#include<iostream>
 namespace ipinfo
 {
     void \
@@ -22,10 +21,7 @@ namespace ipinfo
                  std::string> answers{};
 
         ipinfo::clear_info(info);
-        ipinfo::set_error(error, \
-                          0u, \
-                          "No error", \
-                          __func__);
+        ipinfo::set_error(error, 0u, "No error", __func__);
 
         for (const auto &host : ipinfo::avail_hosts)
         {
@@ -43,8 +39,8 @@ namespace ipinfo
     {
         if (!(ipinfo::is_status_success(info)))
         {
-            std::cout << ("All hosts have returned a negative " \
-                          "request status codes.") << std::endl;
+            std::cout << "All hosts have returned a negative ";
+            std::cout << "request status codes." << std::endl;
             return;
         }
 
