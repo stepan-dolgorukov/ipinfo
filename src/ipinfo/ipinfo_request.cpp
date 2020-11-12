@@ -1,36 +1,35 @@
+#include <iostream>
 #include <string>
 #include <cstddef>
 
-//#include <curl/curl.h>
-//#include <curl/easy.h>
 
 #include "../include/curl/curl.h"
 
-#include "../../include/ipinfo/ipinfo.hpp"
+#include "../../include/ipinfo/ipinfo_types.hpp"
 #include "../../include/ipinfo/ipinfo_util.hpp"
 #include "../../include/ipinfo/ipinfo_request.hpp"
 
 
 namespace ipinfo
 {
-    static ipinfo::sz \
+    static std::size_t \
         recv_data(const char * const data, \
-                const ipinfo::sz char_size, \
-                const ipinfo::sz amount, \
-                std::string * const answer)
+                  std::size_t char_size, \
+                  std::size_t chars_amount, \
+                  std::string * const answer)
     {
-        if ((ipinfo::sz{0u} < amount) && \
-            (ipinfo::sz{0u} < char_size) && \
-            (std::nullptr_t{nullptr} != data) && \
-            (std::nullptr_t{nullptr} != answer))
+        if (0u < chars_amount && \
+            0u < char_size && \
+            nullptr != data && \
+            nullptr != answer)
         {
-            const ipinfo::sz total_bytes{char_size * amount};
+            const auto total_bytes{char_size * chars_amount};
             answer->append(data, total_bytes);
 
-            return (total_bytes);
+            return total_bytes;
         }
 
-        return ipinfo::sz{0u};
+        return 0u;
     }
 
 
@@ -39,36 +38,39 @@ namespace ipinfo
                             std::string &url, \
                             ipinfo::error_t &error)
     {
-        if (host.empty())
-        {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty host string"}, \
-                              std::string{__func__});
-            return;
-        }
+       if (!(ipinfo::is_host_correct(host, error)))
+       {
+           return;
+       }
 
         if (url.empty())
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty URL string"}, \
-                              std::string{__func__});
+                              1u, \
+                              {"Empty URL string"}, \
+                              {__func__});
             return;
         }
 
-        url.append(req_prefixes.at(host).at(std::string{"fields"}));
+        url += req_prefixes.at(host).at("fields");
 
-        const auto &params{ipinfo::req_params.at(host)};
-        const ipinfo::sz max_idx{params.size() - ipinfo::sz{1u}};
+        const auto &params
+        {
+            ipinfo::req_params.at(host)
+        };
 
-        for (ipinfo::sz i{0u}; max_idx >= i; i++)
+        const auto max_idx
+        {
+            params.size() - 1u
+        };
+
+        for (auto i{0u}; max_idx >= i; i++)
         {
             url.append(params.at(i));
 
             if (max_idx != i)
             {
-                url.append(std::string{","});
+                url.append(",");
             }
         }
 
@@ -82,58 +84,36 @@ namespace ipinfo
                      const std::string &lang, \
                      ipinfo::error_t &error)
     {
-        if (host.empty())
+        if (!(ipinfo::is_host_correct(host, error)))
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty host string"}, \
-                              std::string{__func__});
-            return;
-        }
-
-        if (!(ipinfo::is_host_avail(host)))
-        {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Unavailable host"}, \
-                              std::string{__func__});
+                              1u, \
+                              {"Unavailable host"}, \
+                              {__func__});
             return;
         }
 
         if (full_url.empty())
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty URL string"},
-                              std::string{__func__});
+                              1u, \
+                              {"Empty URL string"},
+                              {__func__});
             return;
         }
 
-        if (lang.empty())
+        if (!(ipinfo::is_lang_correct(host, lang, error)))
         {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty language string"}, \
-                              std::string{__func__});
             return;
         }
 
-        if (!(ipinfo::is_lang_avail(host, lang)))
-        {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Unavailable language"}, \
-                              std::string{__func__});
-            return;
-        }
-
-        full_url.append(req_prefixes.at(host).at(std::string{"lang"}));
+        full_url.append(req_prefixes.at(host).at("lang"));
 
         for (const auto &pair : ipinfo::avail_langs.at(host))
         {
-            if (int{0} == lang.compare(pair.first))
+            if (lang == pair.first)
             {
-                full_url.append(ipinfo::avail_langs.at(host).at(lang));
+                full_url += ipinfo::avail_langs.at(host).at(lang);
                 return;
             }
         }
@@ -149,48 +129,22 @@ namespace ipinfo
                      std::string &full_url, \
                      ipinfo::error_t &error)
     {
-        if (host.empty())
+        if (!(ipinfo::is_host_correct(host, error)))
         {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty host string"}, \
-                              std::string{__func__});
             return;
         }
 
-        if (!(ipinfo::is_host_avail(host)))
+        if (!(ipinfo::is_lang_correct(host, lang, error)))
         {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Unavailable host"}, \
-                              std::string{__func__});
-            return;
-        }
-
-        if (lang.empty())
-        {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty language string"}, \
-                              std::string{__func__});
-            return;
-        }
-
-        if (!(ipinfo::is_lang_avail(host, lang)))
-        {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Unavailable language"}, \
-                              std::string{__func__});
             return;
         }
 
         full_url.clear();
-        full_url.append(req_paths.at(host));
+        full_url += req_paths.at(host);
 
         if (!(ip.empty()))
         {
-            full_url.append(ip);
+            full_url += ip;
         }
 
         ipinfo::set_req_info_fields(host, full_url, error);
@@ -209,22 +163,22 @@ namespace ipinfo
         if (full_url.empty())
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty full URL string"}, \
-                              std::string{ __func__});
+                              1u, \
+                              {"Empty full URL string"}, \
+                              { __func__});
             return;
         }
 
         CURL * const session{curl_easy_init()};
-        CURLcode code{CURLcode::CURLE_OK};
+        CURLcode code{};
 
-        if (std::nullptr_t{nullptr} == session)
+        if (nullptr == session)
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Start of a libcurl " \
+                              1u, \
+                              {"Start of a libcurl " \
                                           "session failed"}, \
-                              std::string{__func__});
+                              {__func__});
             return;
         }
 
@@ -247,7 +201,8 @@ namespace ipinfo
                          CURLPROTO_HTTP);
 
         curl_easy_setopt(session, \
-                         CURLOPT_PORT, ipinfo::ui32{80});
+                         CURLOPT_PORT,
+                         80);
 
         curl_easy_setopt(session, \
                          CURLOPT_USERAGENT, \
@@ -258,10 +213,9 @@ namespace ipinfo
         if (CURLcode::CURLE_OK != code)
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Data sending using " \
-                                          "libcurl got fail."}, \
-                              std::string{__func__});
+                              1u, \
+                              {"Data sending got fail"}, \
+                              {__func__});
         }
 
         curl_easy_cleanup(session);

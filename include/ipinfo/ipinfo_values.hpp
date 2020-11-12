@@ -11,8 +11,7 @@
 
     namespace ipinfo
     {
-        const std::array<const std::string, \
-                         std::uint8_t{2u}> avail_hosts
+        const std::array<const std::string, 2u> avail_hosts
         {
             "ip-api.com", \
             "ipwhois.app"
@@ -24,7 +23,7 @@
                                       const std::string>> avail_langs
         {
             {
-                ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                ipinfo::avail_hosts.at(0u), \
                 {
                     {
                         {{"English"},       {"en"}}, \
@@ -40,7 +39,7 @@
             }, \
 
             {
-                ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                ipinfo::avail_hosts.at(1u), \
                 {
                     {
                         {{"English"},       {"en"}}, \
@@ -61,20 +60,20 @@
                        const std::string> req_paths
         {
             {
-                ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                ipinfo::avail_hosts.at(0u), \
                 std::string
                 {
                     std::string{"http://"} + \
-                    ipinfo::avail_hosts.at(std::uint8_t{0u}) + \
+                    ipinfo::avail_hosts.at(0u) + \
                     std::string{"/json/"}
                 }
             }, \
 
             {
-                ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                ipinfo::avail_hosts.at(1u), \
                 {
                     std::string{"http://"} + \
-                    avail_hosts.at(std::uint8_t{1u}) + \
+                    avail_hosts.at(1u) + \
                     std::string{"/json/"}
                 }
             }
@@ -86,7 +85,7 @@
                                       const std::string>> req_prefixes
         {
             {
-                ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                ipinfo::avail_hosts.at(0u), \
                 {
                     {"lang",    "&lang="}, \
                     {"fields",  "?fields="}
@@ -94,7 +93,7 @@
             }, \
 
             {
-                ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                ipinfo::avail_hosts.at(1u), \
                 {
                     {{"lang"},    {"&lang="}}, \
                     {{"fields"},  {"?objects="}}
@@ -107,7 +106,7 @@
                        const std::vector<std::string>> req_params
         {
             {
-                ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                ipinfo::avail_hosts.at(0u), \
                 {
                     {"status"}, \
                     {"message"}, \
@@ -138,7 +137,7 @@
             }, \
 
             {
-                ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                ipinfo::avail_hosts.at(1u), \
                 {
                     {"success"}, \
                     {"message"}, \

@@ -2,11 +2,10 @@
     #define __IPINFO__UTIL__HPP__
 
     #include <cstdint>
-#include <iostream>
+    #include <iostream>
     #include <string>
 
-    #include "ipinfo.hpp"
-
+    #include "ipinfo_types.hpp"
 
 
     namespace ipinfo
@@ -22,18 +21,21 @@
             clear_info(ipinfo::info_t &info);
 
 
-        ipinfo::dbl \
-            round_dbl(const double value, \
-                      const std::uint8_t places);
+        double \
+            round_double(const double value, \
+                         const std::uint8_t places);
 
 
         bool \
-            is_host_avail(const std::string &host);
+            is_host_correct(const std::string &host, \
+                            ipinfo::error_t &error);
 
 
         bool \
-            is_lang_avail(const std::string &host, \
-                          const std::string &lang);
+            is_lang_correct(const std::string &host, \
+                            const std::string &lang, \
+                            ipinfo::error_t &error);
+
 
         bool \
             is_status_success(const ipinfo::info_t &info);

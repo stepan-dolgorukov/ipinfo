@@ -4,7 +4,8 @@
     #include <math.h>
     #include <string>
 
-    #include "ipinfo.hpp"
+
+    #include "ipinfo_types.hpp"
 
 
     namespace ipinfo
@@ -24,16 +25,16 @@
 
         void \
             get_full_url(const std::string &host, \
-                        const std::string &ip, \
-                        const std::string &lang, \
-                        std::string &full_url, \
-                        ipinfo::error_t &error);
+                         const std::string &ip, \
+                         const std::string &lang, \
+                         std::string &full_url, \
+                         ipinfo::error_t &error);
 
 
         void \
             get_data(const std::string &full_url, \
-                    std::string &answer, \
-                    ipinfo::error_t &error);
+                     std::string &answer, \
+                     ipinfo::error_t &error);
     }
 
 #endif

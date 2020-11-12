@@ -13,20 +13,11 @@
 
     namespace ipinfo
     {
-        // These types will be removed soon!!!
-        typedef std::uint8_t     ui8;
-        typedef std::uint32_t    ui32;
-        typedef std::int32_t     i32;
-        typedef std::size_t      sz;
-        typedef double           dbl;
-        typedef bool             bl;
-
-
         typedef struct error
         {
-            ipinfo::ui8         code;
-            std::string         description;
-            std::string         function_name;
+            std::uint8_t    code;
+            std::string     description;
+            std::string     function_name;
 
         } error_t;
 
@@ -50,27 +41,27 @@
         typedef struct info
         {
             // 1. request status
-            ipinfo::node <ipinfo::bl> status
+            ipinfo::node <bool> status
             {
                 .description{"Request status"}, \
 
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = bool{false}, \
+                            .is_parsed = false, \
+                            .value = false, \
                             .str_value{0}, \
                             .json_name{"status"}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = bool{false}, \
+                            .is_parsed = false, \
+                            .value = false, \
                             .str_value{0}, \
                             .json_name{"success"}
                         }
@@ -88,9 +79,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"message"}
@@ -98,9 +89,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"message"}
@@ -117,9 +108,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"query"}
@@ -127,9 +118,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"ip"}
@@ -147,9 +138,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -157,9 +148,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"type"}
@@ -176,20 +167,20 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value{std::string{0}}, \
+                            .is_parsed = false, \
+                            .value{0}, \
                             .str_value{0}, \
                             .json_name{"continent"}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value{std::string{0}}, \
+                            .is_parsed = false, \
+                            .value{0}, \
                             .str_value{0u}, \
                             .json_name{"continent"}
                         }
@@ -205,19 +196,19 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value{std::string{0}}, \
+                            .is_parsed = false, \
+                            .value{0}, \
                             .str_value{0}, \
                             .json_name{"continentCode"}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"continent_code"}
@@ -234,9 +225,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"country"}
@@ -244,9 +235,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"country"}
@@ -263,9 +254,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"countryCode"}
@@ -273,9 +264,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"country_code"}
@@ -292,9 +283,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -302,9 +293,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"country_capital"}
@@ -321,9 +312,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}),
+                        ipinfo::avail_hosts.at(0u),
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -331,9 +322,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"country_phone"}
@@ -350,9 +341,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -360,9 +351,9 @@
                     },
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"country_neighbours"}
@@ -379,9 +370,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"regionName"}
@@ -389,9 +380,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"region"}
@@ -408,9 +399,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"region"}
@@ -418,9 +409,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -437,9 +428,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"city"}
@@ -447,9 +438,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"city"}
@@ -466,9 +457,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"district"}
@@ -476,9 +467,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -495,9 +486,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"zip"}
@@ -505,9 +496,9 @@
                     },
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -517,27 +508,27 @@
             };
 
             // 17. latitude
-            ipinfo::node <ipinfo::dbl> latitude
+            ipinfo::node <double> latitude
             {
                 .description{"Latitude"}, \
 
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = double{0.0}, \
+                            .is_parsed = false, \
+                            .value = 0.0, \
                             .str_value{0}, \
                             .json_name{"lat"}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = double{0.0}, \
+                            .is_parsed = false, \
+                            .value = 0.0, \
                             .str_value{0}, \
                             .json_name{"latitude"}
                         }
@@ -546,27 +537,27 @@
             };
 
             // 18. longitude
-            ipinfo::node <ipinfo::dbl> longitude
+            ipinfo::node <double> longitude
             {
                 .description{"Longitude"}, \
 
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = double{0.0}, \
+                            .is_parsed = false, \
+                            .value = 0.0, \
                             .str_value{0}, \
                             .json_name{"lon"}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = double{0.0}, \
+                            .is_parsed = false, \
+                            .value = 0.0, \
                             .str_value{0}, \
                             .json_name{"longitude"}
                         }
@@ -582,9 +573,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"timezone"}
@@ -592,9 +583,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"timezone"}
@@ -611,9 +602,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -621,9 +612,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"timezone_name"}
@@ -633,27 +624,27 @@
             };
 
             // 21. UTC offset (in seconds)
-            ipinfo::node <ipinfo::i32> gmt_offset
+            ipinfo::node <std::int32_t> gmt_offset
             {
                 .description{"UTC offset (in seconds)"},
 
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = std::int32_t{0}, \
+                            .is_parsed = false, \
+                            .value = 0, \
                             .str_value{0}, \
                             .json_name{"offset"}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = std::int32_t{0}, \
+                            .is_parsed = false, \
+                            .value = 0, \
                             .str_value{0}, \
                             .json_name{"timezone_gmtOffset"}
                         }
@@ -662,27 +653,27 @@
             };
 
             // 22. DST (daylight savings time) offset (in seconds)
-            ipinfo::node <ipinfo::i32> dst_offset
+            ipinfo::node <std::int32_t> dst_offset
             {
                 .description{"DST offset (in seconds)"}, \
 
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = std::int32_t{0}, \
+                            .is_parsed = false, \
+                            .value = 0, \
                             .str_value{0}, \
                             .json_name{0}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = std::int32_t{0}, \
+                            .is_parsed = false, \
+                            .value = 0, \
                             .str_value{0}, \
                             .json_name{"timezone_dstOffset"}
                         }
@@ -698,9 +689,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -708,9 +699,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"timezone_gmt"}
@@ -727,9 +718,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"isp"}
@@ -737,9 +728,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"isp"}
@@ -756,9 +747,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"as"}
@@ -766,9 +757,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), 
+                        ipinfo::avail_hosts.at(1u), 
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"as"}
@@ -785,9 +776,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"org"}
@@ -795,9 +786,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"org"}
@@ -814,9 +805,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"reverse"}
@@ -824,9 +815,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0},\
                             .json_name{0}
@@ -836,27 +827,27 @@
             };
 
             // 28. hosting, colocated or data center
-            ipinfo::node <ipinfo::bl> is_hosting
+            ipinfo::node <bool> is_hosting
             {
                 .description{"Hosting, colocated or data center"}, \
 
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = bool{false}, \
+                            .is_parsed = false, \
+                            .value = false, \
                             .str_value{0}, \
                             .json_name{"hosting"}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = bool{false}, \
+                            .is_parsed = false, \
+                            .value = false, \
                             .str_value{0}, \
                             .json_name{0}
                         }
@@ -865,27 +856,27 @@
             };
 
             // 29. proxy, VPN, Tor usage
-            ipinfo::node <ipinfo::bl> is_proxy
+            ipinfo::node <bool> is_proxy
             {
                 .description{"Proxy, VPN or Tor usage"},
 
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = bool{false},\
+                            .is_parsed = false, \
+                            .value = false,\
                             .str_value{0}, \
                             .json_name{"proxy"}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = bool{false}, \
+                            .is_parsed = false, \
+                            .value = false, \
                             .str_value{0}, \
                             .json_name{0}
                         }
@@ -894,27 +885,27 @@
             };
 
             // 30. mobile connection usage
-            ipinfo::node <ipinfo::bl> is_mobile
+            ipinfo::node <bool> is_mobile
             {
                 .description{"Mobile connection usage"},
 
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = bool{false}, \
+                            .is_parsed = false, \
+                            .value = false, \
                             .str_value{0}, \
                             .json_name{"mobile"}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = bool{false}, \
+                            .is_parsed = false, \
+                            .value = false, \
                             .str_value{0}, \
                             .json_name{0}
                         }
@@ -930,9 +921,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"currency"}
@@ -940,9 +931,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"currency_code"}
@@ -959,9 +950,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -969,9 +960,9 @@
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"currency"}
@@ -988,9 +979,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -998,9 +989,9 @@
                     },
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"currency_symbol"}
@@ -1010,27 +1001,27 @@
             };
 
             // 34. the current exchange rate against the US dollar
-            ipinfo::node <ipinfo::dbl> currency_rates
+            ipinfo::node <double> currency_rates
             {
                 .description{"Currency exchange rate to USD"},
 
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = double{0.0}, \
+                            .is_parsed = false, \
+                            .value = 0.0, \
                             .str_value{0}, \
                             .json_name{0}
                         }
                     }, \
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
-                            .value = double{0.0}, \
+                            .is_parsed = false, \
+                            .value = 0.0, \
                             .str_value{0}, \
                             .json_name{"currency_rates"}
                         }
@@ -1046,9 +1037,9 @@
                 .content
                 {
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{0u}), \
+                        ipinfo::avail_hosts.at(0u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{0}
@@ -1056,9 +1047,9 @@
                     },\
 
                     {
-                        ipinfo::avail_hosts.at(std::uint8_t{1u}), \
+                        ipinfo::avail_hosts.at(1u), \
                         {
-                            .is_parsed = bool{false}, \
+                            .is_parsed = false, \
                             .value{0}, \
                             .str_value{0}, \
                             .json_name{"currency_plural"}
@@ -1068,6 +1059,6 @@
             };
 
         } info_t;
-    }
 
+    }
 #endif

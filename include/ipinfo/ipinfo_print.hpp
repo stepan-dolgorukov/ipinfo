@@ -3,7 +3,7 @@
 
     #include <iostream>
 
-    #include "ipinfo.hpp"
+    #include "ipinfo_types.hpp"
 
 
     namespace ipinfo
@@ -28,7 +28,7 @@
                 }
             }
 
-            std::cout << (node.description) << \
+            std::cout << node.description << \
                          (": N/A") << std::endl;
 
             return;

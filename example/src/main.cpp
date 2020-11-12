@@ -1,6 +1,4 @@
-#include <string>
-
-#include "../include/ipinfo/ipinfo.hpp"
+#include "../include/ipinfo/ipinfo_user.hpp"
 
 
 int main(void)
@@ -9,11 +7,10 @@ int main(void)
     ipinfo::error_t error{};
 
     ipinfo::get_info(info, \
-                     std::string{"8.8.8.8"}, \
-                     std::string{"English"}, \
+                     {"8.8.8.8"}, \
+                     {"English"}, \
                      error);
 
     ipinfo::print_info(info);
-
-    return int{0};
+    return 0;
 }

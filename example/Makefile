@@ -29,7 +29,8 @@ ifeq ($(DEBUG_MODE), 1)
                 -O0
 else
     CXXFLAGS += -Os \
-                -march=native
+                -march=native \
+                -flto
 endif
 
 
@@ -60,12 +61,9 @@ copy:
 	$(CP) ../lib/libcjson.so.1.7.14             $(LIB_DIR)
 	$(CP) ../lib/libcurl.so.4.7.0               $(LIB_DIR)
 	$(CP) ../lib/libipinfo.so                   $(LIB_DIR)
-	$(CP) ../include/ipinfo/ipinfo.hpp          $(INCLUDE_DIR)/ipinfo
 	$(CP) ../include/ipinfo/ipinfo_user.hpp     $(INCLUDE_DIR)/ipinfo
 	$(CP) ../include/ipinfo/ipinfo_print.hpp    $(INCLUDE_DIR)/ipinfo
 	$(CP) ../include/ipinfo/ipinfo_types.hpp    $(INCLUDE_DIR)/ipinfo
 	$(CP) ../include/ipinfo/ipinfo_values.hpp   $(INCLUDE_DIR)/ipinfo
-
-
 clean:
 	$(RM) $(OBJ_DIR)/*.o

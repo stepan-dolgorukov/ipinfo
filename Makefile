@@ -19,7 +19,7 @@ CXXFLAGS := -std=c++2a \
             -Wextra \
             -Wpedantic \
             -Wunreachable-code \
-            -pipe \
+            -pipe
 
 
 ifeq ($(DEBUG_MODE), 1)
@@ -43,6 +43,7 @@ $(LIB_DIR)/libipinfo.so: $(OBJ_DIR)/ipinfo_main.o \
                          $(OBJ_DIR)/ipinfo_request.o
 	$(CXX) \
 	$? \
+	-fPIC \
 	-o $@ \
 	-shared \
 	$(LDFLAGS)

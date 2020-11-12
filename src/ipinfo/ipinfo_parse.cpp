@@ -1,51 +1,39 @@
 #include <string>
-#include <cstddef>
+#include <cstdint>
+
 
 #include "../../include/cJSON/cJSON.h"
 
-#include "../../include/ipinfo/ipinfo.hpp"
 #include "../../include/ipinfo/ipinfo_util.hpp"
 #include "../../include/ipinfo/ipinfo_parse.hpp"
+#include "../../include/ipinfo//ipinfo_types.hpp"
 
 
 namespace ipinfo
 {
     void \
-        fill_ui32_node(const cJSON &item,
-                       const std::string &host,
-                       void * const node,
-                       ipinfo::error_t &error)
+        fill_uint32_node(const cJSON &item,
+                         const std::string &host,
+                         void * const node,
+                         ipinfo::error_t &error)
     {
-        if (std::nullptr_t{nullptr} == node)
+        if (nullptr == node)
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Invalid node pointer"}, \
-                              std::string{__func__});
+                              1u, \
+                              {"Invalid node pointer"}, \
+                              {__func__});
             return;
         }
 
-        if (host.empty())
+        if (!(ipinfo::is_host_correct(host, error)))
         {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty host string"}, \
-                              std::string{__func__});
-            return;
-        }
-
-        if (!(ipinfo::is_host_avail(host)))
-        {
-             ipinfo::set_error(error, \
-                               ipinfo::ui8{1u}, \
-                               std::string{"Unavailable host"}, \
-                               std::string{__func__});
             return;
         }
 
         auto * const node_redirect \
         {
-            reinterpret_cast<ipinfo::node<ui32> *>(node)
+            reinterpret_cast<ipinfo::node<uint32_t> *>(node)
         };
 
         auto &current_node \
@@ -60,9 +48,9 @@ namespace ipinfo
                 item.valuestring
             };
 
-            current_node.str_value = (item_value);
-            current_node.value = (static_cast<ipinfo::ui32>(std::stoi(current_node.str_value)));
-            current_node.is_parsed = bool{true};
+            current_node.str_value = item_value;
+            current_node.value = static_cast<std::uint32_t>(std::stoi(current_node.str_value));
+            current_node.is_parsed = true;
         }
 
         if (cJSON_IsNumber(&item))
@@ -72,9 +60,9 @@ namespace ipinfo
                 item.valueint
             };
 
-            current_node.value = (static_cast<ipinfo::ui32>(item_value));
-            current_node.str_value = (std::to_string(current_node.value));
-            current_node.is_parsed = bool{true};
+            current_node.value = static_cast<std::uint32_t>(item_value);
+            current_node.str_value = std::to_string(current_node.value);
+            current_node.is_parsed = true;
         }
 
         return;
@@ -82,41 +70,28 @@ namespace ipinfo
 
 
     void \
-        fill_i32_node(const cJSON &item, \
-                      const std::string &host, \
-                      void * const node, \
-                      ipinfo::error_t &error)
+        fill_int32_node(const cJSON &item, \
+                        const std::string &host, \
+                        void * const node, \
+                        ipinfo::error_t &error)
     {
-        if (std::nullptr_t{nullptr} == node)
+        if (nullptr == node)
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Invalid node pointer"}, \
-                              std::string{__func__});
+                              1u, \
+                              {"Invalid node pointer"}, \
+                              {__func__});
             return;
         }
 
-        if (host.empty())
+        if (!(ipinfo::is_host_correct(host, error)))
         {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty host string"}, \
-                              std::string{__func__});
-            return;
-        }
-
-        if (!(ipinfo::is_host_avail(host)))
-        {
-             ipinfo::set_error(error, \
-                               ipinfo::ui8{1u}, \
-                               std::string{"Unavailable host"}, \
-                               std::string{__func__});
             return;
         }
 
         auto * const node_redirect \
         {
-            reinterpret_cast<ipinfo::node<i32> *>(node)
+            reinterpret_cast<ipinfo::node<std::int32_t> *>(node)
         };
 
         auto &current_node \
@@ -131,9 +106,9 @@ namespace ipinfo
                 item.valuestring
             };
 
-            current_node.str_value = (item_value);
-            current_node.value = (static_cast<ipinfo::i32>(std::stoi(current_node.str_value)));
-            current_node.is_parsed = bool{true};
+            current_node.str_value = item_value;
+            current_node.value = static_cast<std::uint32_t>(std::stoi(current_node.str_value));
+            current_node.is_parsed = true;
         }
 
         if (cJSON_IsNumber(&item))
@@ -143,9 +118,9 @@ namespace ipinfo
                 item.valueint
             };
 
-            current_node.value = (static_cast<ipinfo::i32>(item_value));
-            current_node.str_value = (std::to_string(current_node.value));
-            current_node.is_parsed = bool{true};
+            current_node.value = static_cast<int32_t>(item_value);
+            current_node.str_value = std::to_string(current_node.value);
+            current_node.is_parsed = true;
         }
 
         return;
@@ -153,41 +128,28 @@ namespace ipinfo
 
 
     void \
-        fill_dbl_node(const cJSON &item, \
-                      const std::string &host, \
-                      void * const node, \
-                      ipinfo::error_t &error)
+        fill_double_node(const cJSON &item, \
+                         const std::string &host, \
+                         void * const node, \
+                         ipinfo::error_t &error)
     {
-        if (std::nullptr_t{nullptr} == node)
+        if (nullptr == node)
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Invalid node pointer"}, \
-                              std::string{__func__});
+                              1u, \
+                              {"Invalid node pointer"}, \
+                              {__func__});
             return;
         }
 
-        if (host.empty())
+        if (!(ipinfo::is_host_correct(host, error)))
         {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty host string"}, \
-                              std::string{__func__});
-            return;
-        }
-
-        if (!(ipinfo::is_host_avail(host)))
-        {
-             ipinfo::set_error(error, \
-                               ipinfo::ui8{1u}, \
-                               std::string{"Unavailable host"}, \
-                               std::string{__func__});
             return;
         }
 
         auto * const node_redirect \
         {
-            reinterpret_cast<ipinfo::node<dbl> *>(node)
+            reinterpret_cast<ipinfo::node<double> *>(node)
         };
 
         auto &current_node \
@@ -202,15 +164,14 @@ namespace ipinfo
                 item.valuestring
             };
 
-            const ipinfo::dbl rounded_value \
+            const double rounded_value \
             {
-                round_dbl(std::stod(item_value), \
-                          ipinfo::ui8{2u})
+                ipinfo::round_double(std::stod(item_value), 2u)
             };
 
-            current_node.value = (rounded_value);
-            current_node.str_value = (std::to_string(current_node.value));
-            current_node.is_parsed = bool{true};
+            current_node.value = rounded_value;
+            current_node.str_value = std::to_string(current_node.value);
+            current_node.is_parsed = true;
         }
 
         if (cJSON_IsNumber(&item))
@@ -220,15 +181,14 @@ namespace ipinfo
                 item.valuedouble
             };
 
-            const ipinfo::dbl rounded_value \
+            const double rounded_value \
             {
-                round_dbl(item_value, \
-                          ipinfo::ui8{2u})
+                ipinfo::round_double(item_value, 2u)
             };
 
-            current_node.value = (rounded_value);
-            current_node.str_value = (std::to_string(current_node.value));
-            current_node.is_parsed = bool{true};
+            current_node.value = rounded_value;
+            current_node.str_value = std::to_string(current_node.value);
+            current_node.is_parsed = true;
         }
 
         return;
@@ -236,41 +196,28 @@ namespace ipinfo
 
 
     void \
-        fill_bl_node(const cJSON &item, \
-                     const std::string &host, \
-                     void * const node, \
-                     ipinfo::error_t &error)
+        fill_bool_node(const cJSON &item, \
+                       const std::string &host, \
+                       void * const node, \
+                       ipinfo::error_t &error)
     {
-        if (std::nullptr_t{nullptr} == node)
+        if (nullptr == node)
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Invalid node pointer"}, \
-                              std::string{__func__});
+                              1u, \
+                              {"Invalid node pointer"}, \
+                              {__func__});
             return;
         }
 
-        if (host.empty())
+        if (!(ipinfo::is_host_correct(host, error)))
         {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty host string"}, \
-                              std::string{__func__});
-            return;
-        }
-
-        if (!(ipinfo::is_host_avail(host)))
-        {
-             ipinfo::set_error(error, \
-                               ipinfo::ui8{1u}, \
-                               std::string{"Unavailable host"}, \
-                               std::string{__func__});
             return;
         }
 
         auto * const node_redirect \
         {
-            reinterpret_cast<ipinfo::node<bl> *>(node)
+            reinterpret_cast<ipinfo::node<bool> *>(node)
         };
 
         auto &current_node \
@@ -287,43 +234,22 @@ namespace ipinfo
 
             if (item_value.empty())
             {
-                current_node.is_parsed = bool{false};
+                current_node.is_parsed = false;
                 return;
             }
 
-            if ((int{0} == host.compare(ipinfo::avail_hosts.at(std::uint8_t{0u}))) && \
-                (int{0} == std::string{"status"}.compare(current_node.json_name)))
+            if (host == ipinfo::avail_hosts.at(0) && \
+                "status" == current_node.json_name)
             {
-
-                if (int{0} == std::string{"success"}.compare(item_value))
-                {
-                    current_node.value = bool{true};
-                    current_node.str_value = (item_value);
-                    current_node.is_parsed = bool{true};
-                }
-
-                else
-                {
-                    current_node.value = bool{true};
-                    current_node.str_value = (item_value);
-                    current_node.is_parsed = bool{true};
-                }
-
+                current_node.value = ("success" == item_value);
+                current_node.str_value = item_value;
+                current_node.is_parsed = true;
                 return;
             }
 
-            if (int{0} == std::string{"true"}.compare(item_value))
-            {
-                current_node.value = bool{true};
-            }
-
-            else
-            {
-                current_node.value = bool{false};
-            }
-
-            current_node.str_value = (std::to_string(current_node.value));
-            current_node.is_parsed = bool{true};
+            current_node.value = ("true" == item_value);
+            current_node.str_value = std::to_string(current_node.value);
+            current_node.is_parsed = true;
         }
 
         if (cJSON_IsBool(&item))
@@ -334,13 +260,13 @@ namespace ipinfo
             };
 
             current_node.value = (item_value);
-            current_node.str_value = ((current_node.value) ? std::string{"true"} :
-                                                             std::string{"false"});
-            current_node.is_parsed = bool{true};
+            current_node.str_value = (current_node.value ? "true": "false");
+            current_node.is_parsed = true;
         }
 
         return;
     }
+
 
 
     template<typename T> void \
@@ -349,26 +275,13 @@ namespace ipinfo
                         ipinfo::node<T> &node, \
                         ipinfo::error_t &error)
     {
-        if (host.empty())
+        if (!(ipinfo::is_host_correct(host, error)))
         {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty host string"}, \
-                              std::string{__func__});
             return;
         }
 
-        if (!(ipinfo::is_host_avail(host)))
-        {
-             ipinfo::set_error(error, \
-                               ipinfo::ui8{1u}, \
-                               std::string{"Unavailable host"}, \
-                               std::string{__func__});
-            return;
-        }
-
-        const cJSON * item{std::nullptr_t{nullptr}};
-        const char * node_name{std::nullptr_t{nullptr}};
+        const cJSON * item{};
+        const char * node_name{};
 
         auto &item_node \
         {
@@ -378,16 +291,16 @@ namespace ipinfo
         if (item_node.json_name.empty())
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty JSON node name"}, \
-                              std::string{__func__});
+                              1u, \
+                              "Empty JSON node name", \
+                              {__func__});
             return;
         }
 
-        node_name = (item_node.json_name.c_str());
-        item = (cJSON_GetObjectItemCaseSensitive((&data), node_name));
+        node_name = item_node.json_name.c_str();
+        item = cJSON_GetObjectItemCaseSensitive((&data), node_name);
 
-        if (std::nullptr_t{nullptr} == item)
+        if (nullptr == item)
         {
             return;
         }
@@ -397,24 +310,24 @@ namespace ipinfo
             typeid(item_node.value).hash_code()
         };
 
-        if (typeid(ipinfo::bl).hash_code() == type_hash)
+        if (typeid(bool).hash_code() == type_hash)
         {
-            ipinfo::fill_bl_node((*item), host, (&node), error);
+            ipinfo::fill_bool_node((*item), host, (&node), error);
         }
 
-        if (typeid(ipinfo::ui32).hash_code() == type_hash)
+        if (typeid(std::uint32_t).hash_code() == type_hash)
         {
-            ipinfo::fill_ui32_node((*item), host, (&node), error);
+            ipinfo::fill_uint32_node((*item), host, (&node), error);
         }
 
-        if (typeid(ipinfo::i32).hash_code() == type_hash)
+        if (typeid(std::int32_t).hash_code() == type_hash)
         {
-            ipinfo::fill_i32_node((*item), host, (&node), error);
+            ipinfo::fill_int32_node((*item), host, (&node), error);
         }
 
-        if (typeid(ipinfo::dbl).hash_code() == type_hash)
+        if (typeid(double).hash_code() == type_hash)
         {
-            ipinfo::fill_dbl_node((*item), host, (&node), error);
+            ipinfo::fill_double_node((*item), host, (&node), error);
         }
 
         return;
@@ -430,23 +343,19 @@ namespace ipinfo
         if (host.empty())
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty host string"}, \
-                              std::string{__func__});
+                              1u, \
+                              "Empty host string", \
+                              {__func__});
             return;
         }
 
-        if (!(ipinfo::is_host_avail(host)))
+        if (!(ipinfo::is_host_correct(host, error)))
         {
-             ipinfo::set_error(error, \
-                               ipinfo::ui8{1u}, \
-                               std::string{"Unavailable host"}, \
-                               std::string{__func__});
             return;
         }
 
-        const cJSON * item{std::nullptr_t{nullptr}};
-        const char * node_name{std::nullptr_t{nullptr}};
+        const cJSON * item{};
+        const char * node_name{};
 
         auto &current_node \
         {
@@ -458,10 +367,10 @@ namespace ipinfo
             return;
         }
 
-        node_name = (current_node.json_name.c_str());
-        item = (cJSON_GetObjectItemCaseSensitive(&data, node_name));
+        node_name = current_node.json_name.c_str();
+        item = cJSON_GetObjectItemCaseSensitive(&data, node_name);
 
-        if (std::nullptr_t{nullptr} == item)
+        if (nullptr == item)
         {
             return;
         }
@@ -475,13 +384,13 @@ namespace ipinfo
 
             if (item_value.empty())
             {
-                current_node.is_parsed = bool{false};
+                current_node.is_parsed = false;
                 return;
             }
  
-            current_node.str_value = (item_value);
-            current_node.value = (current_node.str_value);
-            current_node.is_parsed = bool{true};
+            current_node.str_value = item_value;
+            current_node.value = current_node.str_value;
+            current_node.is_parsed = true;
         }
 
         return;
@@ -494,30 +403,17 @@ namespace ipinfo
                    ipinfo::info_t &info, \
                    ipinfo::error_t &error)
     {
-        if (host.empty())
+        if (!(ipinfo::is_host_correct(host, error)))
         {
-            ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty host string"}, \
-                              std::string{__func__});
             return;
         }
 
         if (json.empty())
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Empty JSON data string"}, \
-                              std::string{__func__});
-            return;
-        }
-
-        if (!(ipinfo::is_host_avail(host)))
-        {
-             ipinfo::set_error(error, \
-                               ipinfo::ui8{1u}, \
-                               std::string{"Unavailable host"}, \
-                               std::string{__func__});
+                              1u, \
+                              {"Empty JSON data string"}, \
+                              {__func__});
             return;
         }
 
@@ -531,13 +427,13 @@ namespace ipinfo
             cJSON_Parse(json.c_str())
         };
 
-        if (std::nullptr_t{nullptr} == data)
+        if (nullptr == data)
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Parsing an received " \
-                                          "JSON object failed"}, \
-                              std::string{__func__});
+                              1u, \
+                              {"Parsing the received " \
+                               "JSON object failed"}, \
+                              {__func__});
             return;
         }
 
@@ -546,10 +442,10 @@ namespace ipinfo
         if (!(status.is_parsed))
         {
             ipinfo::set_error(error, \
-                              ipinfo::ui8{1u}, \
-                              std::string{"Couldn't parse a " \
+                              1u, \
+                              {"Couldn't parse the " \
                                           "request status"},
-                              std::string{__func__});
+                              {__func__});
             return;
         }
 
@@ -558,10 +454,10 @@ namespace ipinfo
             if (!(status.value))
             {
                 ipinfo::set_error(error, \
-                                  ipinfo::ui8{1u}, \
-                                  std::string{"A request status " \
+                                  1u, \
+                                  {"A request status " \
                                               "isn't success"},
-                                  std::string{__func__});
+                                  {__func__});
 
                 ipinfo::parse_json_node<std::string>(*data, host, info.error_msg, error);
                 return;
@@ -569,49 +465,49 @@ namespace ipinfo
 
             else
             {
-                ipinfo::parse_json_node<std::string>(*data, host, info.ip, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.ip_type, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.reverse_dns, error);
+                ipinfo::parse_json_node(*data, host, info.ip, error);
+                ipinfo::parse_json_node(*data, host, info.ip_type, error);
+                ipinfo::parse_json_node(*data, host, info.reverse_dns, error);
 
-                ipinfo::parse_json_node<std::string>(*data, host, info.continent, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.continent_code, error);
+                ipinfo::parse_json_node(*data, host, info.continent, error);
+                ipinfo::parse_json_node(*data, host, info.continent_code, error);
 
-                ipinfo::parse_json_node<std::string>(*data, host, info.country, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.country_code, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.country_capital, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.country_phone, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.country_neighbors, error);
+                ipinfo::parse_json_node(*data, host, info.country, error);
+                ipinfo::parse_json_node(*data, host, info.country_code, error);
+                ipinfo::parse_json_node(*data, host, info.country_capital, error);
+                ipinfo::parse_json_node(*data, host, info.country_phone, error);
+                ipinfo::parse_json_node(*data, host, info.country_neighbors, error);
 
-                ipinfo::parse_json_node<std::string>(*data, host, info.region, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.region_code, error);
+                ipinfo::parse_json_node(*data, host, info.region, error);
+                ipinfo::parse_json_node(*data, host, info.region_code, error);
 
-                ipinfo::parse_json_node<std::string>(*data, host, info.city, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.city_district, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.zip_code, error);
+                ipinfo::parse_json_node(*data, host, info.city, error);
+                ipinfo::parse_json_node(*data, host, info.city_district, error);
+                ipinfo::parse_json_node(*data, host, info.zip_code, error);
 
-                ipinfo::parse_json_node<ipinfo::dbl>(*data, host, info.latitude, error);
-                ipinfo::parse_json_node<ipinfo::dbl>(*data, host, info.longitude, error);
+                ipinfo::parse_json_node(*data, host, info.latitude, error);
+                ipinfo::parse_json_node(*data, host, info.longitude, error);
 
-                ipinfo::parse_json_node<std::string>(*data, host, info.city_timezone, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.timezone, error);
+                ipinfo::parse_json_node(*data, host, info.city_timezone, error);
+                ipinfo::parse_json_node(*data, host, info.timezone, error);
 
-                ipinfo::parse_json_node<ipinfo::i32>(*data, host, info.gmt_offset, error);
-                ipinfo::parse_json_node<ipinfo::i32>(*data, host, info.dst_offset, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.timezone_gmt, error);
+                ipinfo::parse_json_node(*data, host, info.gmt_offset, error);
+                ipinfo::parse_json_node(*data, host, info.dst_offset, error);
+                ipinfo::parse_json_node(*data, host, info.timezone_gmt, error);
 
-                ipinfo::parse_json_node<std::string>(*data, host, info.isp, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.as, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.organization, error);
+                ipinfo::parse_json_node(*data, host, info.isp, error);
+                ipinfo::parse_json_node(*data, host, info.as, error);
+                ipinfo::parse_json_node(*data, host, info.organization, error);
 
-                ipinfo::parse_json_node<ipinfo::bl>(*data, host, info.is_hosting, error);
-                ipinfo::parse_json_node<ipinfo::bl>(*data, host, info.is_proxy, error);
-                ipinfo::parse_json_node<ipinfo::bl>(*data, host, info.is_mobile, error);
+                ipinfo::parse_json_node(*data, host, info.is_hosting, error);
+                ipinfo::parse_json_node(*data, host, info.is_proxy, error);
+                ipinfo::parse_json_node(*data, host, info.is_mobile, error);
 
-                ipinfo::parse_json_node<std::string>(*data, host, info.currency, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.currency_code, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.currency_symbol, error);
-                ipinfo::parse_json_node<ipinfo::dbl>(*data, host, info.currency_rates, error);
-                ipinfo::parse_json_node<std::string>(*data, host, info.currency_plural, error);
+                ipinfo::parse_json_node(*data, host, info.currency, error);
+                ipinfo::parse_json_node(*data, host, info.currency_code, error);
+                ipinfo::parse_json_node(*data, host, info.currency_symbol, error);
+                ipinfo::parse_json_node(*data, host, info.currency_rates, error);
+                ipinfo::parse_json_node(*data, host, info.currency_plural, error);
             }
         }
 
