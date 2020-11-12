@@ -1,10 +1,12 @@
 #include <string>
 
+
 #include "../../include/ipinfo/ipinfo_types.hpp"
 #include "../../include/ipinfo/ipinfo_util.hpp"
 #include "../../include/ipinfo/ipinfo_print.hpp"
 #include "../../include/ipinfo/ipinfo_parse.hpp"
 #include "../../include/ipinfo/ipinfo_request.hpp"
+
 
 namespace ipinfo
 {
@@ -21,7 +23,9 @@ namespace ipinfo
                  std::string> answers{};
 
         ipinfo::clear_info(info);
-        ipinfo::set_error(error, 0u, "No error", __func__);
+        ipinfo::set_error(error, 0u, \
+                          {"No error"},\
+                          {__func__});
 
         for (const auto &host : ipinfo::avail_hosts)
         {

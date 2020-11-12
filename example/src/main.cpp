@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    ipinfo::info_t info{};
+    ipinfo::info_t  info{};
     ipinfo::error_t error{};
 
     ipinfo::get_info(info, \

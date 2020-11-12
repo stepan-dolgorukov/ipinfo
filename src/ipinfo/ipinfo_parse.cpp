@@ -12,15 +12,14 @@
 namespace ipinfo
 {
     void \
-        fill_uint32_node(const cJSON &item,
-                         const std::string &host,
-                         void * const node,
+        fill_uint32_node(const cJSON &item, \
+                         const std::string &host, \
+                         void * const node, \
                          ipinfo::error_t &error)
     {
         if (nullptr == node)
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Invalid node pointer"}, \
                               {__func__});
             return;
@@ -77,8 +76,7 @@ namespace ipinfo
     {
         if (nullptr == node)
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Invalid node pointer"}, \
                               {__func__});
             return;
@@ -203,8 +201,7 @@ namespace ipinfo
     {
         if (nullptr == node)
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Invalid node pointer"}, \
                               {__func__});
             return;
@@ -290,9 +287,8 @@ namespace ipinfo
 
         if (item_node.json_name.empty())
         {
-            ipinfo::set_error(error, \
-                              1u, \
-                              "Empty JSON node name", \
+            ipinfo::set_error(error, 1u, \
+                              {"Empty JSON node name"}, \
                               {__func__});
             return;
         }

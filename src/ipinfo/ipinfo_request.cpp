@@ -45,8 +45,7 @@ namespace ipinfo
 
         if (url.empty())
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Empty URL string"}, \
                               {__func__});
             return;
@@ -86,8 +85,7 @@ namespace ipinfo
     {
         if (!(ipinfo::is_host_correct(host, error)))
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Unavailable host"}, \
                               {__func__});
             return;
@@ -95,26 +93,23 @@ namespace ipinfo
 
         if (full_url.empty())
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Empty URL string"},
                               {__func__});
             return;
         }
 
-        if (!(ipinfo::is_lang_correct(host, lang, error)))
+        if (ipinfo::is_lang_correct(host, lang, error))
         {
-            return;
-        }
+            full_url += req_prefixes.at(host).at("lang");
 
-        full_url.append(req_prefixes.at(host).at("lang"));
-
-        for (const auto &pair : ipinfo::avail_langs.at(host))
-        {
-            if (lang == pair.first)
+            for (const auto &pair : ipinfo::avail_langs.at(host))
             {
-                full_url += ipinfo::avail_langs.at(host).at(lang);
-                return;
+                if (lang == pair.first)
+                {
+                    full_url += ipinfo::avail_langs.at(host).at(lang);
+                    return;
+                }
             }
         }
 
@@ -162,20 +157,21 @@ namespace ipinfo
 
         if (full_url.empty())
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Empty full URL string"}, \
                               { __func__});
             return;
         }
 
-        CURL * const session{curl_easy_init()};
         CURLcode code{};
+        CURL * const session
+        {
+            curl_easy_init()
+        };
 
         if (nullptr == session)
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Start of a libcurl " \
                                           "session failed"}, \
                               {__func__});
@@ -212,8 +208,7 @@ namespace ipinfo
 
         if (CURLcode::CURLE_OK != code)
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Data sending got fail"}, \
                               {__func__});
         }

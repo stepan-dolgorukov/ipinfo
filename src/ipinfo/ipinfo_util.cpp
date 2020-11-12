@@ -145,8 +145,7 @@ namespace ipinfo
     {
         if (host.empty())
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Empty host string"}, \
                               {__func__});
             return false;
@@ -163,8 +162,7 @@ namespace ipinfo
             }
         }
 
-        ipinfo::set_error(error, \
-                          1u, \
+        ipinfo::set_error(error, 1u, \
                           {"Unsupported host"}, \
                           {__func__});
 
@@ -179,8 +177,7 @@ namespace ipinfo
     {
         if (lang.empty())
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Empty language string"}, \
                               {__func__});
             return false;
@@ -197,8 +194,7 @@ namespace ipinfo
             }
         }
 
-        ipinfo::set_error(error, \
-                          1u, \
+        ipinfo::set_error(error, 1u, \
                           {"Unsupported language"}, \
                           {__func__});
         return false;
