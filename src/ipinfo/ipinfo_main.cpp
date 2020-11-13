@@ -80,7 +80,7 @@ namespace ipinfo
         ipinfo::print_node(info.as);
         ipinfo::print_node(info.organization);
 
-        ipinfo::print_node<std::string>(info.reverse_dns);
+        ipinfo::print_node(info.reverse_dns);
         ipinfo::print_node(info.is_hosting);
         ipinfo::print_node(info.is_proxy);
         ipinfo::print_node(info.is_mobile);

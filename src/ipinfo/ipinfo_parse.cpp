@@ -133,8 +133,7 @@ namespace ipinfo
     {
         if (nullptr == node)
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Invalid node pointer"}, \
                               {__func__});
             return;
@@ -406,8 +405,7 @@ namespace ipinfo
 
         if (json.empty())
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Empty JSON data string"}, \
                               {__func__});
             return;
@@ -425,8 +423,7 @@ namespace ipinfo
 
         if (nullptr == data)
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Parsing the received " \
                                "JSON object failed"}, \
                               {__func__});
@@ -437,8 +434,7 @@ namespace ipinfo
 
         if (!(status.is_parsed))
         {
-            ipinfo::set_error(error, \
-                              1u, \
+            ipinfo::set_error(error, 1u, \
                               {"Couldn't parse the " \
                                           "request status"},
                               {__func__});
@@ -449,8 +445,7 @@ namespace ipinfo
         {
             if (!(status.value))
             {
-                ipinfo::set_error(error, \
-                                  1u, \
+                ipinfo::set_error(error, 1u, \
                                   {"A request status " \
                                               "isn't success"},
                                   {__func__});
