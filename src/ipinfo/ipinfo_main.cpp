@@ -43,8 +43,8 @@ namespace ipinfo
     {
         if (!(ipinfo::is_status_success(info)))
         {
-            std::cout << "All hosts have returned a negative ";
-            std::cout << "request status codes." << std::endl;
+            std::cout << ("All hosts have returned a negative ");
+            std::cout << ("request status codes.") << std::endl;
             return;
         }
 

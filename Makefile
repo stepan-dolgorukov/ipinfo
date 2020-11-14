@@ -4,16 +4,19 @@
 DEBUG_MODE := 1
 
 
-OBJ_DIR := obj
-SRC_DIR := src
-LIB_DIR := lib
+OBJ_DIR     := obj
+SRC_DIR     := src
+LIB_DIR     := lib
 INCLUDE_DIR := include
 
 
-RM := /usr/bin/rm
+TARGET :=  $(LIB_DIR)/libipinfo.so
 
 
+RM  := /usr/bin/rm
 CXX := /usr/bin/g++
+
+
 CXXFLAGS := -std=c++2a \
             -Wall \
             -Wextra \
@@ -27,6 +30,7 @@ ifeq ($(DEBUG_MODE), 1)
                 -O0
 else
     CXXFLAGS += -Os \
+                -flto \
                 -march=native
 endif
 
@@ -37,10 +41,10 @@ LDFLAGS := -L$(LIB_DIR) \
            -Wl,-rpath=lib
 
 
-$(LIB_DIR)/libipinfo.so: $(OBJ_DIR)/ipinfo_main.o \
-                         $(OBJ_DIR)/ipinfo_parse.o \
-                         $(OBJ_DIR)/ipinfo_util.o \
-                         $(OBJ_DIR)/ipinfo_request.o
+$(TARGET): $(OBJ_DIR)/ipinfo_main.o \
+           $(OBJ_DIR)/ipinfo_parse.o \
+           $(OBJ_DIR)/ipinfo_request.o \
+           $(OBJ_DIR)/ipinfo_util.o
 	$(CXX) \
 	$? \
 	-fPIC \
@@ -49,35 +53,7 @@ $(LIB_DIR)/libipinfo.so: $(OBJ_DIR)/ipinfo_main.o \
 	$(LDFLAGS)
 
 
-$(OBJ_DIR)/cJSON.o: $(SRC_DIR)/cJSON/cJSON.c
-	$(CXX) \
-	$(CXXFLAGS) -fPIC \
-	-c $? \
-	-o $@ \
-
-
-$(OBJ_DIR)/ipinfo_main.o: $(SRC_DIR)/ipinfo/ipinfo_main.cpp
-	$(CXX) \
-	$(CXXFLAGS) -fPIC \
-	-c $? \
-	-o $@
-
-
-$(OBJ_DIR)/ipinfo_parse.o: $(SRC_DIR)/ipinfo/ipinfo_parse.cpp
-	$(CXX) \
-	$(CXXFLAGS) -fPIC \
-	-c $? \
-	-o $@
-
-
-$(OBJ_DIR)/ipinfo_request.o: $(SRC_DIR)/ipinfo/ipinfo_request.cpp
-	$(CXX) \
-	$(CXXFLAGS) -fPIC \
-	-c $? \
-	-o $@
-
-
-$(OBJ_DIR)/ipinfo_util.o: $(SRC_DIR)/ipinfo/ipinfo_util.cpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/ipinfo/%.cpp
 	$(CXX) \
 	$(CXXFLAGS) -fPIC \
 	-c $? \
