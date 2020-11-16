@@ -105,7 +105,7 @@ namespace ipinfo
             };
 
             current_node.str_value = item_value;
-            current_node.value = static_cast<std::uint32_t>(std::stoi(current_node.str_value));
+            current_node.value = static_cast<std::int32_t>(std::stoi(current_node.str_value));
             current_node.is_parsed = true;
         }
 
