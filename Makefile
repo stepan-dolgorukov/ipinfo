@@ -21,7 +21,10 @@ CXXFLAGS := -std=c++2a \
             -Wall \
             -Wextra \
             -Wpedantic \
+            -Wconversion \
             -Wunreachable-code \
+            -Wsign-conversion \
+            -Wlogical-op \
             -pipe
 
 
@@ -56,7 +59,7 @@ $(TARGET): $(OBJ_DIR)/ipinfo_main.o \
 $(OBJ_DIR)/%.o: $(SRC_DIR)/ipinfo/%.cpp
 	$(CXX) \
 	$(CXXFLAGS) -fPIC \
-	-c $? \
+	-c $< \
 	-o $@
 
 
