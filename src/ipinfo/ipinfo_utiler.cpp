@@ -60,7 +60,7 @@ void
 ipinfo::__utiler::clear_info(ipinfo::__info_t &info)
 {
     ipinfo::clear_node(info.request_status);
-    ipinfo::clear_node(info.error_message);
+    ipinfo::clear_node(info.err_msg);
 
     ipinfo::clear_node(info.ip);
     ipinfo::clear_node(info.ip_type);
@@ -93,7 +93,7 @@ ipinfo::__utiler::clear_info(ipinfo::__info_t &info)
 
     ipinfo::clear_node(info.isp);
     ipinfo::clear_node(info.as);
-    ipinfo::clear_node(info.organization);
+    ipinfo::clear_node(info.org);
 
     ipinfo::clear_node(info.is_hosting);
     ipinfo::clear_node(info.is_proxy);

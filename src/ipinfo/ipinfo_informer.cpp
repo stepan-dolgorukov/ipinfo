@@ -121,7 +121,7 @@ ipinfo::informer::get_error_msg()
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.error_message.content.at(host)};
+        const auto &content{this->__info.err_msg.content.at(host)};
 
         if (content.is_parsed && !(content.val.empty()))
         {
@@ -511,7 +511,7 @@ ipinfo::informer::get_org()
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.organization.content.at(host)};
+        const auto &content{this->__info.org.content.at(host)};
         if (content.is_parsed && !(content.val.empty()))
         {
             return content.val;

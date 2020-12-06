@@ -244,7 +244,7 @@ ipinfo::__parser::parse_data(const std::string &host,
 
     if (!(status.val))
     {
-        ipinfo::parse_json_node(*data, host, info.error_message);
+        ipinfo::parse_json_node(*data, host, info.err_msg);
         return;
     }
 
@@ -280,7 +280,7 @@ ipinfo::__parser::parse_data(const std::string &host,
 
     ipinfo::parse_json_node(*data, host, info.isp);
     ipinfo::parse_json_node(*data, host, info.as);
-    ipinfo::parse_json_node(*data, host, info.organization);
+    ipinfo::parse_json_node(*data, host, info.org);
 
     ipinfo::parse_json_node(*data, host, info.is_hosting);
     ipinfo::parse_json_node(*data, host, info.is_proxy);

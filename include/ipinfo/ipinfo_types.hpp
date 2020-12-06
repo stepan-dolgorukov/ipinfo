@@ -33,8 +33,8 @@
 
         typedef struct __info
         {
-            // 1. request status
-            // can be only true or false
+            // Request status
+            // Can be only true or false
             ipinfo::__data_node<bool> request_status
             {
                 .desc{"Request status"},
@@ -57,9 +57,9 @@
                 }
             };
 
-            // 2. request error message
-            // it'll be filled if the request status isn't success
-            ipinfo::__data_node<std::string> error_message
+            // Request error message
+            // It'll be filled if the request status isn't success
+            ipinfo::__data_node<std::string> err_msg
             {
                 .desc{"Request error message"},
 
@@ -81,7 +81,7 @@
                 }
             };
 
-            // 3. IP address
+            // IP address
             ipinfo::__data_node<std::string> ip
             {
                 .desc{"IP address"},
@@ -104,11 +104,10 @@
                 }
             };
 
-            // 4. type of IP address
-            // IPv4, IPv6
+            // Type of the IP address
             ipinfo::__data_node<std::string> ip_type
             {
-                .desc{"Type of IP address"},
+                .desc{"IP address type"},
 
                 .content
                 {
@@ -128,7 +127,7 @@
                 }
             };
 
-            // 5. continent name
+            // Continent name
             ipinfo::__data_node<std::string> continent
             {
                 .desc{"Continent name"},
@@ -151,7 +150,7 @@
                 }
             };
 
-            // 6. continent code
+            // Continent code
             ipinfo::__data_node<std::string> continent_code
             {
                 .desc{"Continent code"},
@@ -174,7 +173,7 @@
                 }
             };
 
-            // 7. country name
+            // Country name
             ipinfo::__data_node<std::string> country
             {
                 .desc{"Country name"},
@@ -197,7 +196,7 @@
                 }
             };
 
-            // 8. country code
+            // Country code
             ipinfo::__data_node<std::string> country_code
             {
                 .desc{"Country code"},
@@ -220,7 +219,7 @@
                 }
             };
 
-            // 9. country capital
+            // Country capital
             ipinfo::__data_node<std::string> country_capital
             {
                 .desc{"The capital of country"},
@@ -243,7 +242,7 @@
                 }
             };
 
-            // 10. country phone code
+            // Country phone code
             ipinfo::__data_node<std::string> country_phone
             {
                 .desc{"Country phone code"},
@@ -266,7 +265,7 @@
                 }
             };
 
-            // 11. country neighbors
+            // Country neighbors
             ipinfo::__data_node<std::string> country_neighbors
             {
                 .desc{"Neighboring countries"},
@@ -289,7 +288,7 @@
                 }
             };
 
-            // 12. region name
+            // Region name
             ipinfo::__data_node<std::string> region
             {
                 .desc{"Region name"},
@@ -312,7 +311,7 @@
                 }
             };
 
-            // 13. region code
+            // Region code
             ipinfo::__data_node<std::string> region_code
             {
                 .desc{"Region code"},
@@ -335,7 +334,7 @@
                 }
             };
 
-            // 14. city name
+            // City name
             ipinfo::__data_node<std::string> city
             {
                 .desc{"City name"},
@@ -358,7 +357,7 @@
                 }
             };
 
-            // 15. city district (subdivision)
+            // City district (subdivision)
             ipinfo::__data_node<std::string> city_district
             {
                 .desc{"City district"},
@@ -381,7 +380,7 @@
                 }
             };
 
-            // 16. zip code
+            // ZIP code
             ipinfo::__data_node<std::string> zip_code
             {
                 .desc{"ZIP code"},
@@ -404,7 +403,7 @@
                 }
             };
 
-            // 17. latitude
+            // Latitude
             ipinfo::__data_node<double> latitude
             {
                 .desc{"Latitude"},
@@ -427,7 +426,7 @@
                 }
             };
 
-            // 18. longitude
+            // Longitude
             ipinfo::__data_node<double> longitude
             {
                 .desc{"Longitude"},
@@ -450,7 +449,7 @@
                 }
             };
 
-            // 19. city timezone
+            // City timezone
             ipinfo::__data_node<std::string> city_timezone
             {
                 .desc{"City timezone"},
@@ -473,7 +472,7 @@
                 }
             };
 
-            // 20. full timezone name
+            // Full timezone name
             ipinfo::__data_node<std::string> timezone
             {
                 .desc{"Full timezone name"},
@@ -496,7 +495,7 @@
                 }
             };
 
-            // 21. UTC offset (in seconds)
+            // UTC offset in seconds
             ipinfo::__data_node<std::int32_t> gmt_offset
             {
                 .desc{"UTC offset"},
@@ -519,7 +518,7 @@
                 }
             };
 
-            // 22. DST (daylight savings time) offset (in seconds)
+            // DST (daylight savings time) offset in seconds
             ipinfo::__data_node<std::int32_t> dst_offset
             {
                 .desc{"DST offset"},
@@ -542,7 +541,7 @@
                 }
             };
 
-            // 23. timezone GMT
+            // Timezone GMT
             ipinfo::__data_node<std::string> timezone_gmt
             {
                 .desc{"Timezone GMT"},
@@ -565,7 +564,7 @@
                 }
             };
 
-            // 24. ISP (internet service provider)
+            // ISP (Internet Service Provider)
             ipinfo::__data_node<std::string> isp
             {
                 .desc{"Internet Service Provider"},
@@ -588,7 +587,7 @@
                 }
             };
 
-            // 25. AS (autonomous system)
+            // AS (Autonomous System)
             ipinfo::__data_node<std::string> as
             {
                 .desc{"Autonomous system"},
@@ -611,8 +610,8 @@
                 }
             };
 
-            // 26. organization name
-            ipinfo::__data_node<std::string> organization
+            // Organization name
+            ipinfo::__data_node<std::string> org
             {
                 .desc{"Organization name"},
 
@@ -634,7 +633,7 @@
                 }
             };
 
-            // 27. reverse DNS IP lookup
+            // Reverse DNS IP lookup
             ipinfo::__data_node<std::string> reverse_dns
             {
                 .desc{"Reverse DNS of the IP"},
@@ -658,7 +657,7 @@
                 }
             };
 
-            // 28. hosting, colocated or data center
+            // Hosting, colocated or data center
             ipinfo::__data_node<bool> is_hosting
             {
                 .desc{"Hosting, colocated or data center"},
@@ -682,7 +681,7 @@
                 }
             };
 
-            // 29. proxy, VPN, Tor usage
+            // Proxy, VPN, Tor usage
             ipinfo::__data_node<bool> is_proxy
             {
                 .desc{"Proxy, VPN or Tor usage"},
@@ -705,7 +704,7 @@
                 }
             };
 
-            // 30. mobile connection usage
+            // Mobile connection usage
             ipinfo::__data_node<bool> is_mobile
             {
                 .desc{"Mobile connection usage"},
@@ -729,30 +728,7 @@
                 }
             };
 
-            // 31. national currency code
-            ipinfo::__data_node<std::string> currency_code
-            {
-                .desc{"Currency code"},
-
-                .content
-                {
-                    {
-                        ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
-                        {
-                            .json_name{"currency"}
-                        }
-                    },
-
-                    {
-                        ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
-                        {
-                            .json_name{"currency_code"}
-                        }
-                    }
-                }
-            };
-
-            // 32. national currency name
+            // National currency name
             ipinfo::__data_node<std::string> currency
             {
                 .desc{"currency name"},
@@ -775,7 +751,30 @@
                 }
             };
 
-            // 33. national currency symbol
+            // Currency code
+            ipinfo::__data_node<std::string> currency_code
+            {
+                .desc{"Currency code"},
+
+                .content
+                {
+                    {
+                        ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
+                        {
+                            .json_name{"currency"}
+                        }
+                    },
+
+                    {
+                        ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
+                        {
+                            .json_name{"currency_code"}
+                        }
+                    }
+                }
+            };
+
+            // Currency symbol
             ipinfo::__data_node<std::string> currency_symbol
             {
                 .desc{"Currency symbol"},
@@ -798,7 +797,7 @@
                 }
             };
 
-            // 34. current exchange rate against the US dollar
+            // Current exchange rate against the US dollar
             ipinfo::__data_node<double> currency_rates
             {
                 .desc{"Currency exchange rate to USD"},
@@ -821,7 +820,7 @@
                 }
             };
 
-            // 35. currency plural
+            // Currency plural
             ipinfo::__data_node<std::string> currency_plural
             {
                 .desc{"National currency plural"},
@@ -845,6 +844,5 @@
             };
 
         } __info_t;
-
     }
 #endif
