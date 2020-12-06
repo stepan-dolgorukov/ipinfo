@@ -1,5 +1,4 @@
 #!/bin/bash
 
-make --jobs=8 \
-     --always-make \
+make --always-make \
      --makefile=Makefile
