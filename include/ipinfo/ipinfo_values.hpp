@@ -1,171 +1,169 @@
 #ifndef __IPINFO__VALUES__HPP__
     #define __IPINFO__VALUES__HPP__
 
-
     #include <map>
     #include <array>
     #include <string>
     #include <vector>
     #include <cstdint>
 
-
     namespace ipinfo
     {
-        const std::array<const std::string, 2u> avail_hosts
+        static const std::array<std::string, 2u> avail_hosts
         {
-            "ip-api.com", \
+            "ip-api.com",
             "ipwhois.app"
         };
 
+        enum AVAIL_HOSTS_IDS
+        {
+            IP_API_COM  = 0u,
+            IPWHOIS_APP = 1u
+        };
 
-        const std::map<const std::string, \
-                       const std::map<const std::string, \
-                                      const std::string>> avail_langs
+        static const std::map<std::string,
+                              std::map<std::string,
+                                       std::string>> avail_langs
         {
             {
-                ipinfo::avail_hosts.at(0u), \
+                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
                 {
                     {
-                        {{"English"},       {"en"}}, \
-                        {{"German"},        {"de"}}, \
-                        {{"Spanish"},       {"es"}}, \
-                        {{"Portuguese"},    {"pt-BR"}}, \
-                        {{"French"},        {"fr"}}, \
-                        {{"Japanese"},      {"ja"}}, \
-                        {{"Chinese"},       {"zh-CN"}}, \
-                        {{"Russian"},       {"ru"}}
+                        {"English",       "en"},
+                        {"German",        "de"},
+                        {"Spanish",       "es"},
+                        {"Portuguese",    "pt-BR"},
+                        {"French",        "fr"},
+                        {"Japanese",      "ja"},
+                        {"Chinese",       "zh-CN"},
+                        {"Russian",       "ru"}
                     }
                 }
-            }, \
+            },
 
             {
-                ipinfo::avail_hosts.at(1u), \
+                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
                 {
                     {
-                        {{"English"},       {"en"}}, \
-                        {{"German"},        {"de"}}, \
-                        {{"Spanish"},       {"es"}}, \
-                        {{"Portuguese"},    {"pt-BR"}}, \
-                        {{"French"},        {"fr"}}, \
-                        {{"Japanese"},      {"ja"}}, \
-                        {{"Chinese"},       {"zh-CN"}}, \
-                        {{"Russian"},       {"ru"}}
+                        {"English",       "en"},
+                        {"German",        "de"},
+                        {"Spanish",       "es"},
+                        {"Portuguese",    "pt-BR"},
+                        {"French",        "fr"},
+                        {"Japanese",      "ja"},
+                        {"Chinese",       "zh-CN"},
+                        {"Russian",       "ru"}
                     }
                 }
             }
         };
 
-
-        const std::map<const std::string, \
-                       const std::string> req_paths
+        static const std::map<std::string, std::string> req_start_paths
         {
             {
-                ipinfo::avail_hosts.at(0u), \
-                std::string
+                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
                 {
-                    std::string{"http://"} + \
-                    ipinfo::avail_hosts.at(0u) + \
-                    std::string{"/json/"}
+                    "http://" +
+                    ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM) +
+                    "/json/"
                 }
-            }, \
+            },
 
             {
-                ipinfo::avail_hosts.at(1u), \
+                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    std::string{"http://"} + \
-                    avail_hosts.at(1u) + \
-                    std::string{"/json/"}
+                    "http://" +
+                    ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP) +
+                    "/json/"
                 }
             }
         };
 
-
-        const std::map<const std::string, \
-                       const std::map<const std::string, \
-                                      const std::string>> req_prefixes
+        static const std::map<std::string,
+                              std::map<std::string,
+                                       std::string>> req_param_titles
         {
             {
-                ipinfo::avail_hosts.at(0u), \
+                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
                 {
-                    {"lang",    "&lang="}, \
-                    {"fields",  "?fields="}
+                    {"fields",  "fields"},  // ?fields=
+                    {"lang",    "lang"},    // &lang=
                 }
             }, \
 
             {
-                ipinfo::avail_hosts.at(1u), \
+                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    {{"lang"},    {"&lang="}}, \
-                    {{"fields"},  {"?objects="}}
+                    {"fields",  "objects"},
+                    {"lang",    "lang"}
                 }
             }
         };
 
-
-        const std::map<const std::string, \
-                       const std::vector<std::string>> req_params
+        static const std::map<std::string,
+                              std::vector<std::string>> req_info_fields
         {
             {
-                ipinfo::avail_hosts.at(0u), \
+                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
                 {
-                    {"status"}, \
-                    {"message"}, \
-                    {"query"}, \
-                    {"continent"}, \
-                    {"gcontinentCode"}, \
-                    {"country"}, \
-                    {"countryCode"}, \
-                    {"region"}, \
-                    {"regionName"}, \
-                    {"city"}, \
-                    {"district"}, \
-                    {"zip"}, \
-                    {"lat"}, \
-                    {"lon"}, \
-                    {"timezone"}, \
-                    {"offset"}, \
-                    {"currency"}, \
-                    {"isp"}, \
-                    {"org"}, \
-                    {"as"}, \
-                    {"asname"}, \
-                    {"reverse"}, \
-                    {"mobile"}, \
-                    {"proxy"}, \
+                    {"status"},
+                    {"message"},
+                    {"query"},
+                    {"continent"},
+                    {"gcontinentCode"},
+                    {"country"},
+                    {"countryCode"},
+                    {"region"},
+                    {"regionName"},
+                    {"city"},
+                    {"district"},
+                    {"zip"},
+                    {"lat"},
+                    {"lon"},
+                    {"timezone"},
+                    {"offset"},
+                    {"currency"},
+                    {"isp"},
+                    {"org"},
+                    {"as"},
+                    {"asname"},
+                    {"reverse"},
+                    {"mobile"},
+                    {"proxy"},
                     {"hosting"}
                 }
-            }, \
+            },
 
             {
-                ipinfo::avail_hosts.at(1u), \
+                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    {"success"}, \
-                    {"message"}, \
-                    {"ip"}, \
-                    {"type"}, \
-                    {"continent"}, \
-                    {"continent_code"}, \
-                    {"country"}, \
+                    {"success"},
+                    {"message"},
+                    {"ip"},
+                    {"type"},
+                    {"continent"},
+                    {"continent_code"},
+                    {"country"},
                     {"country_code"},
-                    {"country_capital"},\
-                    {"country_phone"}, \
-                    {"country_neighbours"}, \
-                    {"region"}, \
-                    {"city"}, \
-                    {"latitude"}, \
-                    {"longitude"}, \
-                    {"as"}, \
-                    {"org"}, \
-                    {"isp"}, \
-                    {"timezone"}, \
-                    {"timezone_name"}, \
-                    {"timezone_dstOffset"}, \
-                    {"timezone_gmtOffset"}, \
-                    {"timezone_gmt"}, \
-                    {"currency"}, \
-                    {"currency_code"}, \
-                    {"currency_symbol"}, \
-                    {"currency_rates"}, \
+                    {"country_capital"},
+                    {"country_phone"},
+                    {"country_neighbours"},
+                    {"region"},
+                    {"city"},
+                    {"latitude"},
+                    {"longitude"},
+                    {"as"},
+                    {"org"},
+                    {"isp"},
+                    {"timezone"},
+                    {"timezone_name"},
+                    {"timezone_dstOffset"},
+                    {"timezone_gmtOffset"},
+                    {"timezone_gmt"},
+                    {"currency"},
+                    {"currency_code"},
+                    {"currency_symbol"},
+                    {"currency_rates"},
                     {"currency_plural"}
                 }
             }
