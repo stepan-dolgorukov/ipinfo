@@ -5,6 +5,7 @@
 
     #include "ipinfo_parser.hpp"
     #include "ipinfo_requester.hpp"
+    #include "ipinfo_types.hpp"
     #include "ipinfo_utiler.hpp"
 
     namespace ipinfo
