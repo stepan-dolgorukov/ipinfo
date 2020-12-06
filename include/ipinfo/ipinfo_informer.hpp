@@ -41,6 +41,7 @@
                 void                run(void);
 
                 bool                get_status(void);
+                std::string         get_error_msg(void);
                 std::string         get_ip(void);
                 std::string         get_ip_type(void);
                 std::string         get_continent(void);
@@ -57,11 +58,11 @@
                 std::string         get_zip_code(void);
                 double              get_latitude(void);
                 double              get_longitude(void);
-                std::string         get_city_timezone(void);
                 std::string         get_timezone(void);
+                std::string         get_city_timezone(void);
+                std::string         get_timezone_gmt(void);
                 std::int32_t        get_gmt_offset(void);
                 std::int32_t        get_dst_offset(void);
-                std::string         get_timezone_gmt(void);
                 std::string         get_isp(void);
                 std::string         get_as(void);
                 std::string         get_org(void);

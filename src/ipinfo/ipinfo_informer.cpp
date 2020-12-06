@@ -117,6 +117,23 @@ ipinfo::informer::get_status()
 
 
 std::string
+ipinfo::informer::get_error_msg()
+{
+    for (const auto &host : ipinfo::avail_hosts)
+    {
+        const auto &content{this->__info.error_message.content.at(host)};
+
+        if (content.is_parsed && !(content.val.empty()))
+        {
+            return content.val;
+        }
+    }
+
+    return {"N/A"};
+}
+
+
+std::string
 ipinfo::informer::get_ip()
 {
     for (const auto &host : ipinfo::avail_hosts)

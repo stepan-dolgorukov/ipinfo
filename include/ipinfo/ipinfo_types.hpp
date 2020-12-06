@@ -483,14 +483,13 @@
                     {
                         ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
                         {
-                            .json_name{"timezone_name"}
                         }
                     },
 
                     {
                         ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
                         {
-
+                            .json_name{"timezone_name"}
                         }
                     }
 
