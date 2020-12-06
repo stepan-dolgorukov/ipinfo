@@ -10,8 +10,8 @@ lib/libipinfo.so
 example/bin/*
 !example/bin/.gitkeep
 
-example/include/ipinfo/*
-!example/include/ipinfo/.gitkeep
+example/include/*
+!example/include/.gitkeep
 
 example/obj/*
 !example/obj/.gitkeep
