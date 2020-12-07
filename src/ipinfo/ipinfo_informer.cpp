@@ -100,7 +100,7 @@ ipinfo::informer::run()
 }
 
 bool
-ipinfo::informer::get_status()
+ipinfo::informer::get_status() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -117,7 +117,7 @@ ipinfo::informer::get_status()
 
 
 std::string
-ipinfo::informer::get_error_msg()
+ipinfo::informer::get_error_msg() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -134,7 +134,7 @@ ipinfo::informer::get_error_msg()
 
 
 std::string
-ipinfo::informer::get_ip()
+ipinfo::informer::get_ip() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -151,7 +151,7 @@ ipinfo::informer::get_ip()
 
 
 std::string
-ipinfo::informer::get_ip_type()
+ipinfo::informer::get_ip_type() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -168,7 +168,7 @@ ipinfo::informer::get_ip_type()
 
 
 std::string
-ipinfo::informer::get_continent()
+ipinfo::informer::get_continent() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -185,7 +185,7 @@ ipinfo::informer::get_continent()
 
 
 std::string
-ipinfo::informer::get_continent_code()
+ipinfo::informer::get_continent_code() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -202,7 +202,7 @@ ipinfo::informer::get_continent_code()
 
 
 std::string
-ipinfo::informer::get_country()
+ipinfo::informer::get_country() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -219,7 +219,7 @@ ipinfo::informer::get_country()
 
 
 std::string
-ipinfo::informer::get_country_code()
+ipinfo::informer::get_country_code() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -236,7 +236,7 @@ ipinfo::informer::get_country_code()
 
 
 std::string
-ipinfo::informer::get_country_capital()
+ipinfo::informer::get_country_capital() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -252,7 +252,7 @@ ipinfo::informer::get_country_capital()
 
 
 std::string
-ipinfo::informer::get_country_phone_code()
+ipinfo::informer::get_country_phone_code() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -268,7 +268,7 @@ ipinfo::informer::get_country_phone_code()
 
 
 std::string
-ipinfo::informer::get_country_neighbors()
+ipinfo::informer::get_country_neighbors() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -284,7 +284,7 @@ ipinfo::informer::get_country_neighbors()
 
 
 std::string
-ipinfo::informer::get_region()
+ipinfo::informer::get_region() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -300,7 +300,7 @@ ipinfo::informer::get_region()
 
 
 std::string
-ipinfo::informer::get_region_code()
+ipinfo::informer::get_region_code() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -316,7 +316,7 @@ ipinfo::informer::get_region_code()
 
 
 std::string
-ipinfo::informer::get_city()
+ipinfo::informer::get_city() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -332,7 +332,7 @@ ipinfo::informer::get_city()
 
 
 std::string
-ipinfo::informer::get_city_district()
+ipinfo::informer::get_city_district() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -348,7 +348,7 @@ ipinfo::informer::get_city_district()
 
 
 std::string
-ipinfo::informer::get_zip_code()
+ipinfo::informer::get_zip_code() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -364,7 +364,7 @@ ipinfo::informer::get_zip_code()
 
 
 double
-ipinfo::informer::get_latitude()
+ipinfo::informer::get_latitude() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -380,7 +380,7 @@ ipinfo::informer::get_latitude()
 
 
 double
-ipinfo::informer::get_longitude()
+ipinfo::informer::get_longitude() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -396,7 +396,7 @@ ipinfo::informer::get_longitude()
 
 
 std::string
-ipinfo::informer::get_city_timezone()
+ipinfo::informer::get_city_timezone() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -412,7 +412,7 @@ ipinfo::informer::get_city_timezone()
 
 
 std::string
-ipinfo::informer::get_timezone()
+ipinfo::informer::get_timezone() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -428,7 +428,7 @@ ipinfo::informer::get_timezone()
 
 
 std::int32_t
-ipinfo::informer::get_gmt_offset()
+ipinfo::informer::get_gmt_offset() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -444,7 +444,7 @@ ipinfo::informer::get_gmt_offset()
 
 
 std::int32_t
-ipinfo::informer::get_dst_offset()
+ipinfo::informer::get_dst_offset() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -459,7 +459,7 @@ ipinfo::informer::get_dst_offset()
 }
 
 std::string
-ipinfo::informer::get_timezone_gmt()
+ipinfo::informer::get_timezone_gmt() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -475,7 +475,7 @@ ipinfo::informer::get_timezone_gmt()
 
 
 std::string
-ipinfo::informer::get_isp()
+ipinfo::informer::get_isp() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -491,7 +491,7 @@ ipinfo::informer::get_isp()
 
 
 std::string
-ipinfo::informer::get_as()
+ipinfo::informer::get_as() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -507,7 +507,7 @@ ipinfo::informer::get_as()
 
 
 std::string
-ipinfo::informer::get_org()
+ipinfo::informer::get_org() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -524,7 +524,7 @@ ipinfo::informer::get_org()
 
 
 std::string
-ipinfo::informer::get_reverse_dns()
+ipinfo::informer::get_reverse_dns() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -540,7 +540,7 @@ ipinfo::informer::get_reverse_dns()
 
 
 bool
-ipinfo::informer::get_hosting_status()
+ipinfo::informer::get_hosting_status() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -556,7 +556,7 @@ ipinfo::informer::get_hosting_status()
 
 
 bool
-ipinfo::informer::get_proxy_status()
+ipinfo::informer::get_proxy_status() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -572,7 +572,7 @@ ipinfo::informer::get_proxy_status()
 
 
 bool
-ipinfo::informer::get_mobile_status()
+ipinfo::informer::get_mobile_status() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -588,7 +588,7 @@ ipinfo::informer::get_mobile_status()
 
 
 std::string
-ipinfo::informer::get_currency()
+ipinfo::informer::get_currency() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -604,7 +604,7 @@ ipinfo::informer::get_currency()
 
 
 std::string
-ipinfo::informer::get_currency_code()
+ipinfo::informer::get_currency_code() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -620,7 +620,7 @@ ipinfo::informer::get_currency_code()
 
 
 std::string
-ipinfo::informer::get_currency_symbol()
+ipinfo::informer::get_currency_symbol() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -636,7 +636,7 @@ ipinfo::informer::get_currency_symbol()
 
 
 double
-ipinfo::informer::get_currency_rates()
+ipinfo::informer::get_currency_rates() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
@@ -652,7 +652,7 @@ ipinfo::informer::get_currency_rates()
 
 
 std::string
-ipinfo::informer::get_currency_plural()
+ipinfo::informer::get_currency_plural() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
