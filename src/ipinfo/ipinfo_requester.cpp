@@ -1,9 +1,8 @@
-#include <bits/c++config.h>
 #include <string>
 #include <cstddef>
-#include <functional>
 
 #include "../include/curl/curl.h"
+
 #include "../../include/ipinfo/ipinfo_types.hpp"
 #include "../../include/ipinfo/ipinfo_requester.hpp"
 #include "../../include/ipinfo/ipinfo_values.hpp"
