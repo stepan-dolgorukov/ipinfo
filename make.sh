@@ -1,4 +1,4 @@
 #!/bin/bash
 
-make --always-make \
-     --makefile=Makefile
+make --makefile=Makefile \
+     --always-make

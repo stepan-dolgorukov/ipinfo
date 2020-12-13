@@ -23,12 +23,12 @@
                 round_double(const double value,
                              const std::uint8_t places);
 
-                // 04/12/20: add this function usage to the code
+                // 04/12/20 TODO: add this function usage to the code
                 static bool
                 is_host_correct(const std::string &host,
                                 ipinfo::__error_t &error);
 
-                // 04/12/20: add this function usage to the code
+                // 04/12/20 TODO: add this function usage to the code
                 static bool
                 is_language_correct(const std::string &host,
                                     const std::string &language,

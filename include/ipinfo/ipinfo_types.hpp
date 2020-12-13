@@ -31,56 +31,15 @@
             std::map<const std::string, data_content>   content{};
         };
 
+        template<typename T> struct user_node
+        {
+            bool        is_parsed{false};
+            T           val{};
+            std::string host{};
+        };
+
         typedef struct __info
         {
-            // Request status
-            // Can be only true or false
-            ipinfo::__data_node<bool> request_status
-            {
-                .desc{"Request status"},
-
-                .content
-                {
-                    {
-                        ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
-                        {
-                            .json_name{"status"}
-                        }
-                    },
-
-                    {
-                        ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
-                        {
-                            .json_name{"success"}
-                        }
-                    }
-                }
-            };
-
-            // Request error message
-            // It'll be filled if the request status isn't success
-            ipinfo::__data_node<std::string> err_msg
-            {
-                .desc{"Request error message"},
-
-                .content
-                {
-                    {
-                        ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
-                        {
-                            .json_name{"message"}
-                        }
-                    },
-
-                    {
-                        ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
-                        {
-                            .json_name{"message"}
-                        }
-                    }
-                }
-            };
-
             // IP address
             ipinfo::__data_node<std::string> ip
             {

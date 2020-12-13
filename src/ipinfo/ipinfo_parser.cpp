@@ -139,44 +139,6 @@ ipinfo::fill_node(const ::cJSON &data_item,
 
 
 void
-ipinfo::fill_node(const ::cJSON &data_item,
-                  const std::string &host,
-                  ipinfo::__data_node<bool> &info_node)
-{
-    auto &content{info_node.content.at(host)};
-
-    if (::cJSON_IsString(&data_item))
-    {
-        const std::string item_val{data_item.valuestring};
-
-        if (host == ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM) &&
-            "status" == content.json_name)
-        {
-            content.str_val = item_val;
-            content.val = (content.str_val == "success");
-            content.is_parsed = true;
-            return;
-        }
-
-        content.val = ("true" == item_val);
-        content.str_val = std::to_string(content.val);
-        content.is_parsed = true;
-    }
-
-    if (::cJSON_IsBool(&data_item))
-    {
-        const auto &item_value{data_item.valueint};
-
-        content.val = item_value;
-        content.str_val = (content.val ? "true" : "false");
-        content.is_parsed = true;
-    }
-
-    return;
-}
-
-
-void
 ipinfo::fill_node(const ::cJSON &item,
                   const std::string &host,
                   ipinfo::__data_node<std::string> &node)
@@ -196,6 +158,35 @@ ipinfo::fill_node(const ::cJSON &item,
         current_node.str_val = item_value;
         current_node.val = current_node.str_val;
         current_node.is_parsed = true;
+    }
+
+    return;
+}
+
+
+void
+ipinfo::fill_node(const ::cJSON &data_item,
+                  const std::string &host,
+                  ipinfo::__data_node<bool> &info_node)
+{
+    auto &content{info_node.content.at(host)};
+
+    if (::cJSON_IsString(&data_item))
+    {
+        const std::string item_val{data_item.valuestring};
+
+        content.val = ("true" == item_val);
+        content.str_val = std::to_string(content.val);
+        content.is_parsed = true;
+    }
+
+    if (::cJSON_IsBool(&data_item))
+    {
+        const auto &item_value{data_item.valueint};
+
+        content.val = item_value;
+        content.str_val = (content.val ? "true" : "false");
+        content.is_parsed = true;
     }
 
     return;
@@ -226,25 +217,11 @@ ipinfo::__parser::parse_data(const std::string &host,
                              const std::string &json,
                              ipinfo::__info_t &info)
 {
-    const auto &status{info.request_status.content.at(host)};
     const auto data{::cJSON_Parse(json.c_str())};
 
     if (!data)
     {
         // log!
-        return;
-    }
-
-    ipinfo::parse_json_node(*data, host, info.request_status);
-
-    if (!(status.is_parsed))
-    {
-        return;
-    }
-
-    if (!(status.val))
-    {
-        ipinfo::parse_json_node(*data, host, info.err_msg);
         return;
     }
 

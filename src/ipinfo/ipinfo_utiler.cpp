@@ -59,9 +59,6 @@ ipinfo::clear_node(__data_node<std::string> &info_node)
 void
 ipinfo::__utiler::clear_info(ipinfo::__info_t &info)
 {
-    ipinfo::clear_node(info.request_status);
-    ipinfo::clear_node(info.err_msg);
-
     ipinfo::clear_node(info.ip);
     ipinfo::clear_node(info.ip_type);
     ipinfo::clear_node(info.reverse_dns);

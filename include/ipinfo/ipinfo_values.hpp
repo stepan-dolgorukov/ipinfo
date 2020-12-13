@@ -106,8 +106,6 @@
             {
                 ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
                 {
-                    {"status"},
-                    {"message"},
                     {"query"},
                     {"continent"},
                     {"gcontinentCode"},
@@ -137,8 +135,6 @@
             {
                 ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    {"success"},
-                    {"message"},
                     {"ip"},
                     {"type"},
                     {"continent"},
