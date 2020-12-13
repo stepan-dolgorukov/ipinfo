@@ -49,7 +49,7 @@
                 std::string     get_country(void) const;
                 std::string     get_country_code(void) const;
                 std::string     get_country_capital(void) const;
-                std::string     get_country_phone_code(void) const;
+                std::string     get_country_ph_code(void) const;
                 std::string     get_country_neighbors(void) const;
                 std::string     get_region(void) const;
                 std::string     get_region_code(void) const;
@@ -84,7 +84,7 @@
                 ipinfo::user_node<std::string>  get_country_ex(void) const;
                 ipinfo::user_node<std::string>  get_country_code_ex(void) const;
                 ipinfo::user_node<std::string>  get_country_capital_ex(void) const;
-                ipinfo::user_node<std::string>  get_country_phone_code_ex(void) const;
+                ipinfo::user_node<std::string>  get_country_ph_code_ex(void) const;
                 ipinfo::user_node<std::string>  get_country_neighbors_ex(void) const;
                 ipinfo::user_node<std::string>  get_region_ex(void) const;
                 ipinfo::user_node<std::string>  get_region_code_ex(void) const;

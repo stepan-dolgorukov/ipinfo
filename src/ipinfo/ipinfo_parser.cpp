@@ -235,7 +235,7 @@ ipinfo::__parser::parse_data(const std::string &host,
     ipinfo::parse_json_node(*data, host, info.country);
     ipinfo::parse_json_node(*data, host, info.country_code);
     ipinfo::parse_json_node(*data, host, info.country_capital);
-    ipinfo::parse_json_node(*data, host, info.country_phone);
+    ipinfo::parse_json_node(*data, host, info.country_ph_code);
     ipinfo::parse_json_node(*data, host, info.country_neighbors);
 
     ipinfo::parse_json_node(*data, host, info.region);

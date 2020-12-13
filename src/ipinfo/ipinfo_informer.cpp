@@ -219,11 +219,11 @@ ipinfo::informer::get_country_capital() const
 
 
 std::string
-ipinfo::informer::get_country_phone_code() const
+ipinfo::informer::get_country_ph_code() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.country_phone.content.at(host)};
+        const auto &content{this->__info.country_ph_code.content.at(host)};
         if (content.is_parsed)
         {
             return content.val;
@@ -775,11 +775,11 @@ ipinfo::informer::get_country_capital_ex() const
 
 
 ipinfo::user_node<std::string>
-ipinfo::informer::get_country_phone_code_ex() const
+ipinfo::informer::get_country_ph_code_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.country_phone.content.at(host)};
+        const auto &content{this->__info.country_ph_code.content.at(host)};
         if (content.is_parsed)
         {
             return {

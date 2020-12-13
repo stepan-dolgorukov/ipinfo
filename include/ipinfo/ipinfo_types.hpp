@@ -202,7 +202,7 @@
             };
 
             // Country phone code
-            ipinfo::__data_node<std::string> country_phone
+            ipinfo::__data_node<std::string> country_ph_code
             {
                 .desc{"Country phone code"},
 

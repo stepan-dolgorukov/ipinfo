@@ -69,7 +69,7 @@ ipinfo::__utiler::clear_info(ipinfo::__info_t &info)
     ipinfo::clear_node(info.country);
     ipinfo::clear_node(info.continent_code);
     ipinfo::clear_node(info.country_capital);
-    ipinfo::clear_node(info.country_phone);
+    ipinfo::clear_node(info.country_ph_code);
     ipinfo::clear_node(info.country_neighbors);
 
     ipinfo::clear_node(info.region);

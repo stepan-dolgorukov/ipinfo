@@ -43,7 +43,7 @@ example(std::string &&ip,
     std::printf("County: %s\n", informer.get_country().c_str());
     std::printf("Country code: %s\n", informer.get_country_code().c_str());
     std::printf("Country capital: %s\n", informer.get_country_capital().c_str());
-    std::printf("Country phone code: %s\n", informer.get_country_phone_code().c_str());
+    std::printf("Country phone code: %s\n", informer.get_country_ph_code().c_str());
     std::printf("Country neighbors: %s\n", informer.get_country_neighbors().c_str());
     std::printf("Region: %s\n", informer.get_region().c_str());
     std::printf("Region code: %s\n", informer.get_region_code().c_str());
@@ -123,7 +123,7 @@ example_ex(std::string &&ip,
                                                                curr_string_cont.is_parsed,
                                                                curr_string_cont.host.c_str());
 
-    curr_string_cont = informer.get_country_phone_code_ex();
+    curr_string_cont = informer.get_country_ph_code_ex();
     std::printf("Country phone code: %s; parsed: %u; host: %s\n", curr_string_cont.val.c_str(),
                                                                   curr_string_cont.is_parsed,
                                                                   curr_string_cont.host.c_str());
