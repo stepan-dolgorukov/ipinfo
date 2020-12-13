@@ -63,6 +63,7 @@ ipinfo::get_ready_request_lang(const std::string &host,
     std::string res{};
     const auto &avail_langs{ipinfo::avail_langs.at(host)};
 
+
     for (const auto &value_pair : avail_langs)
     {
         if (lang == value_pair.first)

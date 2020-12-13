@@ -16,12 +16,12 @@ int
 main(void)
 {
     // IPv4
-    ::example("8.8.8.8", "English");
-    ::example_ex("8.8.8.8", "English");
+    ::example("8.8.8.8", "english");
+    ::example_ex("8.8.8.8", "english");
 
     // IPv6
-    ::example("2001:4860:4860::8888", "Russian");
-    ::example_ex("2001:4860:4860::8888", "Russian");
+    ::example("2001:4860:4860::8888", "russian");
+    ::example_ex("2001:4860:4860::8888", "russian");
 
     return 0;
 }

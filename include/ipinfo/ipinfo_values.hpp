@@ -29,14 +29,14 @@
                 ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
                 {
                     {
-                        {"English",       "en"},
-                        {"German",        "de"},
-                        {"Spanish",       "es"},
-                        {"Portuguese",    "pt-BR"},
-                        {"French",        "fr"},
-                        {"Japanese",      "ja"},
-                        {"Chinese",       "zh-CN"},
-                        {"Russian",       "ru"}
+                        {"english",       "en"},
+                        {"german",        "de"},
+                        {"spanish",       "es"},
+                        {"portuguese",    "pt-BR"},
+                        {"french",        "fr"},
+                        {"japanese",      "ja"},
+                        {"chinese",       "zh-CN"},
+                        {"russian",       "ru"}
                     }
                 }
             },
@@ -45,14 +45,14 @@
                 ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
                 {
                     {
-                        {"English",       "en"},
-                        {"German",        "de"},
-                        {"Spanish",       "es"},
-                        {"Portuguese",    "pt-BR"},
-                        {"French",        "fr"},
-                        {"Japanese",      "ja"},
-                        {"Chinese",       "zh-CN"},
-                        {"Russian",       "ru"}
+                        {"english",       "en"},
+                        {"german",        "de"},
+                        {"spanish",       "es"},
+                        {"portuguese",    "pt-BR"},
+                        {"french",        "fr"},
+                        {"japanese",      "ja"},
+                        {"chinese",       "zh-CN"},
+                        {"russian",       "ru"}
                     }
                 }
             }

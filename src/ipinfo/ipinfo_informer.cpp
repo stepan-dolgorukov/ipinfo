@@ -1,9 +1,8 @@
 #include <cstdint>
 #include <string>
-#include <iostream>
 
 #include "../../include/ipinfo/ipinfo_informer.hpp"
-
+#include "../../include/ipinfo/ipinfo_utiler.hpp"
 
 ipinfo::informer::informer(const std::string &ip,
                            const std::string &lang,
@@ -46,14 +45,14 @@ ipinfo::informer::set_ip(const std::string &&ip)
 void
 ipinfo::informer::set_lang(const std::string &lang)
 {
-    this->__lang = lang;
+    this->__lang = ipinfo::__utiler::str_to_lower_case(lang);
 }
 
 
 void
 ipinfo::informer::set_lang(const std::string &&lang)
 {
-    this->__lang = lang;
+    this->__lang = ipinfo::__utiler::str_to_lower_case(lang);
 }
 
 
@@ -214,7 +213,7 @@ ipinfo::informer::get_country_capital() const
         }
     }
 
-    return {"N/A"};
+    return {};
 }
 
 

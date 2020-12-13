@@ -1,5 +1,7 @@
+#include <cctype>
 #include <cmath>
 #include <cstdint>
+#include <locale>
 
 #include "../../include/ipinfo/ipinfo_types.hpp"
 #include "../../include/ipinfo/ipinfo_utiler.hpp"
@@ -153,4 +155,19 @@ ipinfo::__utiler::is_language_correct(const std::string &host,
     }
 
     return false;
+}
+
+
+std::string
+ipinfo::__utiler::str_to_lower_case(const std::string &s)
+{
+    std::string lc_s{s};
+    std::locale loc{};
+
+    for (auto &c : lc_s)
+    {
+        c = std::tolower(c, loc);
+    }
+
+    return lc_s;
 }

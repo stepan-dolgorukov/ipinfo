@@ -33,6 +33,9 @@
                 is_language_correct(const std::string &host,
                                     const std::string &language,
                                     ipinfo::__error_t &error);
+
+                static std::string
+                str_to_lower_case(const std::string &s);
         };
     }
 
