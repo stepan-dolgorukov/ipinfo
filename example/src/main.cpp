@@ -1,5 +1,5 @@
-#include "../include/ipinfo/ipinfo.hpp"
 #include <cstdint>
+#include "../include/ipinfo/ipinfo.hpp"
 
 
 void
