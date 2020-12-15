@@ -18,6 +18,7 @@ void
 ipinfo::informer::set_connection_nums(const std::uint8_t n)
 {
     this->__connection_nums = n;
+    return;
 }
 
 
@@ -25,6 +26,7 @@ void
 ipinfo::informer::set_connection_nums(const std::uint8_t &&n)
 {
     this->__connection_nums = n;
+    return;
 }
 
 
@@ -32,6 +34,7 @@ void
 ipinfo::informer::set_ip(const std::string &ip)
 {
     this->__ip= ip;
+    return;
 }
 
 
@@ -39,6 +42,7 @@ void
 ipinfo::informer::set_ip(const std::string &&ip)
 {
     this->__ip = ip;
+    return;
 }
 
 
@@ -46,6 +50,7 @@ void
 ipinfo::informer::set_lang(const std::string &lang)
 {
     this->__lang = ipinfo::__utiler::str_to_lower_case(lang);
+    return;
 }
 
 
@@ -53,6 +58,7 @@ void
 ipinfo::informer::set_lang(const std::string &&lang)
 {
     this->__lang = ipinfo::__utiler::str_to_lower_case(lang);
+    return;
 }
 
 
@@ -63,7 +69,7 @@ ipinfo::informer::run()
 
     std::map<const std::string, std::string> urls{};
     std::map<const std::string, std::string> answers{};
-    std::size_t counter{0u};
+    auto counter{0u};
 
     for (const auto &host : ipinfo::avail_hosts)
     {

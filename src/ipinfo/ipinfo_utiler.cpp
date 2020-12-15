@@ -129,7 +129,7 @@ ipinfo::__utiler::is_host_correct(const std::string &host,
         {
             if (avail_host == host)
             {
-                    return true;
+                return true;
             }
         }
     }
@@ -149,7 +149,7 @@ ipinfo::__utiler::is_language_correct(const std::string &host,
         {
             if (value_pair.first == language)
             {
-                    return true;
+                return true;
             }
         }
     }
