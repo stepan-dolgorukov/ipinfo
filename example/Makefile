@@ -37,8 +37,7 @@ LDFLAGS := -L$(LIB_DIR) \
            -l:libcjson.so.1.7.14 \
            -Wl,-rpath=lib
 
-$(TARGET): $(OBJ_DIR)/main.o \
-           $(LIB_DIR)/libipinfo.so
+$(TARGET): $(OBJ_DIR)/main.o
 	$(CXX) \
 	$(LDFLAGS) \
 	$? \
@@ -55,7 +54,8 @@ copy:
 	$(CP) ../lib/libcjson.so.1.7.14 $(LIB_DIR)
 	$(CP) ../lib/libcurl.so.4.7.0 $(LIB_DIR)
 	$(CP) ../lib/libipinfo.so $(LIB_DIR)
-	$(CP) -r ../include/ipinfo ../example/include
+	$(CP) -r ../include/ipinfo $(INCLUDE_DIR)
 
 clean:
 	$(RM) $(OBJ_DIR)/*.o
+	$(RM) $(TARGET)

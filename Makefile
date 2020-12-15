@@ -42,16 +42,17 @@ $(TARGET): $(OBJ_DIR)/ipinfo_informer.o \
 		   $(OBJ_DIR)/ipinfo_utiler.o
 	$(CXX) \
 	$? \
-	-fPIC \
 	-o $@ \
 	-shared \
 	$(LDFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/ipinfo/%.cpp
 	$(CXX) \
-	$(CXXFLAGS) -fPIC \
+	$(CXXFLAGS) \
+	-fPIC \
 	-c $< \
 	-o $@
 
 clean:
 	$(RM) $(OBJ_DIR)/*.o
+	$(RM) $(TARGET)
