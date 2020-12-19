@@ -340,7 +340,7 @@ ipinfo::informer::get_ip_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.ip.content.at(host)};
+        const auto &content{__info.ip.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -360,7 +360,7 @@ ipinfo::informer::get_ip_type_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.ip_type.content.at(host)};
+        const auto &content{__info.ip_type.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -380,7 +380,7 @@ ipinfo::informer::get_continent_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.continent.content.at(host)};
+        const auto &content{__info.continent.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -400,7 +400,7 @@ ipinfo::informer::get_continent_code_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.continent_code.content.at(host)};
+        const auto &content{__info.continent_code.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -420,7 +420,7 @@ ipinfo::informer::get_country_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.country.content.at(host)};
+        const auto &content{__info.country.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -440,7 +440,7 @@ ipinfo::informer::get_country_code_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.country_code.content.at(host)};
+        const auto &content{__info.country_code.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -460,7 +460,7 @@ ipinfo::informer::get_country_capital_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.country_capital.content.at(host)};
+        const auto &content{__info.country_capital.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -480,7 +480,7 @@ ipinfo::informer::get_country_ph_code_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.country_ph_code.content.at(host)};
+        const auto &content{__info.country_ph_code.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -500,7 +500,7 @@ ipinfo::informer::get_country_neighbors_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.country_neighbors.content.at(host)};
+        const auto &content{__info.country_neighbors.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -520,7 +520,7 @@ ipinfo::informer::get_region_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.region.content.at(host)};
+        const auto &content{__info.region.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -541,7 +541,7 @@ ipinfo::informer::get_region_code_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.region_code.content.at(host)};
+        const auto &content{__info.region_code.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -561,7 +561,7 @@ ipinfo::informer::get_city_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.city.content.at(host)};
+        const auto &content{__info.city.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -581,7 +581,7 @@ ipinfo::informer::get_city_district_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.city_district.content.at(host)};
+        const auto &content{__info.city_district.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -601,7 +601,7 @@ ipinfo::informer::get_zip_code_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.zip_code.content.at(host)};
+        const auto &content{__info.zip_code.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -621,7 +621,7 @@ ipinfo::informer::get_latitude_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.latitude.content.at(host)};
+        const auto &content{__info.latitude.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -641,7 +641,7 @@ ipinfo::informer::get_longitude_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.longitude.content.at(host)};
+        const auto &content{__info.longitude.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -661,7 +661,7 @@ ipinfo::informer::get_timezone_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.timezone.content.at(host)};
+        const auto &content{__info.timezone.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -681,7 +681,7 @@ ipinfo::informer::get_city_timezone_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.city_timezone.content.at(host)};
+        const auto &content{__info.city_timezone.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -702,7 +702,7 @@ ipinfo::informer::get_timezone_gmt_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.timezone_gmt.content.at(host)};
+        const auto &content{__info.timezone_gmt.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -722,7 +722,7 @@ ipinfo::informer::get_gmt_offset_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.gmt_offset.content.at(host)};
+        const auto &content{__info.gmt_offset.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -743,7 +743,7 @@ ipinfo::informer::get_dst_offset_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.dst_offset.content.at(host)};
+        const auto &content{__info.dst_offset.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -764,7 +764,7 @@ ipinfo::informer::get_isp_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.isp.content.at(host)};
+        const auto &content{__info.isp.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -784,7 +784,7 @@ ipinfo::informer::get_as_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.as.content.at(host)};
+        const auto &content{__info.as.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -804,7 +804,7 @@ ipinfo::informer::get_org_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.org.content.at(host)};
+        const auto &content{__info.org.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -824,7 +824,7 @@ ipinfo::informer::get_reverse_dns_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.reverse_dns.content.at(host)};
+        const auto &content{__info.reverse_dns.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -844,7 +844,7 @@ ipinfo::informer::get_hosting_status_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.is_hosting.content.at(host)};
+        const auto &content{__info.is_hosting.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -865,7 +865,7 @@ ipinfo::informer::get_proxy_status_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.is_proxy.content.at(host)};
+        const auto &content{__info.is_proxy.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -884,7 +884,7 @@ ipinfo::informer::get_mobile_status_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.is_mobile.content.at(host)};
+        const auto &content{__info.is_mobile.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -904,7 +904,7 @@ ipinfo::informer::get_currency_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.currency.content.at(host)};
+        const auto &content{__info.currency.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -925,7 +925,7 @@ ipinfo::informer::get_currency_code_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.currency_code.content.at(host)};
+        const auto &content{__info.currency_code.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -945,7 +945,7 @@ ipinfo::informer::get_currency_symbol_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.currency_symbol.content.at(host)};
+        const auto &content{__info.currency_symbol.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -965,7 +965,7 @@ ipinfo::informer::get_currency_rates_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.currency_rates.content.at(host)};
+        const auto &content{__info.currency_rates.content.at(host)};
         if (content.is_parsed)
         {
             return {
@@ -985,7 +985,7 @@ ipinfo::informer::get_currency_plural_ex() const
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{this->__info.currency_plural.content.at(host)};
+        const auto &content{__info.currency_plural.content.at(host)};
         if (content.is_parsed)
         {
             return {
