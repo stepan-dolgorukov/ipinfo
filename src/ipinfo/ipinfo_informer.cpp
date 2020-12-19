@@ -8,16 +8,16 @@ ipinfo::informer::informer(const std::string &ip,
                            const std::string &lang,
                            const std::uint8_t connection_nums)
 {
-    this->__ip = ip;
-    this->__lang = lang;
-    this->__connection_nums = connection_nums;
+    __ip = ip;
+    __lang = lang;
+    __connection_nums = connection_nums;
 }
 
 
 void
 ipinfo::informer::set_connection_nums(const std::uint8_t n)
 {
-    this->__connection_nums = n;
+    __connection_nums = n;
     return;
 }
 
@@ -25,7 +25,7 @@ ipinfo::informer::set_connection_nums(const std::uint8_t n)
 void
 ipinfo::informer::set_connection_nums(const std::uint8_t &&n)
 {
-    this->__connection_nums = n;
+    __connection_nums = n;
     return;
 }
 
