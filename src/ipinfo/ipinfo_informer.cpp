@@ -33,7 +33,7 @@ ipinfo::informer::set_connection_nums(const std::uint8_t &&n)
 void
 ipinfo::informer::set_ip(const std::string &ip)
 {
-    this->__ip= ip;
+    __ip= ip;
     return;
 }
 
@@ -41,7 +41,7 @@ ipinfo::informer::set_ip(const std::string &ip)
 void
 ipinfo::informer::set_ip(const std::string &&ip)
 {
-    this->__ip = ip;
+    __ip = ip;
     return;
 }
 
@@ -49,7 +49,7 @@ ipinfo::informer::set_ip(const std::string &&ip)
 void
 ipinfo::informer::set_lang(const std::string &lang)
 {
-    this->__lang = ipinfo::__utiler::str_to_lower_case(lang);
+    __lang = ipinfo::__utiler::str_to_lower_case(lang);
     return;
 }
 
@@ -57,7 +57,7 @@ ipinfo::informer::set_lang(const std::string &lang)
 void
 ipinfo::informer::set_lang(const std::string &&lang)
 {
-    this->__lang = ipinfo::__utiler::str_to_lower_case(lang);
+    __lang = ipinfo::__utiler::str_to_lower_case(lang);
     return;
 }
 
@@ -65,7 +65,7 @@ ipinfo::informer::set_lang(const std::string &&lang)
 void
 ipinfo::informer::run()
 {
-    ipinfo::__utiler::clear_info(this->__info);
+    ipinfo::__utiler::clear_info(__info);
 
     std::map<const std::string, std::string> urls{};
     std::map<const std::string, std::string> answers{};
@@ -73,24 +73,22 @@ ipinfo::informer::run()
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        if (this->__connection_nums != 0u)
+        if (__connection_nums != 0u)
         {
-            if (this->__connection_nums < ++counter)
+            if (__connection_nums < ++counter)
             {
                 break;
             }
         }
 
-        urls[host] = this->__requester.get_full_url(host,
-                                                    this->__ip,
-                                                    this->__lang);
+        urls[host] = get_full_url(host, __ip, __lang);
         if (urls.at(host).empty())
         {
             // log!
             continue;
         }
 
-        answers[host] = this->__requester.make_request(urls.at(host));
+        answers[host] = make_request(urls.at(host));
 
         if (answers.at(host).empty())
         {
@@ -98,7 +96,7 @@ ipinfo::informer::run()
             continue;
         }
 
-        this->__parser.parse_data(host, answers.at(host), this->__info);
+        parse_data(host, answers.at(host), __info);
     }
 
     return;
@@ -108,534 +106,232 @@ ipinfo::informer::run()
 std::string
 ipinfo::informer::get_ip() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.ip.content.at(host)};
-
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_ip_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_ip_type() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.ip_type.content.at(host)};
-
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_ip_type_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_continent() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.continent.content.at(host)};
-
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_continent_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_continent_code() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.continent_code.content.at(host)};
-
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_continent_code_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_country() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.country.content.at(host)};
-
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_country_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_country_code() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.country_code.content.at(host)};
-
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_country_code_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_country_capital() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.country_capital.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_country_capital_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_country_ph_code() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.country_ph_code.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_country_ph_code_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_country_neighbors() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.country_neighbors.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_country_neighbors_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_region() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.region.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
 
-    return {};
+    return get_region_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_region_code() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.region_code.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_region_code_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_city() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.city.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_city_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_city_district() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.city_district.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_city_district_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_zip_code() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.zip_code.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_zip_code_ex().val;
 }
 
 
 double
 ipinfo::informer::get_latitude() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.latitude.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_latitude_ex().val;
 }
 
 
 double
 ipinfo::informer::get_longitude() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.longitude.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_longitude_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_city_timezone() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.city_timezone.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_city_timezone_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_timezone() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.timezone.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_timezone_ex().val;
 }
 
 
 std::int32_t
 ipinfo::informer::get_gmt_offset() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.gmt_offset.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_gmt_offset_ex().val;
 }
 
 
 std::int32_t
 ipinfo::informer::get_dst_offset() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.dst_offset.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_dst_offset_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_timezone_gmt() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.timezone_gmt.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_timezone_gmt_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_isp() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.isp.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_isp_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_as() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.as.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_as_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_org() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.org.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_org_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_reverse_dns() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.reverse_dns.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_reverse_dns_ex().val;
 }
 
 
 bool
 ipinfo::informer::get_hosting_status() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.is_hosting.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_hosting_status_ex().val;
 }
 
 
 bool
 ipinfo::informer::get_proxy_status() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.is_proxy.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_proxy_status_ex().val;
 }
 
 
 bool
 ipinfo::informer::get_mobile_status() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.is_mobile.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_mobile_status_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_currency() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.currency.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_currency_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_currency_code() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.currency_code.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_currency_code_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_currency_symbol() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.currency_symbol.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_currency_symbol_ex().val;
 }
 
 
 double
 ipinfo::informer::get_currency_rates() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.currency_rates.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_currency_rates_ex().val;
 }
 
 
 std::string
 ipinfo::informer::get_currency_plural() const
 {
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        const auto &content{this->__info.currency_plural.content.at(host)};
-        if (content.is_parsed)
-        {
-            return content.val;
-        }
-    }
-
-    return {};
+    return get_currency_plural_ex().val;
 }
 
 

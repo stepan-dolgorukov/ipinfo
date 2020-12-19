@@ -10,11 +10,9 @@
 
     namespace ipinfo
     {
-        class informer
+        class informer : public __requester, public __parser
         {
             private:
-                ipinfo::__requester   __requester{};
-                ipinfo::__parser      __parser{};
 
                 ipinfo::__info_t      __info{};
 
