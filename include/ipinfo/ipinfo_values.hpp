@@ -31,13 +31,13 @@
 
         enum AVAIL_HOSTS_IDS
         {
-            IP_API_COM  = 0,
-            IPWHOIS_APP = 1
+            IP_API_COM = 0u,
+            IPWHOIS_APP
         };
 
         enum AVAIL_LANGS_IDS
         {
-            ENGLISH,
+            ENGLISH = 0u,
             GERMAN,
             SPANISH,
             PORTUGUESE,
@@ -89,19 +89,19 @@
         std::map<std::string, std::string> req_start_paths
         {
             {
-                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
+                avail_hosts.at(AVAIL_HOSTS_IDS::IP_API_COM),
                 {
                     "http://" +
-                    ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM) +
+                    avail_hosts.at(AVAIL_HOSTS_IDS::IP_API_COM) +
                     "/json/"
                 }
             },
 
             {
-                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
+                avail_hosts.at(AVAIL_HOSTS_IDS::IPWHOIS_APP),
                 {
                     "http://" +
-                    ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP) +
+                    avail_hosts.at(AVAIL_HOSTS_IDS::IPWHOIS_APP) +
                     "/json/"
                 }
             }
@@ -113,15 +113,15 @@
                           std::string>> req_param_titles
         {
             {
-                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
+                avail_hosts.at(AVAIL_HOSTS_IDS::IP_API_COM),
                 {
-                    {"fields",  "fields"},  // ?fields=
-                    {"lang",    "lang"},    // &lang=
+                    {"fields",  "fields"},
+                    {"lang",    "lang"},
                 }
-            }, \
+            },
 
             {
-                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
+                avail_hosts.at(AVAIL_HOSTS_IDS::IPWHOIS_APP),
                 {
                     {"fields",  "objects"},
                     {"lang",    "lang"}
@@ -134,7 +134,7 @@
                  std::vector<std::string>> req_info_fields
         {
             {
-                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
+                avail_hosts.at(AVAIL_HOSTS_IDS::IP_API_COM),
                 {
                     {"query"},
                     {"continent"},
@@ -163,7 +163,7 @@
             },
 
             {
-                ipinfo::avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IPWHOIS_APP),
+                avail_hosts.at(AVAIL_HOSTS_IDS::IPWHOIS_APP),
                 {
                     {"ip"},
                     {"type"},
