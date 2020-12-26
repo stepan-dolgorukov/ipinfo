@@ -16,3 +16,6 @@ example/obj/*
 
 example/lib/*
 !example/lib/.gitkeep
+
+target/*
+!target/.gitkeep
