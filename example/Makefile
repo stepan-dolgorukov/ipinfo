@@ -50,11 +50,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	-o $@
 
 copy:
-	$(CP) ../target/* $(LIB_DIR)
-	$(CP) ../lib/libcjson.so.1 $(LIB_DIR)
-	$(CP) ../lib/libcjson.so.1.7.14 $(LIB_DIR)
-	$(CP) ../lib/libcurl.so.4.7.0 $(LIB_DIR)
+	$(CP) -r ../lib/ .
 	$(CP) -r ../include .
+	$(CP) ../target/* $(LIB_DIR)
 
 
 clean:
