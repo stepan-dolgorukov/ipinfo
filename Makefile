@@ -6,11 +6,13 @@ OBJ_DIR     := obj
 SRC_DIR     := src
 LIB_DIR     := lib
 INCLUDE_DIR := include
+TARGET_DIR := target
 
-TARGET :=  $(LIB_DIR)/libipinfo.so
+TARGET :=  $(TARGET_DIR)/libipinfo.so
 
 RM  := /usr/bin/rm
 CXX := /usr/bin/g++
+MKDIR := /usr/bin/mkdir
 
 CXXFLAGS := -std=c++2a \
             -Wall \

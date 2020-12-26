@@ -1,18 +1,15 @@
 .vscode
 .vim
 
-
 obj/*
 !obj/.gitkeep
 
 lib/libipinfo.so
 
-
-example/bin/*
-!example/bin/.gitkeep
+example/target/*
+!example/target/.gitkeep
 
 example/include/*
-!example/include/.gitkeep
 
 example/obj/*
 !example/obj/.gitkeep

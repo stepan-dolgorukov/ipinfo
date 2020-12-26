@@ -2,44 +2,44 @@
     #define __IPINFO__INFORMER__HPP__
 
     #include <cstdint>
+    #include <string>
 
-    #include "ipinfo_parser.hpp"
-    #include "ipinfo_requester.hpp"
     #include "ipinfo_types.hpp"
+    #include "ipinfo_requester.hpp"
+    #include "ipinfo_parser.hpp"
     #include "ipinfo_utiler.hpp"
+    #include "ipinfo_values.hpp"
 
     namespace ipinfo
     {
-        class informer : public __requester, public __parser
+        class informer : private ipinfo::__requester,
+                         private ipinfo::__parser,
+                         private ipinfo::__utiler
         {
             private:
-
-                ipinfo::__info_t      __info{};
-
-                std::uint8_t          __connection_nums{0u};
-                std::string           __ip{0};
-                std::string           __lang{"English"};
+                ipinfo::__info_t    __info;
+                std::uint8_t        __conn_num;
+                std::string         __ip;
+                std::string         __lang;
 
             public:
-                // TODO: Create several class constructors
+                informer(void);
+
                 informer(const std::string &ip,
-                         const std::string &lang,
-                         const std::uint8_t connection_nums);
+                         const std::string &lang_name,
+                         const std::uint8_t conn_num);
 
-                informer(void){};
-
-                void    set_connection_nums(const std::uint8_t n);
-                void    set_connection_nums(const std::uint8_t &&n);
+                informer(const std::string &ip,
+                         const std::uint8_t &lang_id,
+                         const std::uint8_t conn_num);
 
                 void    set_ip(const std::string &ip);
-                void    set_ip(const std::string &&ip);
-
-                void    set_lang(const std::string &lang);
-                void    set_lang(const std::string &&lang);
-
+                void    set_lang(const std::string &lang_name);
+                void    set_lang(const std::uint8_t lang_id);
+                void    set_conn_num(const std::uint8_t n);
                 void    run(void);
 
-                // Default getters:
+                // default getters
                 std::string     get_ip(void) const;
                 std::string     get_ip_type(void) const;
                 std::string     get_continent(void) const;
@@ -74,7 +74,7 @@
                 double          get_currency_rates(void) const;
                 std::string     get_currency_plural(void) const;
 
-                // Extra information getters:
+                // extra information getters
                 ipinfo::user_node<std::string>  get_ip_ex(void) const;
                 ipinfo::user_node<std::string>  get_ip_type_ex(void) const;
                 ipinfo::user_node<std::string>  get_continent_ex(void) const;

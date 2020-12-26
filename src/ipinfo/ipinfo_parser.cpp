@@ -1,6 +1,5 @@
 #include <string>
 #include <cstdint>
-#include <iostream>
 
 #include "../../include/cJSON/cJSON.h"
 
@@ -41,11 +40,10 @@ namespace ipinfo
               ipinfo::__data_node<std::string> &info_node);
 
     template<typename T> static void
-    parse_json_node(const ::cJSON &data_item,
-                    const std::string &host,
-                    ipinfo::__data_node<T> &info_node);
+    process_node(const ::cJSON &data_item,
+                 const std::string &host,
+                 ipinfo::__data_node<T> &info_node);
 }
-
 
 void
 ipinfo::fill_node(const ::cJSON &data_item,
@@ -117,19 +115,17 @@ ipinfo::fill_node(const ::cJSON &data_item,
     if (::cJSON_IsString(&data_item))
     {
         const std::string item_val{data_item.valuestring};
-        const double rounded_val{ipinfo::__utiler::round_double(std::stod(item_val), 2u)};
 
-        content.val = rounded_val;
-        content.str_val = std::to_string(content.val);
+        content.str_val = item_val;
+        content.val = std::stod(content.str_val);
         content.is_parsed = true;
     }
 
     if (::cJSON_IsNumber(&data_item))
     {
-        const auto &item_value{data_item.valuedouble};
-        const double rounded_value{ipinfo::__utiler::round_double(item_value, 2u)};
+        const auto &item_val{data_item.valuedouble};
 
-        content.val = rounded_value;
+        content.val = item_val;
         content.str_val = std::to_string(content.val);
         content.is_parsed = true;
     }
@@ -194,14 +190,14 @@ ipinfo::fill_node(const ::cJSON &data_item,
 
 
 template<typename T> void
-ipinfo::parse_json_node(const ::cJSON &data,
-                        const std::string &host,
-                        ipinfo::__data_node<T> &info_node)
+ipinfo::process_node(const ::cJSON &data,
+                     const std::string &host,
+                     ipinfo::__data_node<T> &info_node)
 {
     const auto node_name{info_node.content.at(host).json_name.c_str()};
-    const auto data_item{::cJSON_GetObjectItemCaseSensitive(&data, node_name)};
+    const auto *data_item{::cJSON_GetObjectItemCaseSensitive(&data, node_name)};
 
-    if (!data_item)
+    if (nullptr == data_item)
     {
         // log!
         return;
@@ -213,61 +209,78 @@ ipinfo::parse_json_node(const ::cJSON &data,
 
 
 void
-ipinfo::__parser::parse_data(const std::string &host,
-                             const std::string &json,
-                             ipinfo::__info_t &info)
+ipinfo::__parser::put_json(const std::string &s)
 {
-    const auto data{::cJSON_Parse(json.c_str())};
-
-    if (!data)
+    if (s.empty())
     {
-        // log!
+        __error = "Empty JSON string";
         return;
     }
 
-    ipinfo::parse_json_node(*data, host, info.ip);
-    ipinfo::parse_json_node(*data, host, info.ip_type);
-    ipinfo::parse_json_node(*data, host, info.reverse_dns);
+    __data = ::cJSON_Parse(s.c_str());
 
-    ipinfo::parse_json_node(*data, host, info.continent);
-    ipinfo::parse_json_node(*data, host, info.continent_code);
+    if (nullptr == __data)
+    {
+        __error = "JSON parsing error";
+        return;
+    }
 
-    ipinfo::parse_json_node(*data, host, info.country);
-    ipinfo::parse_json_node(*data, host, info.country_code);
-    ipinfo::parse_json_node(*data, host, info.country_capital);
-    ipinfo::parse_json_node(*data, host, info.country_ph_code);
-    ipinfo::parse_json_node(*data, host, info.country_neighbors);
+    return;
+}
 
-    ipinfo::parse_json_node(*data, host, info.region);
-    ipinfo::parse_json_node(*data, host, info.region_code);
 
-    ipinfo::parse_json_node(*data, host, info.city);
-    ipinfo::parse_json_node(*data, host, info.city_district);
-    ipinfo::parse_json_node(*data, host, info.zip_code);
+void
+ipinfo::__parser::deserialize_json(ipinfo::__info_t &i,
+                                   const std::string &host) const
+{
+    if (nullptr == __data)
+    {
+        return;
+    }
 
-    ipinfo::parse_json_node(*data, host, info.latitude);
-    ipinfo::parse_json_node(*data, host, info.longitude);
+    ipinfo::process_node(*__data, host, i.ip);
+    ipinfo::process_node(*__data, host, i.ip_type);
 
-    ipinfo::parse_json_node(*data, host, info.city_timezone);
-    ipinfo::parse_json_node(*data, host, info.timezone);
+    ipinfo::process_node(*__data, host, i.continent);
+    ipinfo::process_node(*__data, host, i.continent_code);
 
-    ipinfo::parse_json_node(*data, host, info.gmt_offset);
-    ipinfo::parse_json_node(*data, host, info.dst_offset);
-    ipinfo::parse_json_node(*data, host, info.timezone_gmt);
+    ipinfo::process_node(*__data, host, i.country);
+    ipinfo::process_node(*__data, host, i.country_code);
+    ipinfo::process_node(*__data, host, i.country_capital);
+    ipinfo::process_node(*__data, host, i.country_ph_code);
+    ipinfo::process_node(*__data, host, i.country_neighbors);
 
-    ipinfo::parse_json_node(*data, host, info.isp);
-    ipinfo::parse_json_node(*data, host, info.as);
-    ipinfo::parse_json_node(*data, host, info.org);
+    ipinfo::process_node(*__data, host, i.region);
+    ipinfo::process_node(*__data, host, i.region_code);
 
-    ipinfo::parse_json_node(*data, host, info.is_hosting);
-    ipinfo::parse_json_node(*data, host, info.is_proxy);
-    ipinfo::parse_json_node(*data, host, info.is_mobile);
+    ipinfo::process_node(*__data, host, i.city);
+    ipinfo::process_node(*__data, host, i.city_district);
+    ipinfo::process_node(*__data, host, i.zip_code);
 
-    ipinfo::parse_json_node(*data, host, info.currency);
-    ipinfo::parse_json_node(*data, host, info.currency_code);
-    ipinfo::parse_json_node(*data, host, info.currency_symbol);
-    ipinfo::parse_json_node(*data, host, info.currency_rates);
-    ipinfo::parse_json_node(*data, host, info.currency_plural);
+    ipinfo::process_node(*__data, host, i.latitude);
+    ipinfo::process_node(*__data, host, i.longitude);
+
+    ipinfo::process_node(*__data, host, i.city_timezone);
+    ipinfo::process_node(*__data, host, i.timezone);
+
+    ipinfo::process_node(*__data, host, i.gmt_offset);
+    ipinfo::process_node(*__data, host, i.dst_offset);
+    ipinfo::process_node(*__data, host, i.timezone_gmt);
+
+    ipinfo::process_node(*__data, host, i.isp);
+    ipinfo::process_node(*__data, host, i.as);
+    ipinfo::process_node(*__data, host, i.org);
+    ipinfo::process_node(*__data, host, i.reverse_dns);
+
+    ipinfo::process_node(*__data, host, i.is_hosting);
+    ipinfo::process_node(*__data, host, i.is_proxy);
+    ipinfo::process_node(*__data, host, i.is_mobile);
+
+    ipinfo::process_node(*__data, host, i.currency);
+    ipinfo::process_node(*__data, host, i.currency_code);
+    ipinfo::process_node(*__data, host, i.currency_symbol);
+    ipinfo::process_node(*__data, host, i.currency_rates);
+    ipinfo::process_node(*__data, host, i.currency_plural);
 
     return;
 }

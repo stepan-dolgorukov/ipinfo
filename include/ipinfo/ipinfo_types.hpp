@@ -12,8 +12,10 @@
     {
         typedef struct __error
         {
-            std::uint8_t    code{};
-            std::string     desc{};
+            std::uint8_t    code{0u};
+            std::string     desc{"No error"};
+
+            std::string     part{};
             std::string     func{};
         } __error_t;
 
@@ -21,7 +23,7 @@
         {
             struct data_content
             {
-                bool                is_parsed{false};
+                bool                is_parsed : 1 {false};
                 T                   val{};
                 std::string         str_val{};
                 const std::string   json_name{};
@@ -33,14 +35,14 @@
 
         template<typename T> struct user_node
         {
-            bool        is_parsed{false};
-            T           val{};
-            std::string host{};
+            bool            is_parsed : 1 {false};
+            T               val{};
+            std::string     host{};
+            std::string     desc{};
         };
 
         typedef struct __info
         {
-            // IP address
             ipinfo::__data_node<std::string> ip
             {
                 .desc{"IP address"},
@@ -63,7 +65,6 @@
                 }
             };
 
-            // Type of the IP address
             ipinfo::__data_node<std::string> ip_type
             {
                 .desc{"IP address type"},
@@ -86,7 +87,6 @@
                 }
             };
 
-            // Continent name
             ipinfo::__data_node<std::string> continent
             {
                 .desc{"Continent name"},
@@ -109,7 +109,6 @@
                 }
             };
 
-            // Continent code
             ipinfo::__data_node<std::string> continent_code
             {
                 .desc{"Continent code"},
@@ -132,7 +131,6 @@
                 }
             };
 
-            // Country name
             ipinfo::__data_node<std::string> country
             {
                 .desc{"Country name"},
@@ -155,7 +153,6 @@
                 }
             };
 
-            // Country code
             ipinfo::__data_node<std::string> country_code
             {
                 .desc{"Country code"},
@@ -178,7 +175,6 @@
                 }
             };
 
-            // Country capital
             ipinfo::__data_node<std::string> country_capital
             {
                 .desc{"The capital of country"},
@@ -201,7 +197,6 @@
                 }
             };
 
-            // Country phone code
             ipinfo::__data_node<std::string> country_ph_code
             {
                 .desc{"Country phone code"},
@@ -224,7 +219,6 @@
                 }
             };
 
-            // Country neighbors
             ipinfo::__data_node<std::string> country_neighbors
             {
                 .desc{"Neighboring countries"},
@@ -247,7 +241,6 @@
                 }
             };
 
-            // Region name
             ipinfo::__data_node<std::string> region
             {
                 .desc{"Region name"},
@@ -270,7 +263,6 @@
                 }
             };
 
-            // Region code
             ipinfo::__data_node<std::string> region_code
             {
                 .desc{"Region code"},
@@ -293,7 +285,6 @@
                 }
             };
 
-            // City name
             ipinfo::__data_node<std::string> city
             {
                 .desc{"City name"},
@@ -316,7 +307,6 @@
                 }
             };
 
-            // City district (subdivision)
             ipinfo::__data_node<std::string> city_district
             {
                 .desc{"City district"},
@@ -339,7 +329,6 @@
                 }
             };
 
-            // ZIP code
             ipinfo::__data_node<std::string> zip_code
             {
                 .desc{"ZIP code"},
@@ -362,7 +351,6 @@
                 }
             };
 
-            // Latitude
             ipinfo::__data_node<double> latitude
             {
                 .desc{"Latitude"},
@@ -385,7 +373,6 @@
                 }
             };
 
-            // Longitude
             ipinfo::__data_node<double> longitude
             {
                 .desc{"Longitude"},
@@ -408,7 +395,6 @@
                 }
             };
 
-            // City timezone
             ipinfo::__data_node<std::string> city_timezone
             {
                 .desc{"City timezone"},
@@ -431,7 +417,6 @@
                 }
             };
 
-            // Full timezone name
             ipinfo::__data_node<std::string> timezone
             {
                 .desc{"Full timezone name"},
@@ -454,7 +439,6 @@
                 }
             };
 
-            // UTC offset in seconds
             ipinfo::__data_node<std::int32_t> gmt_offset
             {
                 .desc{"UTC offset"},
@@ -477,7 +461,6 @@
                 }
             };
 
-            // DST (daylight savings time) offset in seconds
             ipinfo::__data_node<std::int32_t> dst_offset
             {
                 .desc{"DST offset"},
@@ -500,7 +483,6 @@
                 }
             };
 
-            // Timezone GMT
             ipinfo::__data_node<std::string> timezone_gmt
             {
                 .desc{"Timezone GMT"},
@@ -523,7 +505,6 @@
                 }
             };
 
-            // ISP (Internet Service Provider)
             ipinfo::__data_node<std::string> isp
             {
                 .desc{"Internet Service Provider"},
@@ -546,7 +527,6 @@
                 }
             };
 
-            // AS (Autonomous System)
             ipinfo::__data_node<std::string> as
             {
                 .desc{"Autonomous system"},
@@ -569,7 +549,6 @@
                 }
             };
 
-            // Organization name
             ipinfo::__data_node<std::string> org
             {
                 .desc{"Organization name"},
@@ -592,7 +571,6 @@
                 }
             };
 
-            // Reverse DNS IP lookup
             ipinfo::__data_node<std::string> reverse_dns
             {
                 .desc{"Reverse DNS of the IP"},
@@ -616,7 +594,6 @@
                 }
             };
 
-            // Hosting, colocated or data center
             ipinfo::__data_node<bool> is_hosting
             {
                 .desc{"Hosting, colocated or data center"},
@@ -640,7 +617,6 @@
                 }
             };
 
-            // Proxy, VPN, Tor usage
             ipinfo::__data_node<bool> is_proxy
             {
                 .desc{"Proxy, VPN or Tor usage"},
@@ -663,7 +639,6 @@
                 }
             };
 
-            // Mobile connection usage
             ipinfo::__data_node<bool> is_mobile
             {
                 .desc{"Mobile connection usage"},
@@ -687,10 +662,9 @@
                 }
             };
 
-            // National currency name
             ipinfo::__data_node<std::string> currency
             {
-                .desc{"currency name"},
+                .desc{"Currency name"},
 
                 .content
                 {
@@ -710,7 +684,6 @@
                 }
             };
 
-            // Currency code
             ipinfo::__data_node<std::string> currency_code
             {
                 .desc{"Currency code"},
@@ -733,7 +706,6 @@
                 }
             };
 
-            // Currency symbol
             ipinfo::__data_node<std::string> currency_symbol
             {
                 .desc{"Currency symbol"},
@@ -756,11 +728,9 @@
                 }
             };
 
-            // Current exchange rate against the US dollar
             ipinfo::__data_node<double> currency_rates
             {
                 .desc{"Currency exchange rate to USD"},
-
                 .content
                 {
                     {
@@ -779,11 +749,9 @@
                 }
             };
 
-            // Currency plural
             ipinfo::__data_node<std::string> currency_plural
             {
-                .desc{"National currency plural"},
-
+                .desc{"Currency plural"},
                 .content
                 {
                     {

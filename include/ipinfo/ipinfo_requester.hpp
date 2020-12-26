@@ -7,12 +7,19 @@
     {
         class __requester
         {
-            public:
-                std::string get_full_url(const std::string &host,
-                                         const std::string &ip,
-                                         const std::string &lang);
+            private:
+                std::string __request_url{};
+                std::string __request_answer{};
+                std::string __error{"No error"};
 
-                std::string make_request(const std::string &url);
+            public:
+                void            create_request_url(const std::string &host,
+                                                   const std::string &ip,
+                                                   const std::string &lang);
+
+                void            send_request(void);
+                std::string     get_request_answer(void) const;
+                std::string     get_err(void) const;
         };
     }
 

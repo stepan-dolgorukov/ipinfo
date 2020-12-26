@@ -12,7 +12,6 @@ namespace ipinfo
     clear_node(ipinfo::__data_node<T> &info_node);
 }
 
-
 void
 ipinfo::__utiler::set_error(ipinfo::__error_t &error,
                             const std::uint8_t code,
@@ -29,10 +28,10 @@ ipinfo::__utiler::set_error(ipinfo::__error_t &error,
 template<typename T> void
 ipinfo::clear_node(__data_node<T> &info_node)
 {
-
     for (const auto &host : ipinfo::avail_hosts)
     {
         auto &content{info_node.content.at(host)};
+
         content.val = {};
         content.str_val = {};
         content.is_parsed = false;
@@ -110,7 +109,7 @@ ipinfo::__utiler::clear_info(ipinfo::__info_t &info)
 
 double
 ipinfo::__utiler::round_double(const double val,
-                               const std::uint8_t places)
+                               const std::uint8_t places) const
 {
     const auto n{std::pow(10u, places)};
     const auto rounded_val{(std::round(val * n)) / (n)};
@@ -145,9 +144,9 @@ ipinfo::__utiler::is_language_correct(const std::string &host,
 {
     if (!(language.empty()) && __utiler::is_host_correct(host, error))
     {
-        for (const auto &value_pair : ipinfo::avail_langs.at(host))
+        for (const auto &val_pair : hosts_avail_langs_codes.at(host))
         {
-            if (value_pair.first == language)
+            if (val_pair.first == language)
             {
                 return true;
             }

@@ -3,13 +3,13 @@
 
 DEBUG_MODE := 1
 
-BIN_DIR     := bin
 OBJ_DIR     := obj
 SRC_DIR     := src
 LIB_DIR     := lib
-INCLUDE_DIR	:= include
+INCLUDE_DIR := include
+TARGET_DIR  := target
 
-TARGET := $(BIN_DIR)/ipinfo_example
+TARGET := $(TARGET_DIR)/ipinfo_xmpl
 
 RM :=   /usr/bin/rm
 CP :=   /usr/bin/cp
@@ -50,11 +50,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	-o $@
 
 copy:
+	$(CP) ../target/* $(LIB_DIR)
 	$(CP) ../lib/libcjson.so.1 $(LIB_DIR)
 	$(CP) ../lib/libcjson.so.1.7.14 $(LIB_DIR)
 	$(CP) ../lib/libcurl.so.4.7.0 $(LIB_DIR)
-	$(CP) ../lib/libipinfo.so $(LIB_DIR)
-	$(CP) -r ../include/ipinfo $(INCLUDE_DIR)
+	$(CP) -r ../include .
+
 
 clean:
 	$(RM) $(OBJ_DIR)/*.o
