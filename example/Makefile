@@ -32,16 +32,16 @@ else
 endif
 
 LDFLAGS := -L$(LIB_DIR) \
-           -l:libipinfo.so \
            -l:libcurl.so.7.74.0 \
            -l:libcjson.so.1.7.14 \
+           -l:libipinfo.so \
            -Wl,-rpath=lib
 
 $(TARGET): $(OBJ_DIR)/main.o
 	$(CXX) \
-	$(LDFLAGS) \
 	$? \
-	-o $@
+	-o $@ \
+	$(LDFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) \

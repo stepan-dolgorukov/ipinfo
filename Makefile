@@ -34,19 +34,21 @@ else
 endif
 
 LDFLAGS := -L$(LIB_DIR) \
-           -l:libcurl.so.7.74.0 \
-           -l:libcjson.so.1.7.14 \
            -Wl,-rpath=lib
+
+LDLIBS := -l:libcjson.so.1.7.14 \
+          -l:libcurl.so.7.74.0
 
 $(TARGET): $(OBJ_DIR)/ipinfo_informer.o \
 		   $(OBJ_DIR)/ipinfo_parser.o \
 		   $(OBJ_DIR)/ipinfo_requester.o \
 		   $(OBJ_DIR)/ipinfo_utiler.o
 	$(CXX) \
-	$? \
-	-o $@ \
 	-shared \
-	$(LDFLAGS)
+	$(LDFLAGS) \
+	$^ \
+	-o $@ \
+	$(LDLIBS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/ipinfo/%.cpp
 	$(CXX) \
