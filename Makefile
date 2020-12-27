@@ -34,7 +34,7 @@ else
 endif
 
 LDFLAGS := -L$(LIB_DIR) \
-           -l:libcurl.so.4.7.0 \
+           -l:libcurl.so.7.74.0 \
            -l:libcjson.so.1.7.14 \
            -Wl,-rpath=lib
 
