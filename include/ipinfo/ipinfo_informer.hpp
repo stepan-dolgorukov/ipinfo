@@ -5,22 +5,22 @@
     #include <string>
 
     #include "ipinfo_types.hpp"
+    #include "ipinfo_values.hpp"
     #include "ipinfo_requester.hpp"
     #include "ipinfo_parser.hpp"
     #include "ipinfo_utiler.hpp"
-    #include "ipinfo_values.hpp"
 
     namespace ipinfo
     {
-        class informer : private ipinfo::__requester,
-                         private ipinfo::__parser,
-                         private ipinfo::__utiler
+        class informer : private __requester,
+                         private __parser,
+                         private __utiler
         {
             private:
-                ipinfo::__info_t    __info;
-                std::uint8_t        __conn_num;
-                std::string         __ip;
-                std::string         __lang;
+                __info_t        __info;
+                std::uint8_t    __conn_num;
+                std::string     __ip;
+                std::string     __lang;
 
             public:
                 informer(void);
@@ -37,6 +37,7 @@
                 void    set_lang(const std::string &lang_name);
                 void    set_lang(const std::uint8_t lang_id);
                 void    set_conn_num(const std::uint8_t n);
+
                 void    run(void);
 
                 // default getters
@@ -75,39 +76,39 @@
                 std::string     get_currency_plural(void) const;
 
                 // extra information getters
-                ipinfo::user_node<std::string>  get_ip_ex(void) const;
-                ipinfo::user_node<std::string>  get_ip_type_ex(void) const;
-                ipinfo::user_node<std::string>  get_continent_ex(void) const;
-                ipinfo::user_node<std::string>  get_continent_code_ex(void) const;
-                ipinfo::user_node<std::string>  get_country_ex(void) const;
-                ipinfo::user_node<std::string>  get_country_code_ex(void) const;
-                ipinfo::user_node<std::string>  get_country_capital_ex(void) const;
-                ipinfo::user_node<std::string>  get_country_ph_code_ex(void) const;
-                ipinfo::user_node<std::string>  get_country_neighbors_ex(void) const;
-                ipinfo::user_node<std::string>  get_region_ex(void) const;
-                ipinfo::user_node<std::string>  get_region_code_ex(void) const;
-                ipinfo::user_node<std::string>  get_city_ex(void) const;
-                ipinfo::user_node<std::string>  get_city_district_ex(void) const;
-                ipinfo::user_node<std::string>  get_zip_code_ex(void) const;
-                ipinfo::user_node<double>       get_latitude_ex(void) const;
-                ipinfo::user_node<double>       get_longitude_ex(void) const;
-                ipinfo::user_node<std::string>  get_timezone_ex(void) const;
-                ipinfo::user_node<std::string>  get_city_timezone_ex(void) const;
-                ipinfo::user_node<std::string>  get_timezone_gmt_ex(void) const;
-                ipinfo::user_node<std::int32_t> get_gmt_offset_ex(void) const;
-                ipinfo::user_node<std::int32_t> get_dst_offset_ex(void) const;
-                ipinfo::user_node<std::string>  get_isp_ex(void) const;
-                ipinfo::user_node<std::string>  get_as_ex(void) const;
-                ipinfo::user_node<std::string>  get_org_ex(void) const;
-                ipinfo::user_node<std::string>  get_reverse_dns_ex(void) const;
-                ipinfo::user_node<bool>         get_hosting_status_ex(void) const;
-                ipinfo::user_node<bool>         get_proxy_status_ex(void) const;
-                ipinfo::user_node<bool>         get_mobile_status_ex(void) const;
-                ipinfo::user_node<std::string>  get_currency_ex(void) const;
-                ipinfo::user_node<std::string>  get_currency_code_ex(void) const;
-                ipinfo::user_node<std::string>  get_currency_symbol_ex(void) const;
-                ipinfo::user_node<double>       get_currency_rates_ex(void) const;
-                ipinfo::user_node<std::string>  get_currency_plural_ex(void) const;
+                user_node<std::string>  get_ip_ex(void) const;
+                user_node<std::string>  get_ip_type_ex(void) const;
+                user_node<std::string>  get_continent_ex(void) const;
+                user_node<std::string>  get_continent_code_ex(void) const;
+                user_node<std::string>  get_country_ex(void) const;
+                user_node<std::string>  get_country_code_ex(void) const;
+                user_node<std::string>  get_country_capital_ex(void) const;
+                user_node<std::string>  get_country_ph_code_ex(void) const;
+                user_node<std::string>  get_country_neighbors_ex(void) const;
+                user_node<std::string>  get_region_ex(void) const;
+                user_node<std::string>  get_region_code_ex(void) const;
+                user_node<std::string>  get_city_ex(void) const;
+                user_node<std::string>  get_city_district_ex(void) const;
+                user_node<std::string>  get_zip_code_ex(void) const;
+                user_node<double>       get_latitude_ex(void) const;
+                user_node<double>       get_longitude_ex(void) const;
+                user_node<std::string>  get_timezone_ex(void) const;
+                user_node<std::string>  get_city_timezone_ex(void) const;
+                user_node<std::string>  get_timezone_gmt_ex(void) const;
+                user_node<std::int32_t> get_gmt_offset_ex(void) const;
+                user_node<std::int32_t> get_dst_offset_ex(void) const;
+                user_node<std::string>  get_isp_ex(void) const;
+                user_node<std::string>  get_as_ex(void) const;
+                user_node<std::string>  get_org_ex(void) const;
+                user_node<std::string>  get_reverse_dns_ex(void) const;
+                user_node<bool>         get_hosting_status_ex(void) const;
+                user_node<bool>         get_proxy_status_ex(void) const;
+                user_node<bool>         get_mobile_status_ex(void) const;
+                user_node<std::string>  get_currency_ex(void) const;
+                user_node<std::string>  get_currency_code_ex(void) const;
+                user_node<std::string>  get_currency_symbol_ex(void) const;
+                user_node<double>       get_currency_rates_ex(void) const;
+                user_node<std::string>  get_currency_plural_ex(void) const;
         };
     }
 #endif
