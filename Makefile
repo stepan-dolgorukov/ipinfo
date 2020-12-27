@@ -12,7 +12,6 @@ TARGET :=  $(TARGET_DIR)/libipinfo.so
 
 RM  := /usr/bin/rm
 CXX := /usr/bin/g++
-MKDIR := /usr/bin/mkdir
 
 CXXFLAGS := -std=c++2a \
             -Wall \
