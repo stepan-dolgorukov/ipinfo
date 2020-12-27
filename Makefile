@@ -6,7 +6,7 @@ OBJ_DIR     := obj
 SRC_DIR     := src
 LIB_DIR     := lib
 INCLUDE_DIR := include
-TARGET_DIR := target
+TARGET_DIR  := target
 
 TARGET :=  $(TARGET_DIR)/libipinfo.so
 
