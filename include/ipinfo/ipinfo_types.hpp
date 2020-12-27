@@ -270,7 +270,7 @@
                     {
                         avail_hosts.at(AVAIL_HOSTS_IDS::IPWHOIS_APP),
                         {
-
+                            .json_name{}
                         }
                     }
                 }
@@ -333,7 +333,7 @@
                     {
                         avail_hosts.at(AVAIL_HOSTS_IDS::IPWHOIS_APP),
                         {
-
+                            .json_name{}
                         }
                     },
                 }
@@ -410,7 +410,7 @@
                     {
                         avail_hosts.at(AVAIL_HOSTS_IDS::IP_API_COM),
                         {
-
+                            .json_name{}
                         }
                     },
 
@@ -585,9 +585,9 @@
                     },
 
                     {
-                            avail_hosts.at(AVAIL_HOSTS_IDS::IPWHOIS_APP),
+                        avail_hosts.at(AVAIL_HOSTS_IDS::IPWHOIS_APP),
                         {
-
+                            .json_name{}
                         }
                     }
 
@@ -708,7 +708,7 @@
                     {
                         avail_hosts.at(AVAIL_HOSTS_IDS::IP_API_COM),
                         {
-
+                            .json_name{}
                         }
                     },
 
