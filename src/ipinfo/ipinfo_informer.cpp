@@ -715,7 +715,8 @@ ipinfo::informer::get_timezone_ex() const
             return {
                 .is_parsed = true,
                 .val{content.val},
-                .host{host}
+                .host{host},
+                .desc{curr.desc}
             };
         }
     }
