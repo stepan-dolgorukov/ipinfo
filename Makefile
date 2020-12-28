@@ -1,4 +1,4 @@
-.PHONY: clean
+.PHONY: clean, prepare
 
 DEBUG_MODE := 1
 
@@ -10,8 +10,10 @@ TARGET_DIR  := target
 
 TARGET :=  $(TARGET_DIR)/libipinfo.so
 
-RM  := /usr/bin/rm
-CXX := /usr/bin/g++
+RM    := /usr/bin/rm
+CXX   := /usr/bin/g++
+MKDIR := /usr/bin/mkdir
+TEST  := /usr/bin/test
 
 CXXFLAGS := -std=c++2a \
             -Wall \
@@ -23,6 +25,12 @@ CXXFLAGS := -std=c++2a \
             -Wlogical-op \
             -pipe
 
+LDFLAGS := -L$(LIB_DIR) \
+           -Wl,-rpath=lib
+
+LDLIBS := -l:libcjson.so.1.7.14 \
+          -l:libcurl.so.7.74.0
+
 ifeq ($(DEBUG_MODE), 1)
     CXXFLAGS += -g3 \
                 -O0
@@ -31,12 +39,6 @@ else
                 -flto \
                 -march=native
 endif
-
-LDFLAGS := -L$(LIB_DIR) \
-           -Wl,-rpath=lib
-
-LDLIBS := -l:libcjson.so.1.7.14 \
-          -l:libcurl.so.7.74.0
 
 $(TARGET): $(OBJ_DIR)/ipinfo_informer.o \
 		   $(OBJ_DIR)/ipinfo_parser.o \
@@ -55,6 +57,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/ipinfo/%.cpp
 	-fPIC \
 	-c $< \
 	-o $@
+
+prepare:
+	$(TEST) -d $(OBJ_DIR) || $(MKDIR) $(OBJ_DIR)
+	$(TEST) -d $(TARGET_DIR) || $(MKDIR) $(TARGET_DIR)
 
 clean:
 	$(RM) $(OBJ_DIR)/*.o
