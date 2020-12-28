@@ -28,8 +28,8 @@ CXXFLAGS := -std=c++2a \
 LDFLAGS := -L$(LIB_DIR) \
            -Wl,-rpath=lib
 
-LDLIBS := -l:libcjson.so.1.7.14 \
-          -l:libcurl.so.7.74.0
+LDLIBS := -l:libcjson.so \
+          -l:libcurl.so
 
 ifeq ($(DEBUG_MODE), 1)
     CXXFLAGS += -g3 \
