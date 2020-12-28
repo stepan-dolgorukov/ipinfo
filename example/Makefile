@@ -1,5 +1,4 @@
-.PHONY: copy \
-        clean
+.PHONY: prepare, clean
 
 DEBUG_MODE := 1
 
@@ -14,6 +13,8 @@ TARGET := $(TARGET_DIR)/ipinfo_xmpl
 RM :=   /usr/bin/rm
 CP :=   /usr/bin/cp
 CXX :=  /usr/bin/g++
+MKDIR := /usr/bin/mkdir
+TEST  := /usr/bin/test
 
 CXXFLAGS := -std=c++2a \
             -Wall \
@@ -49,11 +50,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	-c $? \
 	-o $@
 
-copy:
+prepare:
 	$(CP) -r ../lib/ .
 	$(CP) -r ../include .
 	$(CP) ../target/* $(LIB_DIR)
-
+	$(TEST) -d $(OBJ_DIR) || $(MKDIR) $(OBJ_DIR)
+	$(TEST) -d $(TARGET_DIR) || $(MKDIR) $(TARGET_DIR)
 
 clean:
 	$(RM) $(OBJ_DIR)/*.o
