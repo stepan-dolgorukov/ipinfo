@@ -2,18 +2,8 @@
 .vim
 
 obj/*
-!obj/.gitkeep
-
-example/target/*
-!example/target/.gitkeep
-
-example/include/*
-
-example/obj/*
-!example/obj/.gitkeep
-
-example/lib/*
-!example/lib/.gitkeep
-
 target/*
-!target/.gitkeep
+example/target/*
+example/include/*
+example/obj/*
+example/lib/*
