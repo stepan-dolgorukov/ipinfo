@@ -18,6 +18,7 @@
         {
             private:
                 __info_t        __info;
+                error_t       __error;
                 std::uint8_t    __conn_num;
                 std::string     __ip;
                 std::string     __lang;
@@ -39,6 +40,8 @@
                 void    set_conn_num(const std::uint8_t n);
 
                 void    run(void);
+
+                error_t       get_last_error(void) const;
 
                 // default getters
                 std::string     get_ip(void) const;

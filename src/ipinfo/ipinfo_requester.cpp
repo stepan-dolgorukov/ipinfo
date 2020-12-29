@@ -4,8 +4,9 @@
 #include "../include/curl/curl.h"
 
 #include "../../include/ipinfo/ipinfo_types.hpp"
-#include "../../include/ipinfo/ipinfo_requester.hpp"
 #include "../../include/ipinfo/ipinfo_values.hpp"
+#include "../../include/ipinfo/ipinfo_requester.hpp"
+#include "../../include/ipinfo/ipinfo_utiler.hpp"
 
 namespace ipinfo
 {
@@ -57,15 +58,15 @@ ipinfo::get_ready_request_info_fields(const std::string &host)
 
 std::string
 ipinfo::get_ready_request_lang(const std::string &host,
-                               const std::string &lang)
+                               const std::string &lang_name)
 {
     const auto &curr_avail_langs{hosts_avail_langs_codes.at(host)};
 
-    for (const auto &val_pair : curr_avail_langs)
+    for (auto &&[__lang_name, __] : curr_avail_langs)
     {
-        if (lang == val_pair.first)
+        if (__lang_name == lang_name)
         {
-            return curr_avail_langs.at(lang);
+            return curr_avail_langs.at(lang_name);
         }
     }
 
@@ -75,7 +76,7 @@ ipinfo::get_ready_request_lang(const std::string &host,
 void
 ipinfo::__requester::create_request_url(const std::string &host,
                                         const std::string &ip,
-                                        const std::string &lang)
+                                        const std::string &lang_name)
 {
     __request_url.clear();
 
@@ -93,7 +94,7 @@ ipinfo::__requester::create_request_url(const std::string &host,
 
     __request_url += req_param_titles.at(host).at("lang");
     __request_url += "=";
-    __request_url += get_ready_request_lang(host, lang);
+    __request_url += get_ready_request_lang(host, lang_name);
 
     return;
 }
@@ -107,7 +108,7 @@ ipinfo::__requester::send_request()
 
     if (nullptr == session)
     {
-        __error = "Failed to start a libcurl session";
+        // "Failed to start a libcurl session"
         return;
     }
 
@@ -116,9 +117,9 @@ ipinfo::__requester::send_request()
     ::curl_easy_setopt(session, ::CURLOPT_USERAGENT, "ipinfo module");
     ::curl_easy_setopt(session, ::CURLOPT_WRITEFUNCTION, &recv);
 
-    if (CURLcode::CURLE_OK != ::curl_easy_perform(session))
+    if (::CURLcode::CURLE_OK != ::curl_easy_perform(session))
     {
-        __error = "Failed to send a request";
+        // "Failed to send a request"
     }
 
     ::curl_easy_cleanup(session);

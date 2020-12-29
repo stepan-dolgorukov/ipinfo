@@ -12,14 +12,14 @@
     {
         // 26/12/20:
         // add this structure using to the code
-        typedef struct __error
+        typedef struct error
         {
             std::uint8_t    code{0u};
             std::string     desc{"No error"};
 
             std::string     part{};
             std::string     func{};
-        } __error_t;
+        } error_t;
 
         template<typename T> struct __data_node
         {

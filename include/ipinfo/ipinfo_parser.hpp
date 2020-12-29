@@ -11,15 +11,15 @@
         class __parser
         {
             private:
-                ::cJSON     *__data{};
-                std::string __error{"No error"};
+                ::cJSON   *__data;
+                error_t   __error;
 
             public:
                 void            put_json(const std::string &s);
                 void            deserialize_json(ipinfo::__info_t &i,
                                                  const std::string &host) const;
 
-                std::string     get_error(void) const;
+                std::string     get_last_error(void) const;
         };
    }
 

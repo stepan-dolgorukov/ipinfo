@@ -101,6 +101,12 @@ ipinfo::informer::run()
     return;
 }
 
+ipinfo::error_t
+ipinfo::informer::get_last_error() const
+{
+    return __error;
+}
+
 std::string
 ipinfo::informer::get_ip() const
 {

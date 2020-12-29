@@ -213,7 +213,7 @@ ipinfo::__parser::put_json(const std::string &s)
 {
     if (s.empty())
     {
-        __error = "Empty JSON string";
+        //__error = "Empty JSON string";
         return;
     }
 
@@ -221,7 +221,7 @@ ipinfo::__parser::put_json(const std::string &s)
 
     if (nullptr == __data)
     {
-        __error = "JSON parsing error";
+        //__error = "JSON parsing error";
         return;
     }
 

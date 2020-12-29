@@ -9,11 +9,11 @@
 namespace ipinfo
 {
     template<typename T> static void
-    clear_node(ipinfo::__data_node<T> &info_node);
+    clear_node(__data_node<T> &info_node);
 }
 
 void
-ipinfo::__utiler::set_error(ipinfo::__error_t &error,
+ipinfo::__utiler::set_error(ipinfo::error_t &error,
                             const std::uint8_t code,
                             const std::string &&desc,
                             const std::string &&func)
@@ -23,7 +23,6 @@ ipinfo::__utiler::set_error(ipinfo::__error_t &error,
     error.func = func;
     return;
 }
-
 
 template<typename T> void
 ipinfo::clear_node(__data_node<T> &info_node)
@@ -40,14 +39,13 @@ ipinfo::clear_node(__data_node<T> &info_node)
     return;
 }
 
-
 template<> void
 ipinfo::clear_node(__data_node<std::string> &info_node)
 {
-
     for (const auto &host : ipinfo::avail_hosts)
     {
         auto &content{info_node.content.at(host)};
+
         content.val.clear();
         content.str_val.clear();
         content.is_parsed = false;
@@ -55,7 +53,6 @@ ipinfo::clear_node(__data_node<std::string> &info_node)
 
     return;
 }
-
 
 void
 ipinfo::__utiler::clear_info(ipinfo::__info_t &info)
@@ -106,7 +103,6 @@ ipinfo::__utiler::clear_info(ipinfo::__info_t &info)
     return;
 }
 
-
 double
 ipinfo::__utiler::round_double(const double val,
                                const std::uint8_t places) const
@@ -117,10 +113,8 @@ ipinfo::__utiler::round_double(const double val,
     return rounded_val;
 }
 
-
 bool
-ipinfo::__utiler::is_host_correct(const std::string &host,
-                                  ipinfo::__error_t &error)
+ipinfo::__utiler::is_host_correct(const std::string &host)
 {
     if (!(host.empty()))
     {
@@ -136,17 +130,16 @@ ipinfo::__utiler::is_host_correct(const std::string &host,
     return false;
 }
 
-
 bool
-ipinfo::__utiler::is_language_correct(const std::string &host,
-                                      const std::string &language,
-                                      ipinfo::__error_t &error)
+ipinfo::__utiler::is_lang_correct(const std::string &host,
+                                  const std::string &lang_name)
 {
-    if (!(language.empty()) && __utiler::is_host_correct(host, error))
+    if (!(lang_name.empty()) &&
+        __utiler::is_host_correct(host))
     {
-        for (const auto &val_pair : hosts_avail_langs_codes.at(host))
+        for (auto &&[__,__lang_name] : hosts_avail_langs_codes.at(host))
         {
-            if (val_pair.first == language)
+            if (__lang_name == lang_name)
             {
                 return true;
             }
@@ -156,16 +149,15 @@ ipinfo::__utiler::is_language_correct(const std::string &host,
     return false;
 }
 
-
 std::string
 ipinfo::__utiler::str_to_lower_case(const std::string &s)
 {
-    std::string lc_s{s};
+    std::string lc_s{};
     std::locale loc{};
 
-    for (auto &c : lc_s)
+    for (auto &c : s)
     {
-        c = std::tolower(c, loc);
+        lc_s += std::tolower(c, loc);
     }
 
     return lc_s;
