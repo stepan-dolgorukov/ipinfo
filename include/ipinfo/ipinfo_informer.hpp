@@ -41,7 +41,7 @@
 
                 void    run(void);
 
-                error_t       get_last_error(void) const;
+                error_t get_last_error(void) const;
 
                 // default getters
                 std::string     get_ip(void) const;
