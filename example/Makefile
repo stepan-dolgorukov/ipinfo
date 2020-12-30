@@ -10,9 +10,9 @@ TARGET_DIR  := target
 
 TARGET := $(TARGET_DIR)/ipinfo_xmpl
 
-RM :=   /usr/bin/rm
-CP :=   /usr/bin/cp
-CXX :=  /usr/bin/g++
+RM    := /usr/bin/rm
+CP    := /usr/bin/cp
+CXX   := /usr/bin/g++
 MKDIR := /usr/bin/mkdir
 TEST  := /usr/bin/test
 
@@ -21,6 +21,8 @@ CXXFLAGS := -std=c++2a \
             -Wextra \
             -Wpedantic \
             -Wunreachable-code \
+			-Wsign-conversion \
+            -Wlogical-op \
             -pipe
 
 ifeq ($(DEBUG_MODE), 1)
@@ -37,7 +39,7 @@ LDFLAGS := -L$(LIB_DIR) \
 
 LDLIBS := -l:libcurl.so.7.74.0 \
           -l:libcjson.so.1.7.14 \
-          -l:libipinfo.so \
+          -l:libipinfo.so
 
 $(TARGET): $(OBJ_DIR)/main.o
 	$(CXX) \
@@ -53,11 +55,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	-o $@
 
 prepare:
+	$(TEST) -d $(OBJ_DIR) || $(MKDIR) $(OBJ_DIR)
+	$(TEST) -d $(TARGET_DIR) || $(MKDIR) $(TARGET_DIR)
 	$(CP) -r ../lib/ .
 	$(CP) -r ../include .
 	$(CP) ../target/* $(LIB_DIR)
-	$(TEST) -d $(OBJ_DIR) || $(MKDIR) $(OBJ_DIR)
-	$(TEST) -d $(TARGET_DIR) || $(MKDIR) $(TARGET_DIR)
 
 clean:
 	$(RM) $(OBJ_DIR)/*.o
