@@ -47,6 +47,16 @@
             RUSSIAN
         };
 
+        enum ERRORS_IDS
+        {
+            NO_ERRORS = 0u,
+            FAILED_START_LIBCURL_SESSION,
+            FAILED_REQUEST_SENDING,
+            EMPTY_REQUEST_ANSWER,
+            EMPTY_JSON_STRING,
+            FAILED_JSON_PARSING
+        };
+
         static const
         std::map<std::string,
                  std::map<std::string,

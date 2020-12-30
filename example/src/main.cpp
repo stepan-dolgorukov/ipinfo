@@ -28,9 +28,22 @@ example(std::string &&ip,
         std::string &&lang)
 {
     ipinfo::informer informer{};
+    ipinfo::error    error{};
+
     informer.set_ip(ip);
     informer.set_lang(lang);
     informer.run();
+
+    error = informer.get_last_error();
+
+    if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
+    {
+        std::printf("%s\n", "O-o-o-o-ops!");
+        std::printf("Error code: %u\n", error.code);
+        std::printf("Error desc: %s\n", error.desc.c_str());
+        std::printf("Function name: %s\n", error.func.c_str());
+        return;
+    }
 
     std::printf("IP: %s\n", informer.get_ip().c_str());
     std::printf("IP type: %s\n", informer.get_ip_type().c_str());
@@ -74,6 +87,8 @@ example_ex(std::string &&ip,
            std::string &&lang)
 {
     ipinfo::informer informer{};
+    ipinfo::error    error{};
+
     informer.set_ip(ip);
     informer.set_lang(lang);
     informer.run();
@@ -82,6 +97,17 @@ example_ex(std::string &&ip,
     ipinfo::user_node<double>       curr_dbl_cont{};
     ipinfo::user_node<std::int32_t> curr_i32_cont{};
     ipinfo::user_node<bool>         curr_bool_cont{};
+
+    error = informer.get_last_error();
+
+    if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
+    {
+        std::printf("%s\n", "O-o-o-o-ops!");
+        std::printf("Error code: %u\n", error.code);
+        std::printf("Error desc: %s\n", error.desc.c_str());
+        std::printf("Function name: %s\n", error.func.c_str());
+        return;
+    }
 
     curr_str_cont = informer.get_ip_ex();
     std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),

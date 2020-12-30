@@ -20,7 +20,7 @@
 
                 void            send_request(void);
                 std::string     get_request_answer(void) const;
-                std::string     get_last_error(void) const;
+                error_t         get_last_error(void) const;
         };
     }
 

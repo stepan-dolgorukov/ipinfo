@@ -108,7 +108,10 @@ ipinfo::__requester::send_request()
 
     if (nullptr == session)
     {
-        // "Failed to start a libcurl session"
+        __utiler::set_error(__error,
+                            FAILED_START_LIBCURL_SESSION,
+                            "Failed to start a libcurl session",
+                            __func__);
         return;
     }
 
@@ -119,7 +122,18 @@ ipinfo::__requester::send_request()
 
     if (::CURLcode::CURLE_OK != ::curl_easy_perform(session))
     {
-        // "Failed to send a request"
+        __utiler::set_error(__error,
+                            FAILED_REQUEST_SENDING,
+                            "Failed to send a request",
+                            __func__);
+    }
+
+    if (__request_answer.empty())
+    {
+        __utiler::set_error(__error,
+                            EMPTY_REQUEST_ANSWER,
+                            "Empty request answer",
+                            __func__);
     }
 
     ::curl_easy_cleanup(session);
@@ -130,4 +144,10 @@ std::string
 ipinfo::__requester::get_request_answer() const
 {
     return __request_answer;
+}
+
+ipinfo::error_t
+ipinfo::__requester::get_last_error() const
+{
+    return __error;
 }

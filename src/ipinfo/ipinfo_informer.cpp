@@ -91,11 +91,20 @@ ipinfo::informer::run()
     {
         const auto &host{avail_hosts.at(i)};
 
-        ipinfo::__requester::create_request_url(host, __ip, __lang);
-        ipinfo::__requester::send_request();
+        __requester::create_request_url(host, __ip, __lang);
+        __requester::send_request();
 
-        ipinfo::__parser::put_json(__requester::get_request_answer());
-        ipinfo::__parser::deserialize_json(__info, host);
+        __error = __requester::get_last_error();
+
+        if (__error.code != ERRORS_IDS::NO_ERRORS)
+        {
+            return;
+        }
+
+        __parser::put_json(__requester::get_request_answer());
+        __parser::deserialize_json(__info, host);
+
+        __error = __parser::get_last_error();
     }
 
     return;

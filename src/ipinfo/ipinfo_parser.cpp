@@ -74,7 +74,6 @@ ipinfo::fill_node(const ::cJSON &data_item,
     return;
 }
 
-
 void
 ipinfo::fill_node(const ::cJSON &data_item,
                   const std::string &host,
@@ -104,7 +103,6 @@ ipinfo::fill_node(const ::cJSON &data_item,
     return;
 }
 
-
 void
 ipinfo::fill_node(const ::cJSON &data_item,
                   const std::string &host,
@@ -133,7 +131,6 @@ ipinfo::fill_node(const ::cJSON &data_item,
     return;
 }
 
-
 void
 ipinfo::fill_node(const ::cJSON &item,
                   const std::string &host,
@@ -158,7 +155,6 @@ ipinfo::fill_node(const ::cJSON &item,
 
     return;
 }
-
 
 void
 ipinfo::fill_node(const ::cJSON &data_item,
@@ -188,7 +184,6 @@ ipinfo::fill_node(const ::cJSON &data_item,
     return;
 }
 
-
 template<typename T> void
 ipinfo::process_node(const ::cJSON &data,
                      const std::string &host,
@@ -207,13 +202,15 @@ ipinfo::process_node(const ::cJSON &data,
     return;
 }
 
-
 void
 ipinfo::__parser::put_json(const std::string &s)
 {
     if (s.empty())
     {
-        //__error = "Empty JSON string";
+        __utiler::set_error(__error,
+                            EMPTY_JSON_STRING,
+                            "Empty JSON string",
+                            __func__);
         return;
     }
 
@@ -221,13 +218,24 @@ ipinfo::__parser::put_json(const std::string &s)
 
     if (nullptr == __data)
     {
-        //__error = "JSON parsing error";
+        std::string error_location{"unknown"};
+        const auto * const json_error{::cJSON_GetErrorPtr()};
+
+        if (nullptr != json_error)
+        {
+            error_location = json_error;
+        }
+
+        __utiler::set_error(__error,
+                            FAILED_JSON_PARSING,
+                            "JSON parsing error. " \
+                            "Error before: " + error_location,
+                            __func__);
         return;
     }
 
     return;
 }
-
 
 void
 ipinfo::__parser::deserialize_json(ipinfo::__info_t &i,
@@ -283,4 +291,10 @@ ipinfo::__parser::deserialize_json(ipinfo::__info_t &i,
     ipinfo::process_node(*__data, host, i.currency_plural);
 
     return;
+}
+
+ipinfo::error_t
+ipinfo::__parser::get_last_error() const
+{
+    return __error;
 }
