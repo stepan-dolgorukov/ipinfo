@@ -1,4 +1,6 @@
 #!/bin/bash
 
-make prepare &&
-make
+make="/usr/bin/make"
+
+$make prepare &&
+$make
