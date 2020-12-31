@@ -39,9 +39,10 @@ example(std::string &&ip,
     if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
     {
         std::printf("%s\n", "O-o-o-o-ops!");
-        std::printf("Error code: %u\n", error.code);
-        std::printf("Error desc: %s\n", error.desc.c_str());
-        std::printf("Function name: %s\n", error.func.c_str());
+        std::printf("Code: %u\n", error.code);
+        std::printf("Description: %s\n", error.desc.c_str());
+        std::printf("Function: %s\n", error.func.c_str());
+
         return;
     }
 
@@ -103,9 +104,10 @@ example_ex(std::string &&ip,
     if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
     {
         std::printf("%s\n", "O-o-o-o-ops!");
-        std::printf("Error code: %u\n", error.code);
-        std::printf("Error desc: %s\n", error.desc.c_str());
-        std::printf("Function name: %s\n", error.func.c_str());
+        std::printf("Code: %u\n", error.code);
+        std::printf("Description: %s\n", error.desc.c_str());
+        std::printf("Function: %s\n", error.func.c_str());
+
         return;
     }
 
