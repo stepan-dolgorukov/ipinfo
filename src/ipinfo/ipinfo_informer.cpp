@@ -1,17 +1,9 @@
 #include <cstdint>
 #include <string>
+#include <algorithm>
 
 #include "../../include/ipinfo/ipinfo_informer.hpp"
 #include "../../include/ipinfo/ipinfo_utiler.hpp"
-
-ipinfo::informer::informer()
-{
-    __ip = {};
-    __lang = "english";
-
-     // set to maximum as the default
-    __conn_num = avail_hosts.size();
-}
 
 ipinfo::informer::informer(const std::string &ip,
                            const std::string &lang_name,
@@ -19,7 +11,11 @@ ipinfo::informer::informer(const std::string &ip,
 {
     __ip = ip;
     __lang = lang_name;
-    __conn_num = conn_num;
+
+    if (0u != __conn_num)
+    {
+        __conn_num = conn_num;
+    }
 }
 
 ipinfo::informer::informer(const std::string &ip,
@@ -27,19 +23,23 @@ ipinfo::informer::informer(const std::string &ip,
                            const std::uint8_t conn_num)
 {
     __ip = ip;
-    __conn_num = conn_num;
+
+    if (0u != __conn_num)
+    {
+        __conn_num = conn_num;
+    }
 
     if (lang_id < avail_langs.size())
     {
-        for (const auto &lang : avail_langs)
-        {
-            if (avail_langs.at(lang_id) == lang)
-            {
-                __lang = lang;
-                break;
-            }
-        }
+        __lang = avail_langs.at(lang_id);
     }
+}
+
+ipinfo::informer::informer()
+{
+    __ip = {};
+    __lang = {};
+    __conn_num = {avail_hosts.size()};
 }
 
 void
@@ -82,16 +82,125 @@ ipinfo::informer::set_lang(const std::uint8_t lang_id)
 }
 
 void
+ipinfo::informer::set_api_key(const std::string &host,
+                              const std::string &key)
+{
+    if (__utiler::is_host_correct(host))
+    {
+        __api_keys[host] = key;
+    }
+
+    return;
+}
+
+void
+ipinfo::informer::set_api_key(const std::uint8_t host_id,
+                              const std::string &key)
+{
+    if (__utiler::is_host_correct(host_id))
+    {
+        set_api_key(avail_hosts.at(host_id), key);
+    }
+
+    return;
+}
+
+void
+ipinfo::informer::set_api_keys(const std::map<std::string,
+                                              std::string> &host_key_mp)
+{
+    for (const auto &[host, api_key] : host_key_mp)
+    {
+        set_api_key(host, api_key);
+    }
+
+    return;
+}
+
+void
+ipinfo::informer::set_api_keys(const std::map<std::uint8_t,
+                                              std::string> &host_id_key_mp)
+{
+    for (const auto &[host_id, api_key] : host_id_key_mp)
+    {
+        set_api_key(host_id, api_key);
+    }
+
+    return;
+}
+
+void
+ipinfo::informer::exclude_host(const std::string &host)
+{
+    if (__utiler::is_host_correct(host))
+    {
+        __excluded_hosts.push_back(host);
+    }
+
+    return;
+}
+
+void
+ipinfo::informer::exclude_host(const std::uint8_t host_id)
+{
+    if (__utiler::is_host_correct(host_id))
+    {
+        __excluded_hosts.push_back(avail_hosts.at(host_id));
+    }
+
+    return;
+}
+
+void
+ipinfo::informer::exclude_hosts(const std::vector<std::string> &hosts)
+{
+    for (const auto &host : hosts)
+    {
+        exclude_host(host);
+    }
+
+    return;
+}
+
+void
+ipinfo::informer::exclude_hosts(const std::vector<std::uint8_t> &hosts_ids)
+{
+    for (const auto &id : hosts_ids)
+    {
+        exclude_host(id);
+    }
+
+    return;
+}
+
+void
 ipinfo::informer::run()
 {
     ipinfo::__utiler::clear_info(__info);
 
-    for (auto i{0u}; i < avail_hosts.size() &&
-                     i < __conn_num; i++)
+    if (0u == __conn_num)
+    {
+        __conn_num = avail_hosts.size();
+    }
+
+    for (auto i{0u};
+            i < avail_hosts.size() &&
+            i < __conn_num; i++)
     {
         const auto &host{avail_hosts.at(i)};
 
-        __requester::create_request_url(host, __ip, __lang);
+        // if current host is excluded
+        if (__excluded_hosts.end() != std::find(__excluded_hosts.begin(),
+                                                __excluded_hosts.end(),
+                                                host))
+        {
+            continue;
+        }
+
+        __requester::create_request_url(host,
+                                        __ip,
+                                        __lang,
+                                        __api_keys[host]);
         __requester::send_request();
 
         __error = __requester::get_last_error();

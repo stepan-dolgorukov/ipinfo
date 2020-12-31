@@ -10,8 +10,6 @@
 
     namespace ipinfo
     {
-        // 26/12/20:
-        // add this structure using to the code
         typedef struct error
         {
             std::uint8_t    code{0u};

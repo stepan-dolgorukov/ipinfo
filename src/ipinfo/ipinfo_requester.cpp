@@ -1,5 +1,6 @@
 #include <string>
 #include <cstddef>
+#include <iostream>
 
 #include "../include/curl/curl.h"
 
@@ -22,7 +23,6 @@ namespace ipinfo
     get_ready_request_lang(const std::string &host,
                            const std::string &lang);
 }
-
 
 std::size_t
 ipinfo::recv(const char * const data,
@@ -76,7 +76,8 @@ ipinfo::get_ready_request_lang(const std::string &host,
 void
 ipinfo::__requester::create_request_url(const std::string &host,
                                         const std::string &ip,
-                                        const std::string &lang_name)
+                                        const std::string &lang_name,
+                                        const std::string &api_key)
 {
     __request_url.clear();
 
@@ -95,6 +96,18 @@ ipinfo::__requester::create_request_url(const std::string &host,
     __request_url += req_param_titles.at(host).at("lang");
     __request_url += "=";
     __request_url += get_ready_request_lang(host, lang_name);
+
+    if (api_key.empty())
+    {
+        return;
+    }
+
+    __request_url += "&";
+    __request_url += req_param_titles.at(host).at("api_key");
+    __request_url += "=";
+    __request_url += api_key;
+
+    std::cout << __request_url << std::endl;
 
     return;
 }

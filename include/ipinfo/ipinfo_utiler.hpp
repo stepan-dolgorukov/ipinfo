@@ -11,7 +11,6 @@
         class __utiler
         {
             public:
-                // 06/12/20: add this function usage to the code
                 static void
                 set_error(error_t &error,
                           const std::uint8_t code,
@@ -25,11 +24,12 @@
                 round_double(const double value,
                              const std::uint8_t places) const;
 
-                // 04/12/20 TODO: add this function usage to the code
                 static bool
                 is_host_correct(const std::string &host);
 
-                // 04/12/20 TODO: add this function usage to the code
+                static bool
+                is_host_correct(const std::uint8_t host_id);
+
                 static bool
                 is_lang_correct(const std::string &host,
                                 const std::string &language);

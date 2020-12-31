@@ -136,10 +136,9 @@ ipinfo::fill_node(const ::cJSON &item,
                   const std::string &host,
                   ipinfo::__data_node<std::string> &node)
 {
-    auto &current_node{node.content.at(host)};
-
     if (::cJSON_IsString(&item))
     {
+        auto &current_node{node.content.at(host)};
         const std::string item_value{item.valuestring};
 
         if (item_value.empty())
@@ -231,7 +230,6 @@ ipinfo::__parser::put_json(const std::string &s)
                             "JSON parsing error. " \
                             "Error before: " + error_location,
                             __func__);
-        return;
     }
 
     return;

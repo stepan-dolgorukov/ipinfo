@@ -11,8 +11,8 @@
         class __parser
         {
             private:
-                ::cJSON   *__data;
-                error_t   __error;
+                ::cJSON   *__data{};
+                error_t   __error{};
 
             public:
                 void            put_json(const std::string &s);

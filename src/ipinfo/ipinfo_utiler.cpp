@@ -131,11 +131,16 @@ ipinfo::__utiler::is_host_correct(const std::string &host)
 }
 
 bool
+ipinfo::__utiler::is_host_correct(const std::uint8_t host_id)
+{
+    return (host_id < avail_hosts.size());
+}
+
+bool
 ipinfo::__utiler::is_lang_correct(const std::string &host,
                                   const std::string &lang_name)
 {
-    if (!(lang_name.empty()) &&
-        __utiler::is_host_correct(host))
+    if (!(lang_name.empty()) && is_host_correct(host))
     {
         for (auto &&[__,__lang_name] : hosts_avail_langs_codes.at(host))
         {

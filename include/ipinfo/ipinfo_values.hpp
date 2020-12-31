@@ -127,6 +127,7 @@
                 {
                     {"fields",  "fields"},
                     {"lang",    "lang"},
+                    {"api_key", "key"} // not exactly correct
                 }
             },
 
@@ -134,7 +135,8 @@
                 avail_hosts.at(AVAIL_HOSTS_IDS::IPWHOIS_APP),
                 {
                     {"fields",  "objects"},
-                    {"lang",    "lang"}
+                    {"lang",    "lang"},
+                    {"api_key", "key"} // not exactly correct
                 }
             }
         };

@@ -3,6 +3,8 @@
 
     #include <cstdint>
     #include <string>
+    #include <map>
+    #include <vector>
 
     #include "ipinfo_types.hpp"
     #include "ipinfo_values.hpp"
@@ -18,10 +20,13 @@
         {
             private:
                 __info_t        __info;
-                error_t       __error;
+                error_t         __error;
                 std::uint8_t    __conn_num;
                 std::string     __ip;
                 std::string     __lang;
+
+                std::map<std::string, std::string>  __api_keys;
+                std::vector<std::string>            __excluded_hosts;
 
             public:
                 informer(void);
@@ -39,8 +44,25 @@
                 void    set_lang(const std::uint8_t lang_id);
                 void    set_conn_num(const std::uint8_t n);
 
-                void    run(void);
+                void    set_api_key(const std::string &host,
+                                    const std::string &key);
 
+                void    set_api_key(const std::uint8_t host_id,
+                                    const std::string &key);
+
+                void    set_api_keys(const std::map<std::string,
+                                                    std::string> &host_key_mp);
+
+                void    set_api_keys(const std::map<std::uint8_t,
+                                                    std::string> &host_id_key_mp);
+
+                void    exclude_host(const std::string &host);
+                void    exclude_host(const std::uint8_t host_id);
+
+                void    exclude_hosts(const std::vector<std::string> &hosts);
+                void    exclude_hosts(const std::vector<std::uint8_t> &hosts_ids);
+
+                void    run(void);
                 error_t get_last_error(void) const;
 
                 // default getters
