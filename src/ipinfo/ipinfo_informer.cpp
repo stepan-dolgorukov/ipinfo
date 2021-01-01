@@ -7,39 +7,24 @@
 
 ipinfo::informer::informer(const std::string &ip,
                            const std::string &lang_name,
-                           const std::uint8_t conn_num)
-{
-    __ip = ip;
-    __lang = lang_name;
-
-    if (0u != __conn_num)
-    {
-        __conn_num = conn_num;
-    }
-}
-
+                           const std::uint8_t conn_num) : __ip(ip),
+                                                          __lang(lang_name),
+                                                          __conn_num(conn_num) {}
 ipinfo::informer::informer(const std::string &ip,
                            const std::uint8_t &lang_id,
                            const std::uint8_t conn_num)
+
 {
-    __ip = ip;
-
-    if (0u != __conn_num)
-    {
-        __conn_num = conn_num;
-    }
-
-    if (lang_id < avail_langs.size())
-    {
-        __lang = avail_langs.at(lang_id);
-    }
+    informer(ip,
+             (lang_id < avail_langs.size()) ?
+                                              avail_langs.at(lang_id) :
+                                              std::string{},
+             conn_num);
 }
 
 ipinfo::informer::informer()
 {
-    __ip = {};
-    __lang = {};
-    __conn_num = {avail_hosts.size()};
+    informer({}, {}, 0u);
 }
 
 void

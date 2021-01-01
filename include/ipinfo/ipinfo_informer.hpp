@@ -21,9 +21,9 @@
             private:
                 __info_t        __info;
                 error_t         __error;
-                std::uint8_t    __conn_num;
                 std::string     __ip;
                 std::string     __lang;
+                std::uint8_t    __conn_num;
 
                 std::map<std::string, std::string>  __api_keys;
                 std::vector<std::string>            __excluded_hosts;
