@@ -3,7 +3,13 @@
 
 obj/*
 target/*
+
 example/target/*
 example/include/*
 example/obj/*
 example/lib/*
+
+tests/ipinfo_test
+tests/include/
+tests/obj/
+tests/lib/
