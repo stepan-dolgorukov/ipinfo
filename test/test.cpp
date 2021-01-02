@@ -50,16 +50,18 @@ ipinfo_test::test(const std::string &ip,
     ipinfo::error    error{};
 
     informer.run();
-    error = informer.get_last_error();
 
-    if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
+    for (const auto &host : ipinfo::avail_hosts)
     {
-        std::printf("%s\n", "O-o-o-o-ops!");
-        std::printf("Code: %u\n", error.code);
-        std::printf("Description: %s\n", error.desc.c_str());
-        std::printf("Function: %s\n", error.func.c_str());
+        error = informer.get_last_error(host);
 
-        return;
+        if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
+        {
+            std::printf("%s\n", "O-o-o-o-ops!");
+            std::printf("Code: %u\n", error.code);
+            std::printf("Description: %s\n", error.desc.c_str());
+            std::printf("Function: %s\n", error.func.c_str());
+        }
     }
 
     std::printf("IP: %s\n", informer.get_ip().c_str());
@@ -106,22 +108,25 @@ ipinfo_test::test_ex(const std::string &ip,
 {
     ipinfo::informer                informer(ip, lang, conn_num);
     ipinfo::error                   error{};
+
     ipinfo::user_node<std::string>  curr_str_cont{};
     ipinfo::user_node<double>       curr_dbl_cont{};
     ipinfo::user_node<std::int32_t> curr_i32_cont{};
     ipinfo::user_node<bool>         curr_bool_cont{};
 
     informer.run();
-    error = informer.get_last_error();
 
-    if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
+    for (const auto &host : ipinfo::avail_hosts)
     {
-        std::printf("%s\n", "O-o-o-o-ops!");
-        std::printf("Code: %u\n", error.code);
-        std::printf("Description: %s\n", error.desc.c_str());
-        std::printf("Function: %s\n", error.func.c_str());
+        error = informer.get_last_error(host);
 
-        return;
+        if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
+        {
+            std::printf("%s\n", "O-o-o-o-ops!");
+            std::printf("Code: %u\n", error.code);
+            std::printf("Description: %s\n", error.desc.c_str());
+            std::printf("Function: %s\n", error.func.c_str());
+        }
     }
 
     curr_str_cont = informer.get_ip_ex();
