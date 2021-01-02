@@ -32,7 +32,7 @@
                 informer(void);
 
                 informer(const std::string &ip,
-                         const std::string &lang_name,
+                         const std::string &lang,
                          const std::uint8_t conn_num);
 
                 informer(const std::string &ip,
@@ -40,7 +40,7 @@
                          const std::uint8_t conn_num);
 
                 void    set_ip(const std::string &ip);
-                void    set_lang(const std::string &lang_name);
+                void    set_lang(const std::string &lang);
                 void    set_lang(const std::uint8_t lang_id);
                 void    set_conn_num(const std::uint8_t n);
 
