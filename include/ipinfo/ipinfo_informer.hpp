@@ -3,8 +3,8 @@
 
     #include <cstdint>
     #include <string>
-    #include <map>
     #include <vector>
+    #include <map>
 
     #include "ipinfo_types.hpp"
     #include "ipinfo_values.hpp"
@@ -20,12 +20,12 @@
         {
             private:
                 __info_t        __info;
-                error_t         __error;
                 std::string     __ip;
                 std::string     __lang;
                 std::uint8_t    __conn_num;
 
                 std::map<std::string, std::string>  __api_keys;
+                std::map<std::string, error_t>      __errors;
                 std::vector<std::string>            __excluded_hosts;
 
             public:
@@ -63,7 +63,9 @@
                 void    exclude_hosts(const std::vector<std::uint8_t> &hosts_ids);
 
                 void    run(void);
-                error_t get_last_error(void) const;
+
+                error_t get_last_error(const std::string &host) const;
+                error_t get_last_error(const std::uint8_t host_id) const;
 
                 // default getters
                 std::string     get_ip(void) const;

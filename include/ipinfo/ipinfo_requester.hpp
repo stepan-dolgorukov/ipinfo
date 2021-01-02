@@ -9,9 +9,9 @@
         class __requester
         {
             private:
-                std::string __request_url;
-                std::string __request_answer;
-                error_t     __error;
+                std::string __request_url{};
+                std::string __request_answer{};
+                error_t     __error{};
 
             public:
                 void            create_request_url(const std::string &host,

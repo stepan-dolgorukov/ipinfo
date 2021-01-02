@@ -1,20 +1,22 @@
 #include <cstdint>
 #include <string>
-#include <algorithm>
+#include <utility>
 
 #include "../../include/ipinfo/ipinfo_informer.hpp"
 #include "../../include/ipinfo/ipinfo_utiler.hpp"
 
-ipinfo::informer::informer(const std::string &ip,
-                           const std::string &lang_name,
-                           const std::uint8_t conn_num) : __ip(ip),
-                                                          __lang(lang_name),
-                                                          __conn_num(conn_num) {}
-ipinfo::informer::informer(const std::string &ip,
-                           const std::uint8_t &lang_id,
-                           const std::uint8_t conn_num) : __ip(ip),
-                                                          __lang(),
-                                                          __conn_num(conn_num)
+ipinfo::informer::informer(
+        const std::string &ip,
+        const std::string &lang_name,
+        const std::uint8_t conn_num) : __ip(ip),
+                                       __lang(lang_name),
+                                       __conn_num(conn_num) {}
+ipinfo::informer::informer(
+        const std::string &ip,
+        const std::uint8_t &lang_id,
+        const std::uint8_t conn_num) : __ip(ip),
+                                       __lang(),
+                                       __conn_num(conn_num)
 {
     if (lang_id < avail_langs.size())
     {
@@ -174,10 +176,10 @@ ipinfo::informer::run()
     {
         const auto &host{avail_hosts.at(i)};
 
-        // if current host is excluded
-        if (__excluded_hosts.end() != std::find(__excluded_hosts.begin(),
-                                                __excluded_hosts.end(),
-                                                host))
+        __errors.insert(std::make_pair(host, error{}));
+        auto &curr_err{__errors.at(host)};
+
+        if (__utiler::is_host_excluded(host, __excluded_hosts))
         {
             continue;
         }
@@ -188,9 +190,9 @@ ipinfo::informer::run()
                                         __api_keys[host]);
         __requester::send_request();
 
-        __error = __requester::get_last_error();
+        curr_err = __requester::get_last_error();
 
-        if (__error.code != ERRORS_IDS::NO_ERRORS)
+        if (curr_err.code != ERRORS_IDS::NO_ERRORS)
         {
             return;
         }
@@ -198,17 +200,41 @@ ipinfo::informer::run()
         __parser::put_json(__requester::get_request_answer());
         __parser::deserialize_json(__info, host);
 
-        __error = __parser::get_last_error();
+        curr_err = __parser::get_last_error();
     }
 
     return;
 }
 
 ipinfo::error_t
-ipinfo::informer::get_last_error() const
+ipinfo::informer::get_last_error(const std::string &host) const
 {
-    return __error;
+    for (auto &&[__host, __error] : __errors)
+    {
+        if (__host == host)
+        {
+            return __errors.at(host);
+        }
+    }
+
+    // !!!
+    return {};
 }
+
+ipinfo::error_t
+ipinfo::informer::get_last_error(const std::uint8_t host_id) const
+{
+    if (host_id < avail_hosts.size())
+    {
+        const auto &curr_host{avail_hosts.at(host_id)};
+        return __errors.at(curr_host);
+    }
+
+    // !!!
+    return {};
+}
+
+
 
 std::string
 ipinfo::informer::get_ip() const

@@ -2,6 +2,7 @@
 #include <cmath>
 #include <cstdint>
 #include <locale>
+#include <algorithm>
 
 #include "../../include/ipinfo/ipinfo_types.hpp"
 #include "../../include/ipinfo/ipinfo_utiler.hpp"
@@ -60,40 +61,30 @@ ipinfo::__utiler::clear_info(ipinfo::__info_t &info)
     ipinfo::clear_node(info.ip);
     ipinfo::clear_node(info.ip_type);
     ipinfo::clear_node(info.reverse_dns);
-
     ipinfo::clear_node(info.continent);
     ipinfo::clear_node(info.continent_code);
-
     ipinfo::clear_node(info.country);
     ipinfo::clear_node(info.continent_code);
     ipinfo::clear_node(info.country_capital);
     ipinfo::clear_node(info.country_ph_code);
     ipinfo::clear_node(info.country_neighbors);
-
     ipinfo::clear_node(info.region);
     ipinfo::clear_node(info.region_code);
-
     ipinfo::clear_node(info.city);
     ipinfo::clear_node(info.city_district);
     ipinfo::clear_node(info.city_timezone);
-
     ipinfo::clear_node(info.zip_code);
-
     ipinfo::clear_node(info.latitude);
     ipinfo::clear_node(info.longitude);
-
     ipinfo::clear_node(info.gmt_offset);
     ipinfo::clear_node(info.dst_offset);
     ipinfo::clear_node(info.timezone_gmt);
-
     ipinfo::clear_node(info.isp);
     ipinfo::clear_node(info.as);
     ipinfo::clear_node(info.org);
-
     ipinfo::clear_node(info.is_hosting);
     ipinfo::clear_node(info.is_proxy);
     ipinfo::clear_node(info.is_mobile);
-
     ipinfo::clear_node(info.currency);
     ipinfo::clear_node(info.currency_code);
     ipinfo::clear_node(info.currency_symbol);
@@ -118,7 +109,7 @@ ipinfo::__utiler::is_host_correct(const std::string &host)
 {
     if (!(host.empty()))
     {
-        for (const auto &avail_host : ipinfo::avail_hosts)
+        for (const auto &avail_host : avail_hosts)
         {
             if (avail_host == host)
             {
@@ -137,14 +128,14 @@ ipinfo::__utiler::is_host_correct(const std::uint8_t host_id)
 }
 
 bool
-ipinfo::__utiler::is_lang_correct(const std::string &host,
-                                  const std::string &lang_name)
+ipinfo::__utiler::is_lang_correct(const std::string &lang,
+                                  const std::string &host)
 {
-    if (!(lang_name.empty()) && is_host_correct(host))
+    if (is_host_correct(host))
     {
-        for (auto &&[__,__lang_name] : hosts_avail_langs_codes.at(host))
+        for (auto &&[_,__lang] : hosts_avail_langs_codes.at(host))
         {
-            if (__lang_name == lang_name)
+            if (__lang == lang)
             {
                 return true;
             }
@@ -166,4 +157,16 @@ ipinfo::__utiler::str_to_lower_case(const std::string &s)
     }
 
     return lc_s;
+}
+
+bool
+ipinfo::__utiler::is_host_excluded(
+                    const std::string &host,
+                    const std::vector<std::string> &excl_hosts)
+{
+    const auto &find_res{std::find(excl_hosts.begin(),
+                                   excl_hosts.end(),
+                                   host)};
+
+    return (find_res != excl_hosts.end());
 }
