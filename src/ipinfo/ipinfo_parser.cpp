@@ -246,42 +246,32 @@ ipinfo::__parser::deserialize_json(ipinfo::__info_t &i,
 
     ipinfo::process_node(*__data, host, i.ip);
     ipinfo::process_node(*__data, host, i.ip_type);
-
     ipinfo::process_node(*__data, host, i.continent);
     ipinfo::process_node(*__data, host, i.continent_code);
-
     ipinfo::process_node(*__data, host, i.country);
     ipinfo::process_node(*__data, host, i.country_code);
     ipinfo::process_node(*__data, host, i.country_capital);
     ipinfo::process_node(*__data, host, i.country_ph_code);
     ipinfo::process_node(*__data, host, i.country_neighbors);
-
     ipinfo::process_node(*__data, host, i.region);
     ipinfo::process_node(*__data, host, i.region_code);
-
     ipinfo::process_node(*__data, host, i.city);
     ipinfo::process_node(*__data, host, i.city_district);
     ipinfo::process_node(*__data, host, i.zip_code);
-
     ipinfo::process_node(*__data, host, i.latitude);
     ipinfo::process_node(*__data, host, i.longitude);
-
     ipinfo::process_node(*__data, host, i.city_timezone);
     ipinfo::process_node(*__data, host, i.timezone);
-
     ipinfo::process_node(*__data, host, i.gmt_offset);
     ipinfo::process_node(*__data, host, i.dst_offset);
     ipinfo::process_node(*__data, host, i.timezone_gmt);
-
     ipinfo::process_node(*__data, host, i.isp);
     ipinfo::process_node(*__data, host, i.as);
     ipinfo::process_node(*__data, host, i.org);
     ipinfo::process_node(*__data, host, i.reverse_dns);
-
     ipinfo::process_node(*__data, host, i.is_hosting);
     ipinfo::process_node(*__data, host, i.is_proxy);
     ipinfo::process_node(*__data, host, i.is_mobile);
-
     ipinfo::process_node(*__data, host, i.currency);
     ipinfo::process_node(*__data, host, i.currency_code);
     ipinfo::process_node(*__data, host, i.currency_symbol);

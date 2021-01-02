@@ -7,9 +7,9 @@
 
 ipinfo::informer::informer(
         const std::string &ip,
-        const std::string &lang_name,
+        const std::string &lang,
         const std::uint8_t conn_num) : __ip(ip),
-                                       __lang(lang_name),
+                                       __lang(lang),
                                        __conn_num(conn_num) {}
 ipinfo::informer::informer(
         const std::string &ip,

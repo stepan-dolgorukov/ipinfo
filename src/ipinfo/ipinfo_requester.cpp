@@ -1,6 +1,5 @@
 #include <string>
 #include <cstddef>
-#include <iostream>
 
 #include "../include/curl/curl.h"
 
@@ -58,15 +57,15 @@ ipinfo::get_ready_request_info_fields(const std::string &host)
 
 std::string
 ipinfo::get_ready_request_lang(const std::string &host,
-                               const std::string &lang_name)
+                               const std::string &lang)
 {
     const auto &curr_avail_langs{hosts_avail_langs_codes.at(host)};
 
-    for (auto &&[__lang_name, __] : curr_avail_langs)
+    for (auto &&[__lang, __] : curr_avail_langs)
     {
-        if (__lang_name == lang_name)
+        if (__lang == lang)
         {
-            return curr_avail_langs.at(lang_name);
+            return curr_avail_langs.at(lang);
         }
     }
 
@@ -76,7 +75,7 @@ ipinfo::get_ready_request_lang(const std::string &host,
 void
 ipinfo::__requester::create_request_url(const std::string &host,
                                         const std::string &ip,
-                                        const std::string &lang_name,
+                                        const std::string &lang,
                                         const std::string &api_key)
 {
     __request_url.clear();
@@ -95,7 +94,7 @@ ipinfo::__requester::create_request_url(const std::string &host,
 
     __request_url += req_param_titles.at(host).at("lang");
     __request_url += "=";
-    __request_url += get_ready_request_lang(host, lang_name);
+    __request_url += get_ready_request_lang(host, lang);
 
     if (api_key.empty())
     {
@@ -106,8 +105,6 @@ ipinfo::__requester::create_request_url(const std::string &host,
     __request_url += req_param_titles.at(host).at("api_key");
     __request_url += "=";
     __request_url += api_key;
-
-    std::cout << __request_url << std::endl;
 
     return;
 }
