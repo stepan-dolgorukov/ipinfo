@@ -1,34 +1,34 @@
 #include <cstdint>
 #include "../include/ipinfo/ipinfo.hpp"
 
-namespace ipinfo_example
+namespace my_app
 {
     void
-    example(std::string &&ip,
-            std::string &&lang);
+    show_ip_info(const std::string &ip,
+                 const std::string &lang);
 
     void
-    example_ex(std::string &&ip,
-               std::string &&lang);
+    show_ip_info_ex(const std::string &ip,
+                    const std::string &lang);
 }
 
 int
 main(void)
 {
     // IPv4
-    //ipinfo_example::example("8.8.8.8", "english");
-    //ipinfo_example::example_ex("8.8.8.8", "english");
+    // my_app::show_ip_info("8.8.8.8", "english");
+    // my_app::show_ip_info_ex("8.8.8.8", "english");
 
     // IPv6
-    //ipinfo_example::example("2001:4860:4860::8888", "russian");
-    ipinfo_example::example_ex("2001:4860:4860::8888", "russian");
+    // my_app::show_ip_info("2001:4860:4860::8888", "russian");
+    my_app::show_ip_info_ex("2001:4860:4860::8888", "russian");
 
     return 0;
 }
 
 void
-ipinfo_example::example(std::string &&ip,
-                        std::string &&lang)
+my_app::show_ip_info(const std::string &ip,
+                     const std::string &lang)
 {
     ipinfo::informer informer{};
     ipinfo::error    error{};
@@ -88,14 +88,12 @@ ipinfo_example::example(std::string &&ip,
 }
 
 void
-ipinfo_example::example_ex(std::string &&ip,
-                           std::string &&lang)
+my_app::show_ip_info_ex(const std::string &ip,
+                        const std::string &lang)
 {
-    ipinfo::informer informer{};
+    ipinfo::informer informer(ip, lang, 0u);
     ipinfo::error    error{};
 
-    informer.set_ip(ip);
-    informer.set_lang(lang);
     informer.run();
 
     ipinfo::user_node<std::string>  curr_str_cont{};
