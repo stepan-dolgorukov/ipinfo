@@ -37,8 +37,8 @@ endif
 LDFLAGS := -L$(LIB_DIR) \
            -Wl,-rpath=lib
 
-LDLIBS := -l:libcurl.so.7.74.0 \
-          -l:libcjson.so.1.7.14 \
+LDLIBS := -l:libcurl.so \
+          -l:libcjson.so \
           -l:libipinfo.so
 
 $(TARGET): $(OBJ_DIR)/main.o
@@ -59,7 +59,7 @@ prepare:
 	$(TEST) -d $(TARGET_DIR) || $(MKDIR) $(TARGET_DIR)
 	$(CP) -r ../lib/ .
 	$(CP) -r ../include .
-	$(CP) ../target/* $(LIB_DIR)
+	$(CP) ../target/libipinfo.so $(LIB_DIR)
 
 clean:
 	$(RM) $(OBJ_DIR)/*.o
