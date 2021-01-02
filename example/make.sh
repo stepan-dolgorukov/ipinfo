@@ -3,4 +3,4 @@
 make="/usr/bin/make"
 
 $make prepare &&
-$make
+$make --always-make
