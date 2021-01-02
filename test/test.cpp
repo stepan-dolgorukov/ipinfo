@@ -20,13 +20,9 @@ int
 main(const int argc,
      const char * const argv[])
 {
-    if (argc < 4)
+    if (4u > static_cast<unsigned int>(argc))
     {
-        std::printf(
-                "%s\n",
-                "./ipinfo_test <ip> <lang> <conn_num>"
-        );
-
+        std::printf("%s\n", "./ipinfo_test <ip> <lang> <conn_num>");
         return 1;
     }
 
