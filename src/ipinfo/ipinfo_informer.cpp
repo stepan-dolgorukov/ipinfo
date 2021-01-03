@@ -101,7 +101,7 @@ void
 ipinfo::informer::set_api_keys(const std::map<std::string,
                                               std::string> &host_key_mp)
 {
-    for (const auto &[host, api_key] : host_key_mp)
+    for (auto &&[host, api_key] : host_key_mp)
     {
         set_api_key(host, api_key);
     }
@@ -113,7 +113,7 @@ void
 ipinfo::informer::set_api_keys(const std::map<std::uint8_t,
                                               std::string> &host_id_key_mp)
 {
-    for (const auto &[host_id, api_key] : host_id_key_mp)
+    for (auto &&[host_id, api_key] : host_id_key_mp)
     {
         set_api_key(host_id, api_key);
     }
@@ -171,42 +171,45 @@ ipinfo::informer::run()
     ipinfo::__utiler::clear_info(__info);
 
     if (0u == __conn_num ||
-        __conn_num > avail_hosts.size())
+        avail_hosts.size() < __conn_num)
     {
         __conn_num = avail_hosts.size();
     }
 
-    for (auto i{0u};
-            i < avail_hosts.size() &&
-            i < __conn_num; i++)
+    for (auto i{0u}; i < avail_hosts.size() &&
+                     i < __conn_num; i++)
     {
-        const auto &host{avail_hosts.at(i)};
+        error_t    curr_error{};
+        const auto &curr_host{avail_hosts.at(i)};
 
-        __errors.insert(std::make_pair(host, error{}));
-        auto &curr_err{__errors.at(host)};
+        __errors.insert(std::make_pair(curr_host, error{}));
+        curr_error = __errors.at(curr_host);
 
-        if (__utiler::is_host_excluded(host, __excluded_hosts))
+        if (__utiler::is_host_excluded(curr_host,
+                                       __excluded_hosts))
         {
             continue;
         }
 
-        __requester::create_request_url(host,
-                                        __ip,
-                                        __lang,
-                                        __api_keys[host]);
+        __requester::create_request_url(
+                        curr_host,
+                        __ip,
+                        __lang,
+                        __api_keys[curr_host]);
+
         __requester::send_request();
 
-        curr_err = __requester::get_last_error();
+        curr_error = __requester::get_last_error();
 
-        if (curr_err.code != ERRORS_IDS::NO_ERRORS)
+        if (ERRORS_IDS::NO_ERRORS != curr_error.code)
         {
             return;
         }
 
         __parser::put_json(__requester::get_request_answer());
-        __parser::deserialize_json(__info, host);
+        __parser::deserialize_json(__info, curr_host);
 
-        curr_err = __parser::get_last_error();
+        curr_error = __parser::get_last_error();
     }
 
     return;
@@ -215,9 +218,9 @@ ipinfo::informer::run()
 ipinfo::error_t
 ipinfo::informer::get_last_error(const std::string &host) const
 {
-    for (auto &&[__host, __error] : __errors)
+    for (auto &&[curr_host, _] : __errors)
     {
-        if (__host == host)
+        if (curr_host == host)
         {
             return __errors.at(host);
         }
