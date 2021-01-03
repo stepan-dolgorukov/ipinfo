@@ -3,13 +3,14 @@
 
 DEBUG_MODE := 1
 
-OBJ_DIR     := ./obj
-SRC_DIR     := ./src
-LIB_DIR     := ./lib
-INCLUDE_DIR := ./include
-TARGET_DIR  := ./target
+PWD    := $(shell pwd)
+OBJ_D  := $(PWD)/obj
+SRC_D  := $(PWD)/src
+LIB_D  := $(PWD)/lib
+INCL_D := $(PWD)/include
+TARG_D := $(PWD)/target
 
-TARGET :=  $(TARGET_DIR)/libipinfo.so
+TARG :=  $(TARG_D)/libipinfo.so
 
 RM    := /usr/bin/rm
 CXX   := /usr/bin/g++
@@ -26,8 +27,8 @@ CXXFLAGS := -std=c++2a \
             -Wlogical-op \
             -pipe
 
-LDFLAGS := -Wl,-rpath=$(LIB_DIR) \
-           -L$(LIB_DIR) \
+LDFLAGS := -Wl,-rpath=$(LIB_D) \
+           -L$(LIB_D) \
 
 LDLIBS := -l:libcjson.so.1.7.14 \
           -l:libcurl.so.7.74.0
@@ -41,29 +42,29 @@ else
                 -march=native
 endif
 
-$(TARGET): $(OBJ_DIR)/ipinfo_informer.o \
-		   $(OBJ_DIR)/ipinfo_parser.o \
-		   $(OBJ_DIR)/ipinfo_requester.o \
-		   $(OBJ_DIR)/ipinfo_utiler.o
+$(TARG): $(OBJ_D)/ipinfo_informer.o \
+         $(OBJ_D)/ipinfo_parser.o \
+         $(OBJ_D)/ipinfo_requester.o \
+         $(OBJ_D)/ipinfo_utiler.o
 	$(CXX) \
-	-shared \
 	$(LDFLAGS) \
+	-shared \
 	$^ \
 	-o $@ \
 	$(LDLIBS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/ipinfo/%.cpp
+$(OBJ_D)/%.o: $(SRC_D)/ipinfo/%.cpp
 	$(CXX) \
-	-I$(INCLUDE_DIR)/ipinfo \
+	-I$(INCL_D)/ipinfo \
 	$(CXXFLAGS) \
 	-fPIC \
 	-c $< \
 	-o $@
 
 prepare:
-	$(TEST) -d $(OBJ_DIR) || $(MKDIR) $(OBJ_DIR)
-	$(TEST) -d $(TARGET_DIR) || $(MKDIR) $(TARGET_DIR)
+	$(TEST) -d $(OBJ_D) || $(MKDIR) $(OBJ_D)
+	$(TEST) -d $(TARG_DIR) || $(MKDIR) $(TARG_DIR)
 
 clean:
-	$(RM) $(OBJ_DIR)/*.o
-	$(RM) $(TARGET)
+	$(RM) $(OBJ_D)/*.o
+	$(RM) $(TARG)

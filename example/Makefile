@@ -3,13 +3,14 @@
 
 DEBUG_MODE := 1
 
-OBJ_DIR     := ./obj
-SRC_DIR     := ./src
-LIB_DIR     := ./lib
-INCLUDE_DIR := ./include
-TARGET_DIR  := ./target
+PWD    := $(shell pwd)
+OBJ_D  := $(PWD)/obj
+SRC_D  := $(PWD)/src
+LIB_D  := $(PWD)/lib
+INCL_D := $(PWD)/include
+TARG_D := $(PWD)/target
 
-TARGET := $(TARGET_DIR)/ipinfo_xmpl
+TARG := $(TARG_D)/ipinfo_xmpl
 
 RM    := /usr/bin/rm
 CP    := /usr/bin/cp
@@ -35,34 +36,34 @@ else
                 -flto
 endif
 
-LDFLAGS := -Wl,-rpath=$(LIB_DIR) \
-           -L$(LIB_DIR) \
+LDFLAGS := -Wl,-rpath=$(LIB_D) \
+           -L$(LIB_D) \
 
 LDLIBS := -l:libcurl.so.7.74.0 \
           -l:libcjson.so.1.7.14 \
           -l:libipinfo.so
 
-$(TARGET): $(OBJ_DIR)/main.o
+$(TARG): $(OBJ_D)/main.o
 	$(CXX) \
 	$(LDFLAGS) \
 	$? \
 	-o $@ \
 	$(LDLIBS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(OBJ_D)/%.o: $(SRC_D)/%.cpp
 	$(CXX) \
-	-I$(INCLUDE_DIR) \
+	-I$(INCL_D) \
 	$(CXXFLAGS) \
 	-c $? \
 	-o $@
 
 prepare:
-	$(TEST) -d $(OBJ_DIR) || $(MKDIR) $(OBJ_DIR)
-	$(TEST) -d $(TARGET_DIR) || $(MKDIR) $(TARGET_DIR)
+	$(TEST) -d $(OBJ_D) || $(MKDIR) $(OBJ_D)
+	$(TEST) -d $(TARG_D) || $(MKDIR) $(TARG_D)
 	$(CP) -r ../lib/ .
 	$(CP) -r ../include .
-	$(CP) ../target/libipinfo.so $(LIB_DIR)
+	$(CP) ../target/libipinfo.so $(LIB_D)
 
 clean:
-	$(RM) $(OBJ_DIR)/*.o
-	$(RM) $(TARGET)
+	$(RM) $(OBJ_D)/*.o
+	$(RM) $(TARG)
