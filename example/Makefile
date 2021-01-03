@@ -1,12 +1,13 @@
-.PHONY: prepare, clean
+.PHONY: prepare, \
+        clean
 
 DEBUG_MODE := 1
 
-OBJ_DIR     := obj
-SRC_DIR     := src
-LIB_DIR     := lib
-INCLUDE_DIR := include
-TARGET_DIR  := target
+OBJ_DIR     := ./obj
+SRC_DIR     := ./src
+LIB_DIR     := ./lib
+INCLUDE_DIR := ./include
+TARGET_DIR  := ./target
 
 TARGET := $(TARGET_DIR)/ipinfo_xmpl
 
@@ -21,7 +22,7 @@ CXXFLAGS := -std=c++2a \
             -Wextra \
             -Wpedantic \
             -Wunreachable-code \
-			-Wsign-conversion \
+            -Wsign-conversion \
             -Wlogical-op \
             -pipe
 
@@ -34,11 +35,11 @@ else
                 -flto
 endif
 
-LDFLAGS := -L$(LIB_DIR) \
-           -Wl,-rpath=lib
+LDFLAGS := -Wl,-rpath=$(LIB_DIR) \
+           -L$(LIB_DIR) \
 
-LDLIBS := -l:libcurl.so \
-          -l:libcjson.so \
+LDLIBS := -l:libcurl.so.7.74.0 \
+          -l:libcjson.so.1.7.14 \
           -l:libipinfo.so
 
 $(TARGET): $(OBJ_DIR)/main.o
@@ -50,6 +51,7 @@ $(TARGET): $(OBJ_DIR)/main.o
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) \
+	-I$(INCLUDE_DIR) \
 	$(CXXFLAGS) \
 	-c $? \
 	-o $@

@@ -1,12 +1,13 @@
-.PHONY: clean, prepare
+.PHONY: clean, \
+        prepare
 
 DEBUG_MODE := 1
 
-OBJ_DIR     := obj
-SRC_DIR     := src
-LIB_DIR     := lib
-INCLUDE_DIR := include
-TARGET_DIR  := target
+OBJ_DIR     := ./obj
+SRC_DIR     := ./src
+LIB_DIR     := ./lib
+INCLUDE_DIR := ./include
+TARGET_DIR  := ./target
 
 TARGET :=  $(TARGET_DIR)/libipinfo.so
 
@@ -25,11 +26,11 @@ CXXFLAGS := -std=c++2a \
             -Wlogical-op \
             -pipe
 
-LDFLAGS := -L$(LIB_DIR) \
-           -Wl,-rpath=lib
+LDFLAGS := -Wl,-rpath=$(LIB_DIR) \
+           -L$(LIB_DIR) \
 
-LDLIBS := -l:libcjson.so \
-          -l:libcurl.so
+LDLIBS := -l:libcjson.so.1.7.14 \
+          -l:libcurl.so.7.74.0
 
 ifeq ($(DEBUG_MODE), 1)
     CXXFLAGS += -g3 \
@@ -53,6 +54,7 @@ $(TARGET): $(OBJ_DIR)/ipinfo_informer.o \
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/ipinfo/%.cpp
 	$(CXX) \
+	-I$(INCLUDE_DIR)/ipinfo \
 	$(CXXFLAGS) \
 	-fPIC \
 	-c $< \
