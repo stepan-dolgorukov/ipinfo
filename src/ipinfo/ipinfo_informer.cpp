@@ -23,9 +23,9 @@ ipinfo::informer::informer(
         __lang(),
         __conn_num(conn_num)
 {
-    if (lang_id < avail_langs.size())
+    if (lang_id < ipinfo::avail_langs.size())
     {
-        __lang = avail_langs.at(lang_id);
+        __lang = ipinfo::avail_langs.at(lang_id);
     }
 }
 
@@ -58,11 +58,11 @@ ipinfo::informer::set_lang(const std::string &lang)
 void
 ipinfo::informer::set_lang(const std::uint8_t lang_id)
 {
-    if (lang_id < avail_langs.size())
+    if (lang_id < ipinfo::avail_langs.size())
     {
-        for (const auto &lang : avail_langs)
+        for (const auto &lang : ipinfo::avail_langs)
         {
-            if (avail_langs.at(lang_id) == lang)
+            if (ipinfo::avail_langs.at(lang_id) == lang)
             {
                 __lang = lang;
                 break;
@@ -79,7 +79,7 @@ ipinfo::informer::set_api_key(const std::string &host,
 {
     if (__utiler::is_host_correct(host))
     {
-        __api_keys[host] = key;
+        __api_keys.insert(std::make_pair(host, key));
     }
 
     return;
@@ -91,7 +91,7 @@ ipinfo::informer::set_api_key(const std::uint8_t host_id,
 {
     if (__utiler::is_host_correct(host_id))
     {
-        set_api_key(avail_hosts.at(host_id), key);
+        set_api_key(ipinfo::avail_hosts.at(host_id), key);
     }
 
     return;
@@ -137,7 +137,7 @@ ipinfo::informer::exclude_host(const std::uint8_t host_id)
 {
     if (__utiler::is_host_correct(host_id))
     {
-        __excluded_hosts.push_back(avail_hosts.at(host_id));
+        __excluded_hosts.push_back(ipinfo::avail_hosts.at(host_id));
     }
 
     return;
@@ -146,9 +146,9 @@ ipinfo::informer::exclude_host(const std::uint8_t host_id)
 void
 ipinfo::informer::exclude_hosts(const std::vector<std::string> &hosts)
 {
-    for (const auto &host : hosts)
+    for (const auto &curr_host : hosts)
     {
-        exclude_host(host);
+        exclude_host(curr_host);
     }
 
     return;
@@ -171,22 +171,26 @@ ipinfo::informer::run()
     ipinfo::__utiler::clear_info(__info);
 
     if (0u == __conn_num ||
-        avail_hosts.size() < __conn_num)
+        ipinfo::avail_hosts.size() < __conn_num)
     {
-        __conn_num = avail_hosts.size();
+        __conn_num = ipinfo::avail_hosts.size();
     }
 
-    for (auto i{0u}; i < avail_hosts.size() &&
+    for (auto i{0u}; i < ipinfo::avail_hosts.size() &&
                      i < __conn_num; i++)
     {
-        error_t    curr_error{};
-        const auto &curr_host{avail_hosts.at(i)};
+        error_t     curr_error{};
+        const auto  &curr_host{ipinfo::avail_hosts.at(i)};
 
-        __errors.insert(std::make_pair(curr_host, error{}));
+        __errors.insert(std::make_pair(
+                    curr_host,
+                    error{}));
+
         curr_error = __errors.at(curr_host);
 
-        if (__utiler::is_host_excluded(curr_host,
-                                       __excluded_hosts))
+        if (__utiler::is_host_excluded(
+                        curr_host,
+                        __excluded_hosts))
         {
             continue;
         }
@@ -233,17 +237,15 @@ ipinfo::informer::get_last_error(const std::string &host) const
 ipinfo::error_t
 ipinfo::informer::get_last_error(const std::uint8_t host_id) const
 {
-    if (host_id < avail_hosts.size())
+    if (host_id < ipinfo::avail_hosts.size())
     {
-        const auto &curr_host{avail_hosts.at(host_id)};
-        return __errors.at(curr_host);
+        const auto &host{ipinfo::avail_hosts.at(host_id)};
+        return __errors.at(host);
     }
 
     // !!!
     return {};
 }
-
-
 
 std::string
 ipinfo::informer::get_ip() const
@@ -447,86 +449,86 @@ ipinfo::informer::get_currency_plural() const
 ipinfo::user_node<std::string>
 ipinfo::informer::get_ip_ex() const
 {
-    const auto &curr{__info.ip};
+    const auto &node{__info.ip};
 
-    for (const auto &host : ipinfo::avail_hosts)
+    for (const auto &curr_host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(curr_host)};
 
         if (content.is_parsed)
         {
             return {
                 .is_parsed = true,
                 .val{content.val},
-                .host{host},
-                .desc{curr.desc}
+                .host{curr_host},
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_ip_type_ex() const
 {
-    const auto &curr{__info.ip_type};
+    const auto &node{__info.ip_type};
 
-    for (const auto &host : ipinfo::avail_hosts)
+    for (const auto &curr_host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(curr_host)};
 
         if (content.is_parsed)
         {
             return {
                 .is_parsed = true,
                 .val{content.val},
-                .host{host},
-                .desc{curr.desc}
+                .host{curr_host},
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_continent_ex() const
 {
-    const auto &curr{__info.continent};
+    const auto &node{__info.continent};
 
-    for (const auto &host : ipinfo::avail_hosts)
+    for (const auto &curr_host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(curr_host)};
 
         if (content.is_parsed)
         {
             return {
                 .is_parsed = true,
                 .val{content.val},
-                .host{host},
-                .desc{curr.desc}
+                .host{curr_host},
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_continent_code_ex() const
 {
-    const auto &curr{__info.continent_code};
+    const auto &node{__info.continent_code};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -534,24 +536,24 @@ ipinfo::informer::get_continent_code_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_country_ex() const
 {
-    const auto &curr{__info.country_code};
+    const auto &node{__info.country_code};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -559,24 +561,24 @@ ipinfo::informer::get_country_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_country_code_ex() const
 {
-    const auto &curr{__info.country_code};
+    const auto &node{__info.country_code};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -584,24 +586,24 @@ ipinfo::informer::get_country_code_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host = host,
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_country_capital_ex() const
 {
-    const auto &curr{__info.country_capital};
+    const auto &node{__info.country_capital};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -609,24 +611,24 @@ ipinfo::informer::get_country_capital_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_country_ph_code_ex() const
 {
-    const auto &curr{__info.country_ph_code};
+    const auto &node{__info.country_ph_code};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -634,24 +636,24 @@ ipinfo::informer::get_country_ph_code_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_country_neighbors_ex() const
 {
-    const auto& curr{__info.country_neighbors};
+    const auto& node{__info.country_neighbors};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -659,24 +661,24 @@ ipinfo::informer::get_country_neighbors_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_region_ex() const
 {
-    const auto& curr{__info.region};
+    const auto& node{__info.region};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -684,24 +686,24 @@ ipinfo::informer::get_region_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_region_code_ex() const
 {
-    const auto& curr{__info.region_code};
+    const auto& node{__info.region_code};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -709,24 +711,24 @@ ipinfo::informer::get_region_code_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_city_ex() const
 {
-    const auto &curr{__info.city};
+    const auto &node{__info.city};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -734,13 +736,13 @@ ipinfo::informer::get_city_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
@@ -748,11 +750,11 @@ ipinfo::informer::get_city_ex() const
 ipinfo::user_node<std::string>
 ipinfo::informer::get_city_district_ex() const
 {
-    const auto &curr{__info.city_district};
+    const auto &node{__info.city_district};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -760,24 +762,24 @@ ipinfo::informer::get_city_district_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_zip_code_ex() const
 {
-    const auto &curr{__info.zip_code};
+    const auto &node{__info.zip_code};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -785,24 +787,24 @@ ipinfo::informer::get_zip_code_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<double>
 ipinfo::informer::get_latitude_ex() const
 {
-    const auto &curr{__info.latitude};
+    const auto &node{__info.latitude};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -810,24 +812,24 @@ ipinfo::informer::get_latitude_ex() const
                 .is_parsed = true,
                 .val = round_double(content.val, 2u),
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<double>
 ipinfo::informer::get_longitude_ex() const
 {
-    const auto &curr{__info.longitude};
+    const auto &node{__info.longitude};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -835,24 +837,24 @@ ipinfo::informer::get_longitude_ex() const
                 .is_parsed = true,
                 .val = round_double(content.val, 2u),
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_timezone_ex() const
 {
-    const auto &curr{__info.timezone};
+    const auto &node{__info.timezone};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -860,24 +862,24 @@ ipinfo::informer::get_timezone_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_city_timezone_ex() const
 {
-    const auto& curr{__info.city_timezone};
+    const auto& node{__info.city_timezone};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -885,24 +887,24 @@ ipinfo::informer::get_city_timezone_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_timezone_gmt_ex() const
 {
-    const auto &curr{__info.timezone_gmt};
+    const auto &node{__info.timezone_gmt};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -910,24 +912,24 @@ ipinfo::informer::get_timezone_gmt_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::int32_t>
 ipinfo::informer::get_gmt_offset_ex() const
 {
-    const auto &curr{__info.gmt_offset};
+    const auto &node{__info.gmt_offset};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -935,24 +937,24 @@ ipinfo::informer::get_gmt_offset_ex() const
                 .is_parsed = true,
                 .val = content.val,
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::int32_t>
 ipinfo::informer::get_dst_offset_ex() const
 {
-    const auto &curr{__info.dst_offset};
+    const auto &node{__info.dst_offset};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -960,24 +962,24 @@ ipinfo::informer::get_dst_offset_ex() const
                 .is_parsed = true,
                 .val = content.val,
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_isp_ex() const
 {
-    const auto &curr{__info.isp};
+    const auto &node{__info.isp};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -985,24 +987,24 @@ ipinfo::informer::get_isp_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_as_ex() const
 {
-    const auto &curr{__info.as};
+    const auto &node{__info.as};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -1010,24 +1012,24 @@ ipinfo::informer::get_as_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_org_ex() const
 {
-    const auto &curr{__info.org};
+    const auto &node{__info.org};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -1035,24 +1037,24 @@ ipinfo::informer::get_org_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_reverse_dns_ex() const
 {
-    const auto &curr{__info.reverse_dns};
+    const auto &node{__info.reverse_dns};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -1060,24 +1062,24 @@ ipinfo::informer::get_reverse_dns_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<bool>
 ipinfo::informer::get_hosting_status_ex() const
 {
-    const auto &curr{__info.is_hosting};
+    const auto &node{__info.is_hosting};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -1085,24 +1087,24 @@ ipinfo::informer::get_hosting_status_ex() const
                 .is_parsed = true,
                 .val = content.val,
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<bool>
 ipinfo::informer::get_proxy_status_ex() const
 {
-    const auto &curr{__info.is_proxy};
+    const auto &node{__info.is_proxy};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -1110,24 +1112,24 @@ ipinfo::informer::get_proxy_status_ex() const
                 .is_parsed = true,
                 .val = content.val,
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<bool>
 ipinfo::informer::get_mobile_status_ex() const
 {
-    const auto &curr{__info.is_mobile};
+    const auto &node{__info.is_mobile};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -1135,24 +1137,24 @@ ipinfo::informer::get_mobile_status_ex() const
                 .is_parsed = true,
                 .val = content.val,
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_currency_ex() const
 {
-    const auto &curr{__info.currency};
+    const auto &node{__info.currency};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -1160,24 +1162,24 @@ ipinfo::informer::get_currency_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_currency_code_ex() const
 {
-    const auto &curr{__info.currency_code};
+    const auto &node{__info.currency_code};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -1185,24 +1187,24 @@ ipinfo::informer::get_currency_code_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_currency_symbol_ex() const
 {
-    const auto &curr{__info.currency_symbol};
+    const auto &node{__info.currency_symbol};
 
     for (const auto &host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(host)};
 
         if (content.is_parsed)
         {
@@ -1210,62 +1212,62 @@ ipinfo::informer::get_currency_symbol_ex() const
                 .is_parsed = true,
                 .val{content.val},
                 .host{host},
-                .desc{curr.desc}
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<double>
 ipinfo::informer::get_currency_rates_ex() const
 {
-    const auto& curr{__info.currency_rates};
+    const auto& node{__info.currency_rates};
 
-    for (const auto &host : ipinfo::avail_hosts)
+    for (const auto &curr_host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(curr_host)};
 
         if (content.is_parsed)
         {
             return {
                 .is_parsed = true,
                 .val = content.val,
-                .host{host},
-                .desc{curr.desc}
+                .host{curr_host},
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }
 
 ipinfo::user_node<std::string>
 ipinfo::informer::get_currency_plural_ex() const
 {
-    const auto &curr{__info.currency_plural};
+    const auto &node{__info.currency_plural};
 
-    for (const auto &host : ipinfo::avail_hosts)
+    for (const auto &curr_host : ipinfo::avail_hosts)
     {
-        const auto &content{curr.content.at(host)};
+        const auto &content{node.content.at(curr_host)};
 
         if (content.is_parsed)
         {
             return {
                 .is_parsed = true,
                 .val{content.val},
-                .host{host},
-                .desc{curr.desc}
+                .host{curr_host},
+                .desc{node.desc}
             };
         }
     }
 
     return {
-        .desc{curr.desc}
+        .desc{node.desc}
     };
 }

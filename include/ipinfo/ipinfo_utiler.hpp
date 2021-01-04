@@ -19,7 +19,7 @@
                           const std::string &&function_name);
 
                 void
-                clear_info(ipinfo::__info_t &info);
+                clear_info(__info_t &info);
 
                 double
                 round_double(const double value,
