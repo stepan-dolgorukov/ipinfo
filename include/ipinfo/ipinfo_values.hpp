@@ -29,13 +29,13 @@
             "russian"
         };
 
-        enum AVAIL_HOSTS_IDS
+        enum AVAIL_HOSTS_IDS : std::uint8_t
         {
             IP_API_COM = 0u,
             IPWHOIS_APP
         };
 
-        enum AVAIL_LANGS_IDS
+        enum AVAIL_LANGS_IDS : std::uint8_t
         {
             ENGLISH = 0u,
             GERMAN,
@@ -63,7 +63,7 @@
                           std::string>> hosts_avail_langs_codes
         {
             {
-                avail_hosts.at(AVAIL_HOSTS_IDS::IP_API_COM),
+                avail_hosts.at(ipinfo::AVAIL_HOSTS_IDS::IP_API_COM),
                 {
                     {
                         {avail_langs.at(AVAIL_LANGS_IDS::ENGLISH),    "en"},

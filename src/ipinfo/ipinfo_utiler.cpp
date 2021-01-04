@@ -109,9 +109,9 @@ ipinfo::__utiler::is_host_correct(const std::string &host)
 {
     if (!(host.empty()))
     {
-        for (const auto &avail_host : avail_hosts)
+        for (const auto &curr_host: ipinfo::avail_hosts)
         {
-            if (avail_host == host)
+            if (curr_host == host)
             {
                 return true;
             }
@@ -133,7 +133,7 @@ ipinfo::__utiler::is_lang_correct(const std::string &lang,
 {
     if (is_host_correct(host))
     {
-        for (auto &&[_,__lang] : hosts_avail_langs_codes.at(host))
+        for (auto &&[_,__lang] : ipinfo::hosts_avail_langs_codes.at(host))
         {
             if (__lang == lang)
             {
@@ -151,7 +151,7 @@ ipinfo::__utiler::str_to_lower_case(const std::string &s)
     std::string lc_s{};
     std::locale loc{};
 
-    for (auto &c : s)
+    for (const auto &c : s)
     {
         lc_s += std::tolower(c, loc);
     }

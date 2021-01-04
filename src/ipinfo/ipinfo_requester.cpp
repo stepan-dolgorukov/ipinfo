@@ -10,10 +10,11 @@
 
 namespace ipinfo
 {
-    static std::size_t recv(const char * const data,
-                            std::size_t ch_size,
-                            std::size_t ch_nums,
-                            std::string * const res);
+    static std::size_t recv(
+            const char * const data,
+            std::size_t ch_size,
+            std::size_t ch_nums,
+            std::string * const res);
 
     static std::string
     get_ready_request_info_fields(const std::string &host);
@@ -39,7 +40,7 @@ std::string
 ipinfo::get_ready_request_info_fields(const std::string &host)
 {
     std::string res{};
-    const auto &fields{req_info_fields.at(host)};
+    const auto &fields{ipinfo::req_info_fields.at(host)};
     const auto max_idx{fields.size() - 1u};
 
     for (auto i{0u}; max_idx >= i; i++)
@@ -59,7 +60,8 @@ std::string
 ipinfo::get_ready_request_lang(const std::string &host,
                                const std::string &lang)
 {
-    const auto &curr_avail_langs{hosts_avail_langs_codes.at(host)};
+    const auto &curr_avail_langs{
+        ipinfo::hosts_avail_langs_codes.at(host)};
 
     for (auto &&[__lang, __] : curr_avail_langs)
     {
@@ -114,14 +116,16 @@ ipinfo::__requester::send_request()
 {
     __request_answer.clear();
 
-    ::CURL * const session{curl_easy_init()};
+    ::CURL * const session{::curl_easy_init()};
 
     if (nullptr == session)
     {
-        __utiler::set_error(__error,
-                            FAILED_START_LIBCURL_SESSION,
-                            "Failed to start a libcurl session",
-                            __func__);
+        __utiler::set_error(
+                __error,
+                FAILED_START_LIBCURL_SESSION,
+                "Failed to start a libcurl session",
+                __func__);
+
         return;
     }
 
@@ -132,18 +136,20 @@ ipinfo::__requester::send_request()
 
     if (::CURLcode::CURLE_OK != ::curl_easy_perform(session))
     {
-        __utiler::set_error(__error,
-                            FAILED_REQUEST_SENDING,
-                            "Failed to send a request",
-                            __func__);
+        __utiler::set_error(
+                __error,
+                FAILED_REQUEST_SENDING,
+                "Failed to send a request",
+                __func__);
     }
 
     if (__request_answer.empty())
     {
-        __utiler::set_error(__error,
-                            EMPTY_REQUEST_ANSWER,
-                            "Empty request answer",
-                            __func__);
+        __utiler::set_error(
+                __error,
+                EMPTY_REQUEST_ANSWER,
+                "Empty request answer",
+                __func__);
     }
 
     ::curl_easy_cleanup(session);
