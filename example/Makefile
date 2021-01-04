@@ -22,6 +22,7 @@ CXXFLAGS := -std=c++2a \
             -Wall \
             -Wextra \
             -Wpedantic \
+            -Wconversion \
             -Wunreachable-code \
             -Wsign-conversion \
             -Wlogical-op \
