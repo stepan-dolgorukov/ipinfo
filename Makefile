@@ -3,12 +3,12 @@
 
 DEBUG_MODE := 1
 
-PWD    := $(shell pwd)
-OBJ_D  := $(PWD)/obj
-SRC_D  := $(PWD)/src
-LIB_D  := $(PWD)/lib
-INCL_D := $(PWD)/include
-TARG_D := $(PWD)/target
+CURR_D := $(shell pwd)
+OBJ_D  := $(CURR_D)/obj
+SRC_D  := $(CURR_D)/src
+LIB_D  := $(CURR_D)/lib
+INCL_D := $(CURR_D)/include
+TARG_D := $(CURR_D)/target
 
 TARG :=  $(TARG_D)/libipinfo.so
 

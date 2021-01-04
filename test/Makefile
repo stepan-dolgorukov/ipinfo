@@ -2,10 +2,10 @@
 
 DEBUG_MODE := 1
 
-PWD      := $(shell pwd)
-OBJ_D    := obj
-LIB_D    := lib
-INCL_DIR := include
+CURR_D := $(shell pwd)
+OBJ_D  := $(CURR_D)/obj
+LIB_D  := $(CURR_D)/lib
+INCL_D := $(CURR_D)/include
 
 TARG := ipinfo_test
 
@@ -19,6 +19,7 @@ CXXFLAGS := -std=c++2a \
             -Wall \
             -Wextra \
             -Wpedantic \
+            -Wconversion \
             -Wunreachable-code \
             -Wsign-conversion \
             -Wlogical-op \
@@ -33,8 +34,8 @@ else
                 -flto
 endif
 
-LDFLAGS := -Wl,-rpath=$(LIB_D) \
-           -L$(LIB_D)
+LDFLAGS := -L$(LIB_D) \
+           -Wl,-rpath=$(LIB_D)
 
 LDLIBS := -l:libcurl.so.7.74.0 \
           -l:libcjson.so.1.7.14 \
@@ -49,7 +50,7 @@ $(TARG): $(OBJ_D)/test.o
 
 $(OBJ_D)/%.o: %.cpp
 	$(CXX) \
-	-I$(INCL_DIR)/ipinfo \
+	-I$(INCL_D)/ipinfo \
 	$(CXXFLAGS) \
 	-c $? \
 	-o $@
