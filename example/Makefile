@@ -36,8 +36,8 @@ else
                 -flto
 endif
 
-LDFLAGS := -Wl,-rpath=$(LIB_D) \
-           -L$(LIB_D) \
+ LDFLAGS := -L$(LIB_D) \
+            -Wl,-rpath=$(LIB_D)
 
 LDLIBS := -l:libcurl.so.7.74.0 \
           -l:libcjson.so.1.7.14 \
