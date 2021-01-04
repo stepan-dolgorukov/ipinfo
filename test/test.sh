@@ -6,7 +6,7 @@ echo="/usr/bin/echo"
 ipinfo_test="./ipinfo_test"
 
 declare -a colors=(
-    "\e[1;31m" # light red
+    "\e[1;32m" # green
     "\e[0m"    # reset
 )
 
@@ -23,6 +23,6 @@ $make &&
 
 for bundle in "${test_bundles[@]}"
 do
-    $echo -e "${colors[0]}\"$bundle\"${colors[1]}:"
+    $echo -e "Args: ${colors[0]}\"$bundle\"${colors[1]}:"
     $ipinfo_test $bundle
 done
