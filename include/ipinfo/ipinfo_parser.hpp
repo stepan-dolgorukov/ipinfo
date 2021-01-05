@@ -3,7 +3,7 @@
 
     #include <string>
 
-    #include "../cJSON/cJSON.h"
+    #include "cjson/cJSON.h"
     #include "ipinfo_types.hpp"
 
     namespace ipinfo

@@ -1,7 +1,7 @@
 #include <string>
 #include <cstdint>
 
-#include "../../include/cJSON/cJSON.h"
+#include "cjson/cJSON.h"
 
 #include "../../include/ipinfo/ipinfo_types.hpp"
 #include "../../include/ipinfo/ipinfo_parser.hpp"
