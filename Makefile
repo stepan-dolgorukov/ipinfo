@@ -1,7 +1,7 @@
 .PHONY: prepare \
-		clean \
-		install \
-		uninstall
+	    clean \
+        install \
+        uninstall
 
 DEBUG_MODE := 1
 
@@ -24,30 +24,30 @@ INSTALL_LIB_D  := /usr/lib
 INSTALL_INCL_D := /usr/include
 
 CXXFLAGS := -std=c++2a \
-			-Wall \
-			-Wextra \
-			-Wpedantic \
-			-Wconversion \
-			-Wunreachable-code \
-			-Wsign-conversion \
-			-Wlogical-op \
-			-pipe
+            -Wall \
+            -Wextra \
+            -Wpedantic \
+            -Wconversion \
+            -Wunreachable-code \
+            -Wsign-conversion \
+            -Wlogical-op \
+            -pipe
 
 ifeq ($(DEBUG_MODE), 1)
     CXXFLAGS += -g3 \
-				-O0
+                -O0
 else
     CXXFLAGS += -Os \
-				-flto \
-				-march=native
+                -flto \
+                -march=native
 endif
 
 LDLIBS := -lcjson -lcurl
 
 $(TARG): $(OBJ_D)/ipinfo_informer.o \
-		$(OBJ_D)/ipinfo_parser.o \
-		$(OBJ_D)/ipinfo_requester.o \
-		$(OBJ_D)/ipinfo_utiler.o
+         $(OBJ_D)/ipinfo_parser.o \
+         $(OBJ_D)/ipinfo_requester.o \
+         $(OBJ_D)/ipinfo_utiler.o
 	@ $(ECHO) "building $(TARG)"
 	@ $(CXX) \
 	$(LDLIBS) \

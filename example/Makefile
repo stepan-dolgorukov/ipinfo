@@ -1,5 +1,5 @@
 .PHONY: prepare, \
-		clean
+        clean
 
 DEBUG_MODE := 1
 
@@ -19,14 +19,14 @@ TEST  := /usr/bin/test
 ECHO  := /usr/bin/echo
 
 CXXFLAGS := -std=c++2a \
-			-Wall \
-			-Wextra \
-			-Wpedantic \
-			-Wconversion \
-			-Wunreachable-code \
-			-Wsign-conversion \
-			-Wlogical-op \
-			-pipe
+            -Wall \
+            -Wextra \
+            -Wpedantic \
+            -Wconversion \
+            -Wunreachable-code \
+            -Wsign-conversion \
+            -Wlogical-op \
+            -pipe
 
 ifeq ($(DEBUG_MODE), 1)
     CXXFLAGS += -g3 \
