@@ -4,5 +4,5 @@ make="/usr/bin/make"
 nproc="/usr/bin/nproc"
 let "n=$(nproc) * 2"
 
-$make prepare &&
-$make -j$n
+$make --makefile=Makefile prepare &&
+$make --makefile=Makefile -j$n
