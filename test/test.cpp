@@ -1,7 +1,7 @@
 #include <cstdint>
 #include <cstdlib>
 
-#include "include/ipinfo/ipinfo.hpp"
+#include "ipinfo/ipinfo.hpp"
 
 namespace ipinfo_test
 {

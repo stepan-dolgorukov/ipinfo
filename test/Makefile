@@ -1,11 +1,10 @@
-.PHONY: prepare, clean
+.PHONY: prepare, \
+		clean
 
 DEBUG_MODE := 1
 
 CURR_D := $(shell pwd)
 OBJ_D  := $(CURR_D)/obj
-LIB_D  := $(CURR_D)/lib
-INCL_D := $(CURR_D)/include
 
 TARG := ipinfo_test
 
@@ -14,16 +13,17 @@ CP    := /usr/bin/cp
 CXX   := /usr/bin/g++
 MKDIR := /usr/bin/mkdir
 TEST  := /usr/bin/test
+ECHO  := /usr/bin/echo
 
 CXXFLAGS := -std=c++2a \
-            -Wall \
-            -Wextra \
-            -Wpedantic \
-            -Wconversion \
-            -Wunreachable-code \
-            -Wsign-conversion \
-            -Wlogical-op \
-            -pipe
+			-Wall \
+			-Wextra \
+			-Wpedantic \
+			-Wconversion \
+			-Wunreachable-code \
+			-Wsign-conversion \
+			-Wlogical-op \
+			-pipe
 
 ifeq ($(DEBUG_MODE), 1)
     CXXFLAGS += -g3 \
@@ -34,33 +34,28 @@ else
                 -flto
 endif
 
-LDFLAGS := -L$(LIB_D) \
-           -Wl,-rpath=$(LIB_D)
-
-LDLIBS := -l:libcurl.so.7.74.0 \
-          -l:libcjson.so.1.7.14 \
-          -l:libipinfo.so
+LDLIBS := -lipinfo
 
 $(TARG): $(OBJ_D)/test.o
-	$(CXX) \
-	$(LDFLAGS) \
+	@ $(ECHO) "building $(TARG)"
+	@ $(CXX) \
+	$(LDLIBS) \
 	$? \
-	-o $@ \
-	$(LDLIBS)
+	-o $@
 
-$(OBJ_D)/%.o: %.cpp
-	$(CXX) \
-	-I$(INCL_D)/ipinfo \
+$(OBJ_D)/%.o:%.cpp
+	@ $(ECHO) "compiling $<"
+	@ $(CXX) \
 	$(CXXFLAGS) \
-	-c $? \
+	-c $< \
 	-o $@
 
 prepare:
-	$(TEST) -d $(OBJ_D) || $(MKDIR) $(OBJ_D)
-	$(CP) -r ../lib/ .
-	$(CP) -r ../include .
-	$(CP) ../target/libipinfo.so $(LIB_D)
+	@ ($(TEST) -d $(OBJ_D) && \
+		$(ECHO) "$(OBJ_D) already exists") || \
+		($(ECHO) "creating $(OBJ_D)" && $(MKDIR) $(OBJ_D))
 
 clean:
-	$(RM) $(OBJ_D)/*.o
-	$(RM) $(TARG)
+	@ ($(TEST) -d $(OBJ_D) && \
+		$(ECHO) "deleting $(OBJ_D)" && $(RM) -r $(OBJ_D)) || \
+		($(ECHO) "$(OBJ_D) doesn't exist")

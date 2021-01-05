@@ -11,15 +11,16 @@ declare -a colors=(
 )
 
 declare -a test_bundles=(
-    "8.8.8.8 russian 1"
-    "1.1.1.1 english 2"
-    "256.256.256.256 vim 42"
-    "777.3.122 english 1"
-    "5.5.5.5 chinese 0"
+    "8.8.8.8                russian          1"
+    "1.1.1.1                english          2"
+    "256.256.256.256        vim             42"
+    "777.3.122              english          1"
+    "5.5.5.5                chinese          0"
+    "2001:4860:4860::8888   japanese         4"
 )
 
-$make prepare &&
-$make &&
+$make --makefile=Makefile prepare &&
+$make --makefile=Makefile &&
 
 for bundle in "${test_bundles[@]}"
 do
