@@ -16,6 +16,7 @@ CP    := /usr/bin/cp
 CXX   := /usr/bin/g++
 MKDIR := /usr/bin/mkdir
 TEST  := /usr/bin/test
+ECHO  := /usr/bin/echo
 
 CXXFLAGS := -std=c++2a \
 			-Wall \
@@ -39,24 +40,33 @@ endif
 LDLIBS := -lipinfo
 
 $(TARG): $(OBJ_D)/main.o
-	$(CXX) \
+	@ $(ECHO) "building $(TARG)"
+	@ $(CXX) \
 	$(LDLIBS) \
 	$? \
-	-o $@ \
-	$(LDLIBS)
+	-o $@
 
 $(OBJ_D)/%.o: $(SRC_D)/%.cpp
-	$(CXX) \
+	@ $(ECHO) "compiling $<"
+	@ $(CXX) \
 	$(CXXFLAGS) \
-	-c $? \
+	-c $< \
 	-o $@
 
 prepare:
-	# TODO: check existing
-	$(TEST) -d $(OBJ_D) || $(MKDIR) $(OBJ_D)
-	$(TEST) -d $(TARG_D) || $(MKDIR) $(TARG_D)
+	@ ($(TEST) -d $(OBJ_D) && \
+		$(ECHO) "$(OBJ_D) already exists") || \
+		($(ECHO) "creating $(OBJ_D)" && $(MKDIR) $(OBJ_D))
+
+	@ $(TEST) -d $(TARG_D) && \
+		$(ECHO) "$(TARG_D) already exists" || \
+		($(ECHO) "creating $(TARG_D)" && $(MKDIR) $(TARG_D))
 
 clean:
-	# TODO: check existing
-	$(RM) $(OBJ_D)/*o
-	$(RM) $(TARG)
+	@ ($(TEST) -d $(TARG_D) && \
+		$(ECHO) "deleting $(TARG_D)" && $(RM) -r $(TARG_D)) || \
+		($(ECHO) "$(TARG_D) doesn't exist")
+
+	@ ($(TEST) -d $(OBJ_D) && \
+		$(ECHO) "deleting $(OBJ_D)" && $(RM) -r $(OBJ_D)) || \
+		($(ECHO) "$(OBJ_D) doesn't exist")
