@@ -1,5 +1,5 @@
 #include <cstdint>
-#include "../include/ipinfo/ipinfo.hpp"
+#include <ipinfo/ipinfo.hpp>
 
 namespace my_app
 {
