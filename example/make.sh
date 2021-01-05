@@ -2,5 +2,5 @@
 
 make="/usr/bin/make"
 
-$make prepare &&
-$make --always-make
+$make --makefile=Makefile prepare &&
+$make --makefile=Makefile --always-make
