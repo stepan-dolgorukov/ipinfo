@@ -20,7 +20,7 @@
 + Удобный пробив по IP.
 
 ## Какие зависимости необходимы?
-+ Работа с запросами - [libcurl](https://github.com/jeroen/libcurl)
++ Работа с запросами - [libcurl](https://github.com/curl/curl)
 + Парсинг JSON - [cJSON](https://github.com/DaveGamble/cJSON)
 
 ## Заинтриговал, как же без болячек установить модуль?
