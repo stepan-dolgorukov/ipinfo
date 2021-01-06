@@ -2,8 +2,8 @@
     #define __IPINFO__PARSER__HPP__
 
     #include <string>
+    #include <cjson/cJSON.h>
 
-    #include "cjson/cJSON.h"
     #include "ipinfo_types.hpp"
 
     namespace ipinfo

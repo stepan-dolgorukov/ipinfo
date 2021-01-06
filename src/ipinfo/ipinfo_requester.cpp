@@ -1,7 +1,6 @@
 #include <string>
 #include <cstddef>
-
-#include "curl/curl.h"
+#include <curl/curl.h>
 
 #include "../../include/ipinfo/ipinfo_types.hpp"
 #include "../../include/ipinfo/ipinfo_values.hpp"
