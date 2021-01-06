@@ -8,122 +8,90 @@
 
 namespace ipinfo
 {
-    static void
-    fill_node(const ::cJSON &data_item,
+    template <typename T> static void
+    fill_node(const ::cJSON &item,
               const std::string &host,
-              ipinfo::__data_node<std::string> &info_node);
+              __data_node<T> node);
 
-    static void
-    fill_node(const ::cJSON &data_item,
+    void
+    fill_node(const ::cJSON &item,
               const std::string &host,
-              ipinfo::__data_node<std::int32_t> &info_node);
+              __data_node<double> &node);
 
-    static void
-    fill_node(const ::cJSON &data_item,
+    void
+    fill_node(const ::cJSON &item,
               const std::string &host,
-              ipinfo::__data_node<std::uint32_t> &info_node);
+              __data_node<std::string> &node);
 
-    static void
-    fill_node(const ::cJSON &data_item,
+    void
+    fill_node(const ::cJSON &item,
               const std::string &host,
-              ipinfo::__data_node<double> &info_node);
-
-    static void
-    fill_node(const ::cJSON &data_item,
-              const std::string &host,
-              ipinfo::__data_node<bool> &info_node);
-
-    static void
-    fill_node(const ::cJSON &data_item,
-              const std::string &host,
-              ipinfo::__data_node<std::string> &info_node);
+              ipinfo::__data_node<bool> &node);
 
     template<typename T> static void
-    process_node(const ::cJSON &data_item,
+    process_node(const ::cJSON &item,
                  const std::string &host,
-                 ipinfo::__data_node<T> &info_node);
+                 ipinfo::__data_node<T> &node);
 }
 
-void
-ipinfo::fill_node(const ::cJSON &data_item,
+template <typename T> void
+ipinfo::fill_node(const ::cJSON &item,
                   const std::string &host,
-                  ipinfo::__data_node<std::uint32_t> &info_node)
+                  ipinfo::__data_node<T> node)
 {
-    auto &content{info_node.content.at(host)};
+    auto &content{node.content.at(host)};
 
-    if (::cJSON_IsString(&data_item))
+    if (::cJSON_IsString(&item))
     {
-        const std::string item_val{data_item.valuestring};
+        const auto *val{item.valuestring};
 
-        content.str_val = item_val;
-        content.val = static_cast<std::uint32_t>(std::stoi(content.str_val));
+        if (nullptr == val ||
+            std::string(val).empty())
+        {
+            content.is_parsed = false;
+            return;
+        }
+
+        content.val = static_cast<T>(std::stoi(val));
         content.is_parsed = true;
     }
 
-    if (::cJSON_IsNumber(&data_item))
+    if (::cJSON_IsNumber(&item))
     {
-        const auto &item_val{data_item.valueint};
+        const auto &val{item.valueint};
 
-        content.val = static_cast<std::uint32_t>(item_val);
-        content.str_val = std::to_string(content.val);
+        content.val = static_cast<T>(val);
         content.is_parsed = true;
     }
 
-    // log, unacceptable data type
     return;
 }
 
 void
-ipinfo::fill_node(const ::cJSON &data_item,
+ipinfo::fill_node(const ::cJSON &item,
                   const std::string &host,
-                  ipinfo::__data_node<std::int32_t> &info_node)
-{
-    auto &content{info_node.content.at(host)};
-
-    if (::cJSON_IsString(&data_item))
-    {
-        const std::string item_val{data_item.valuestring};
-
-        content.str_val = item_val;
-        content.val = static_cast<std::int32_t>(std::stoi(content.str_val));
-        content.is_parsed = true;
-    }
-
-    if (::cJSON_IsNumber(&data_item))
-    {
-        const auto &item_val{data_item.valueint};
-
-        content.val = static_cast<int32_t>(item_val);
-        content.str_val = std::to_string(content.val);
-        content.is_parsed = true;
-    }
-
-    // log, unacceptable data type
-    return;
-}
-
-void
-ipinfo::fill_node(const ::cJSON &data_item,
-                  const std::string &host,
-                  ipinfo::__data_node<double> &info_node)
+                  ipinfo::__data_node<double> &node)
 {;
-    auto &content{info_node.content.at(host)};
+    auto &content{node.content.at(host)};
 
-    if (::cJSON_IsString(&data_item))
+    if (::cJSON_IsString(&item))
     {
-        const std::string item_val{data_item.valuestring};
+        const auto *val{item.valuestring};
 
-        content.str_val = item_val;
-        content.val = std::stod(content.str_val);
+        if (nullptr == val ||
+            std::string(val).empty())
+        {
+            content.is_parsed = false;
+            return;
+        }
+
+        content.val = std::stod(std::string{val});
         content.is_parsed = true;
     }
 
-    if (::cJSON_IsNumber(&data_item))
+    if (::cJSON_IsNumber(&item))
     {
-        const auto &item_val{data_item.valuedouble};
-
-        content.val = item_val;
-        content.str_val = std::to_string(content.val);
+        content.val = item.valuedouble;
         content.is_parsed = true;
     }
 
@@ -137,45 +105,49 @@ ipinfo::fill_node(const ::cJSON &item,
 {
     if (::cJSON_IsString(&item))
     {
-        auto &current_node{node.content.at(host)};
-        const std::string item_value{item.valuestring};
+        auto &content{node.content.at(host)};
+        const auto *val{item.valuestring};
 
-        if (item_value.empty())
+        if (nullptr == val ||
+            std::string(val).empty())
         {
-            current_node.is_parsed = false;
+            content.is_parsed = false;
             return;
         }
 
-        current_node.str_val = item_value;
-        current_node.val = current_node.str_val;
-        current_node.is_parsed = true;
+        content.val = val;
+        content.is_parsed = true;
     }
 
     return;
 }
 
 void
-ipinfo::fill_node(const ::cJSON &data_item,
+ipinfo::fill_node(const ::cJSON &item,
                   const std::string &host,
-                  ipinfo::__data_node<bool> &info_node)
+                  ipinfo::__data_node<bool> &node)
 {
-    auto &content{info_node.content.at(host)};
+    auto &content{node.content.at(host)};
 
-    if (::cJSON_IsString(&data_item))
+    if (::cJSON_IsString(&item))
     {
-        const std::string item_val{data_item.valuestring};
+        auto &content{node.content.at(host)};
+        const auto *val{item.valuestring};
 
-        content.val = ("true" == item_val);
-        content.str_val = std::to_string(content.val);
+        if (nullptr == val ||
+            std::string(val).empty())
+        {
+            content.is_parsed = false;
+            return;
+        }
+
+        content.val = ("true" == std::string(val));
         content.is_parsed = true;
     }
 
-    if (::cJSON_IsBool(&data_item))
+    if (::cJSON_IsBool(&item))
     {
-        const auto &item_value{data_item.valueint};
-
-        content.val = item_value;
-        content.str_val = (content.val ? "true" : "false");
+        content.val = item.valueint;
         content.is_parsed = true;
     }
 
@@ -185,34 +157,38 @@ ipinfo::fill_node(const ::cJSON &data_item,
 template<typename T> void
 ipinfo::process_node(const ::cJSON &data,
                      const std::string &host,
-                     ipinfo::__data_node<T> &info_node)
+                     ipinfo::__data_node<T> &node)
 {
-    const auto node_name{info_node.content.at(host).json_name.c_str()};
-    const auto *data_item{::cJSON_GetObjectItemCaseSensitive(&data, node_name)};
+    const auto node_name{
+        node.content.at(host).json_name.c_str()};
 
-    if (nullptr == data_item)
+    const auto *item{
+        ::cJSON_GetObjectItemCaseSensitive(&data, node_name)};
+
+    if (nullptr == item)
     {
         // log!
         return;
     }
 
-    ipinfo::fill_node(*data_item, host, info_node);
+    ipinfo::fill_node(*item, host, node);
     return;
 }
 
 void
-ipinfo::__parser::put_json(const std::string &s)
+ipinfo::__parser::put_json(const std::string &json)
 {
-    if (s.empty())
+    if (json.empty())
     {
-        __utiler::set_error(__error,
-                            EMPTY_JSON_STRING,
-                            "Empty JSON string",
-                            __func__);
+        __utiler::set_error(
+                __error,
+                EMPTY_JSON_STRING,
+                "Empty JSON string",
+                __func__);
         return;
     }
 
-    __data = ::cJSON_Parse(s.c_str());
+    __data = ::cJSON_Parse(json.c_str());
 
     if (nullptr == __data)
     {
@@ -224,11 +200,12 @@ ipinfo::__parser::put_json(const std::string &s)
             error_location = json_error;
         }
 
-        __utiler::set_error(__error,
-                            FAILED_JSON_PARSING,
-                            "JSON parsing error. " \
-                            "Error before: " + error_location,
-                            __func__);
+        __utiler::set_error(
+                __error,
+                FAILED_JSON_PARSING,
+                "JSON parsing error. " \
+                "Error before: " + error_location,
+                __func__);
     }
 
     return;

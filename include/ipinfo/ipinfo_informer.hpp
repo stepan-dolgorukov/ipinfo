@@ -64,8 +64,9 @@
 
                 void    run(void);
 
-                error_t get_last_error(const std::string &host) const;
-                error_t get_last_error(const std::uint8_t host_id) const;
+                error_t     get_last_error(const std::string &host) const;
+                error_t     get_last_error(const std::uint8_t host_id) const;
+                std::size_t get_errors_num(void) const;
 
                 // default getters
                 std::string     get_ip(void) const;

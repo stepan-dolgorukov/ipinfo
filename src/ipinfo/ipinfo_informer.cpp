@@ -77,7 +77,7 @@ void
 ipinfo::informer::set_api_key(const std::string &host,
                               const std::string &key)
 {
-    if (__utiler::is_host_correct(host))
+    if (__utiler::is_host_supported(host))
     {
         __api_keys.insert(std::make_pair(host, key));
     }
@@ -89,7 +89,7 @@ void
 ipinfo::informer::set_api_key(const std::uint8_t host_id,
                               const std::string &key)
 {
-    if (__utiler::is_host_correct(host_id))
+    if (__utiler::is_host_supported(host_id))
     {
         set_api_key(ipinfo::avail_hosts.at(host_id), key);
     }
@@ -124,7 +124,7 @@ ipinfo::informer::set_api_keys(const std::map<std::uint8_t,
 void
 ipinfo::informer::exclude_host(const std::string &host)
 {
-    if (__utiler::is_host_correct(host))
+    if (__utiler::is_host_supported(host))
     {
         __excluded_hosts.push_back(host);
     }
@@ -135,7 +135,7 @@ ipinfo::informer::exclude_host(const std::string &host)
 void
 ipinfo::informer::exclude_host(const std::uint8_t host_id)
 {
-    if (__utiler::is_host_correct(host_id))
+    if (__utiler::is_host_supported(host_id))
     {
         __excluded_hosts.push_back(ipinfo::avail_hosts.at(host_id));
     }
@@ -222,6 +222,30 @@ ipinfo::informer::run()
 ipinfo::error_t
 ipinfo::informer::get_last_error(const std::string &host) const
 {
+    if (host.empty())
+    {
+        return {
+            .code = ERRORS_IDS::EMPTY_HOST,
+            .desc{"Empty host string"}
+        };
+    }
+
+    if (!(__utiler::is_host_supported(host)))
+    {
+        return {
+            .code = ERRORS_IDS::UNSUPPORTED_HOST,
+            .desc{"This host in unsuppoted by ipinfo"}
+        };
+    }
+
+    if (__utiler::is_host_excluded(host, __excluded_hosts))
+    {
+        return {
+            .code = ERRORS_IDS::EXCLUDED_HOST,
+            .desc{"This host is excluded"}
+        };
+    }
+
     for (auto &&[curr_host, _] : __errors)
     {
         if (curr_host == host)
@@ -237,14 +261,31 @@ ipinfo::informer::get_last_error(const std::string &host) const
 ipinfo::error_t
 ipinfo::informer::get_last_error(const std::uint8_t host_id) const
 {
-    if (host_id < ipinfo::avail_hosts.size())
+    if (!(__utiler::is_host_supported(host_id)))
     {
-        const auto &host{ipinfo::avail_hosts.at(host_id)};
-        return __errors.at(host);
+        return {
+            .code = ERRORS_IDS::UNSUPPORTED_HOST,
+            .desc{"This host in unsuppoted by ipinfo"}
+        };
     }
 
-    // !!!
-    return {};
+    return get_last_error(ipinfo::avail_hosts.at(host_id));
+}
+
+std::size_t
+ipinfo::informer::get_errors_num() const
+{
+    auto i{0u};
+
+    for (auto &&[__, __error] : __errors)
+    {
+        if (ERRORS_IDS::NO_ERRORS != __error.code)
+        {
+            i += 1;
+        }
+    }
+
+    return i;
 }
 
 std::string

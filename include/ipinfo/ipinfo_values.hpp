@@ -50,6 +50,9 @@
         enum ERRORS_IDS
         {
             NO_ERRORS = 0u,
+            UNSUPPORTED_HOST,
+            EXCLUDED_HOST,
+            EMPTY_HOST,
             FAILED_START_LIBCURL_SESSION,
             FAILED_REQUEST_SENDING,
             EMPTY_REQUEST_ANSWER,

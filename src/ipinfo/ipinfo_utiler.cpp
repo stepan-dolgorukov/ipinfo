@@ -10,7 +10,7 @@
 namespace ipinfo
 {
     template<typename T> static void
-    clear_node(__data_node<T> &info_node);
+    clear_node(__data_node<T> &node);
 }
 
 void
@@ -26,14 +26,13 @@ ipinfo::__utiler::set_error(ipinfo::error_t &error,
 }
 
 template<typename T> void
-ipinfo::clear_node(__data_node<T> &info_node)
+ipinfo::clear_node(__data_node<T> &node)
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        auto &content{info_node.content.at(host)};
+        auto &content{node.content.at(host)};
 
         content.val = {};
-        content.str_val = {};
         content.is_parsed = false;
     }
 
@@ -41,14 +40,13 @@ ipinfo::clear_node(__data_node<T> &info_node)
 }
 
 template<> void
-ipinfo::clear_node(__data_node<std::string> &info_node)
+ipinfo::clear_node(__data_node<std::string> &node)
 {
     for (const auto &host : ipinfo::avail_hosts)
     {
-        auto &content{info_node.content.at(host)};
+        auto &content{node.content.at(host)};
 
         content.val.clear();
-        content.str_val.clear();
         content.is_parsed = false;
     }
 
@@ -105,7 +103,7 @@ ipinfo::__utiler::round_double(const double val,
 }
 
 bool
-ipinfo::__utiler::is_host_correct(const std::string &host)
+ipinfo::__utiler::is_host_supported(const std::string &host)
 {
     if (!(host.empty()))
     {
@@ -122,7 +120,7 @@ ipinfo::__utiler::is_host_correct(const std::string &host)
 }
 
 bool
-ipinfo::__utiler::is_host_correct(const std::uint8_t host_id)
+ipinfo::__utiler::is_host_supported(const std::uint8_t host_id)
 {
     return (host_id < avail_hosts.size());
 }
@@ -131,7 +129,7 @@ bool
 ipinfo::__utiler::is_lang_correct(const std::string &lang,
                                   const std::string &host)
 {
-    if (is_host_correct(host))
+    if (is_host_supported(host))
     {
         for (auto &&[_,__lang] : ipinfo::hosts_avail_langs_codes.at(host))
         {

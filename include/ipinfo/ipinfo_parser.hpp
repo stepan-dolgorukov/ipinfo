@@ -15,10 +15,11 @@
                 error_t   __error{};
 
             public:
-                void            put_json(const std::string &s);
-                void            deserialize_json(__info_t &i,
-                                                 const std::string &host) const;
-                error_t         get_last_error(void) const;
+                void    put_json(const std::string &json);
+                void    deserialize_json(__info_t &info,
+                                         const std::string &host) const;
+
+                error_t get_last_error(void) const;
         };
    }
 

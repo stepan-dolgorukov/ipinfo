@@ -25,7 +25,6 @@
             {
                 bool                is_parsed : 1 {false};
                 T                   val{};
-                std::string         str_val{};
                 const std::string   json_name{};
             };
 
