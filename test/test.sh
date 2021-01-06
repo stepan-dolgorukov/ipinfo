@@ -17,10 +17,14 @@ declare -a test_bundles=(
     "777.3.122              english          1"
     "5.5.5.5                chinese          0"
     "2001:4860:4860::8888   japanese         4"
+    "95.12.133.1              german        -1"
 )
 
-$make --makefile=Makefile prepare &&
-$make --makefile=Makefile &&
+$make --makefile=Makefile \
+      prepare &&
+
+$make --makefile=Makefile \
+      --always-make &&
 
 for bundle in "${test_bundles[@]}"
 do

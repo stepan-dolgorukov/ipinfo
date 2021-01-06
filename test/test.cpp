@@ -1,19 +1,18 @@
 #include <cstdint>
 #include <cstdlib>
-
-#include "ipinfo/ipinfo.hpp"
+#include <ipinfo/ipinfo.hpp>
 
 namespace ipinfo_test
 {
-    void
-    test(const std::string &ip,
-         const std::string &lang,
-         const std::uint8_t conn_num);
+    static void
+    show_info(const std::string &ip,
+               const std::string &lang,
+               const std::uint8_t conn_num);
 
-    void
-    test_ex(const std::string &ip,
-            const std::string &lang,
-            const std::uint8_t conn_num);
+    static void
+    show_info_ex(const std::string &ip,
+                  const std::string &lang,
+                  const std::uint8_t conn_num);
 }
 
 int
@@ -26,13 +25,13 @@ main(const int argc,
         return 1;
     }
 
-    ipinfo_test::test(
+    ipinfo_test::show_info(
         argv[1u],
         argv[2u],
         static_cast<std::uint8_t>(std::atoi(argv[3u]))
     );
 
-    ipinfo_test::test_ex(
+    ipinfo_test::show_info_ex(
         argv[1u],
         argv[2u],
         static_cast<std::uint8_t>(std::atoi(argv[3u]))
@@ -42,27 +41,16 @@ main(const int argc,
 }
 
 void
-ipinfo_test::test(const std::string &ip,
-                  const std::string &lang,
-                  const std::uint8_t conn_num)
+ipinfo_test::show_info(const std::string &ip,
+                        const std::string &lang,
+                        const std::uint8_t conn_num)
 {
     ipinfo::informer informer(ip, lang, conn_num);
     ipinfo::error    error{};
 
     informer.run();
 
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        error = informer.get_last_error(host);
-
-        if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
-        {
-            std::printf("%s\n", "O-o-o-o-ops!");
-            std::printf("Code: %u\n", error.code);
-            std::printf("Description: %s\n", error.desc.c_str());
-            std::printf("Function: %s\n", error.func.c_str());
-        }
-    }
+    std::printf("Errors amount: %lu\n", informer.get_errors_num());
 
     std::printf("IP: %s\n", informer.get_ip().c_str());
     std::printf("IP type: %s\n", informer.get_ip_type().c_str());
@@ -102,12 +90,12 @@ ipinfo_test::test(const std::string &ip,
 }
 
 void
-ipinfo_test::test_ex(const std::string &ip,
-                     const std::string &lang,
-                     const std::uint8_t conn_num)
+ipinfo_test::show_info_ex(const std::string &ip,
+                           const std::string &lang,
+                           const std::uint8_t conn_num)
 {
-    ipinfo::informer                informer(ip, lang, conn_num);
-    ipinfo::error                   error{};
+    ipinfo::informer    informer(ip, lang, conn_num);
+    ipinfo::error       error{};
 
     ipinfo::user_node<std::string>  curr_str_cont{};
     ipinfo::user_node<double>       curr_dbl_cont{};
@@ -116,18 +104,7 @@ ipinfo_test::test_ex(const std::string &ip,
 
     informer.run();
 
-    for (const auto &host : ipinfo::avail_hosts)
-    {
-        error = informer.get_last_error(host);
-
-        if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
-        {
-            std::printf("%s\n", "O-o-o-o-ops!");
-            std::printf("Code: %u\n", error.code);
-            std::printf("Description: %s\n", error.desc.c_str());
-            std::printf("Function: %s\n", error.func.c_str());
-        }
-    }
+    std::printf("Errors amount: %lu\n", informer.get_errors_num());
 
     curr_str_cont = informer.get_ip_ex();
     std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
