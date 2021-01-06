@@ -42,7 +42,8 @@ else
                 -march=native
 endif
 
-LDLIBS := -lcjson -lcurl
+LDLIBS := -lcjson \
+          -lcurl
 
 $(TARG): $(OBJ_D)/ipinfo_informer.o \
          $(OBJ_D)/ipinfo_parser.o \
