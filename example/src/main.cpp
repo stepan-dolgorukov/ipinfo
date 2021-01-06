@@ -37,16 +37,22 @@ my_app::show_ip_info(const std::string &ip,
     informer.set_lang(lang);
     informer.run();
 
-    for (const auto &host : ipinfo::avail_hosts)
+    // if we have some errors
+    if (0u != informer.get_errors_num())
     {
-        error = informer.get_last_error(host);
+        std::printf("%s\n", "O-o-o-o-ops!");
 
-        if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
+        for (const auto &curr_host : ipinfo::avail_hosts)
         {
-            std::printf("%s\n", "O-o-o-o-ops!");
-            std::printf("Code: %u\n", error.code);
-            std::printf("Description: %s\n", error.desc.c_str());
-            std::printf("Function: %s\n", error.func.c_str());
+            error = informer.get_last_error(curr_host);
+
+            if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
+            {
+                std::printf("Host: %s\n", curr_host.c_str());
+                std::printf("Code: %u\n", error.code);
+                std::printf("Description: %s\n", error.desc.c_str());
+                std::printf("Function: %s\n", error.func.c_str());
+            }
         }
     }
 
@@ -101,16 +107,22 @@ my_app::show_ip_info_ex(const std::string &ip,
     ipinfo::user_node<std::int32_t> curr_i32_cont{};
     ipinfo::user_node<bool>         curr_bool_cont{};
 
-    for (const auto &host : ipinfo::avail_hosts)
+    // if we have some errors
+    if (0u != informer.get_errors_num())
     {
-        error = informer.get_last_error(host);
+        std::printf("%s\n", "O-o-o-o-ops!");
 
-        if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
+        for (const auto &curr_host : ipinfo::avail_hosts)
         {
-            std::printf("%s\n", "O-o-o-o-ops!");
-            std::printf("Code: %u\n", error.code);
-            std::printf("Description: %s\n", error.desc.c_str());
-            std::printf("Function: %s\n", error.func.c_str());
+            error = informer.get_last_error(curr_host);
+
+            if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
+            {
+                std::printf("Host: %s\n", curr_host.c_str());
+                std::printf("Code: %u\n", error.code);
+                std::printf("Description: %s\n", error.desc.c_str());
+                std::printf("Function: %s\n", error.func.c_str());
+            }
         }
     }
 
