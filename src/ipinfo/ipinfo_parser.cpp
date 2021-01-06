@@ -8,22 +8,22 @@
 
 namespace ipinfo
 {
-    template <typename T> static void
+    static void
     fill_node(const ::cJSON &item,
               const std::string &host,
-              __data_node<T> node);
+              __data_node<std::int32_t> &node);
 
-    void
+    static void
     fill_node(const ::cJSON &item,
               const std::string &host,
               __data_node<double> &node);
 
-    void
+    static void
     fill_node(const ::cJSON &item,
               const std::string &host,
               __data_node<std::string> &node);
 
-    void
+    static void
     fill_node(const ::cJSON &item,
               const std::string &host,
               ipinfo::__data_node<bool> &node);
@@ -34,10 +34,10 @@ namespace ipinfo
                  ipinfo::__data_node<T> &node);
 }
 
-template <typename T> void
+void
 ipinfo::fill_node(const ::cJSON &item,
                   const std::string &host,
-                  ipinfo::__data_node<T> node)
+                  ipinfo::__data_node<std::int32_t> &node)
 {
     auto &content{node.content.at(host)};
 
@@ -52,7 +52,7 @@ ipinfo::fill_node(const ::cJSON &item,
             return;
         }
 
-        content.val = static_cast<T>(std::stoi(val));
+        content.val = std::stoi(val);
         content.is_parsed = true;
     }
 
@@ -60,7 +60,7 @@ ipinfo::fill_node(const ::cJSON &item,
     {
         const auto &val{item.valueint};
 
-        content.val = static_cast<T>(val);
+        content.val = val;
         content.is_parsed = true;
     }
 
@@ -85,7 +85,7 @@ ipinfo::fill_node(const ::cJSON &item,
             return;
         }
 
-        content.val = std::stod(std::string{val});
+        content.val = std::stod(std::string(val));
         content.is_parsed = true;
     }
 
