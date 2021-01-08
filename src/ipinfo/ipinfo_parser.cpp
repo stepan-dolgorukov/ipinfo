@@ -212,7 +212,7 @@ ipinfo::__parser::put_json(const std::string &json)
 }
 
 void
-ipinfo::__parser::deserialize_json(ipinfo::__info_t &i,
+ipinfo::__parser::deserialize_json(ipinfo::__info &i,
                                    const std::string &host) const
 {
     if (nullptr == __data)
@@ -257,7 +257,7 @@ ipinfo::__parser::deserialize_json(ipinfo::__info_t &i,
     return;
 }
 
-ipinfo::error_t
+ipinfo::error
 ipinfo::__parser::get_last_error() const
 {
     return __error;

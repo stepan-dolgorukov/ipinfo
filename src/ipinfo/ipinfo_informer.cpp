@@ -10,18 +10,18 @@ ipinfo::informer::informer(
         const std::string &lang,
         const std::uint8_t conn_num) :
 
-        __ip(ip),
-        __lang(lang),
-        __conn_num(conn_num) {}
+    __ip(ip),
+    __lang(lang),
+    __conn_num(conn_num) {}
 
 ipinfo::informer::informer(
         const std::string &ip,
         const std::uint8_t &lang_id,
         const std::uint8_t conn_num) :
 
-        __ip(ip),
-        __lang(),
-        __conn_num(conn_num)
+    __ip(ip),
+    __lang(),
+    __conn_num(conn_num)
 {
     if (lang_id < ipinfo::avail_langs.size())
     {
@@ -60,14 +60,7 @@ ipinfo::informer::set_lang(const std::uint8_t lang_id)
 {
     if (lang_id < ipinfo::avail_langs.size())
     {
-        for (const auto &lang : ipinfo::avail_langs)
-        {
-            if (ipinfo::avail_langs.at(lang_id) == lang)
-            {
-                __lang = lang;
-                break;
-            }
-        }
+        this->set_lang(ipinfo::avail_langs.at(lang_id));
     }
 
     return;
@@ -110,8 +103,9 @@ ipinfo::informer::set_api_keys(const std::map<std::string,
 }
 
 void
-ipinfo::informer::set_api_keys(const std::map<std::uint8_t,
-                                              std::string> &host_id_key_mp)
+ipinfo::informer::set_api_keys(
+        const std::map<std::uint8_t,
+                       std::string> &host_id_key_mp)
 {
     for (auto &&[host_id, api_key] : host_id_key_mp)
     {
@@ -148,7 +142,7 @@ ipinfo::informer::exclude_hosts(const std::vector<std::string> &hosts)
 {
     for (const auto &curr_host : hosts)
     {
-        exclude_host(curr_host);
+        this->exclude_host(curr_host);
     }
 
     return;
@@ -159,7 +153,7 @@ ipinfo::informer::exclude_hosts(const std::vector<std::uint8_t> &hosts_ids)
 {
     for (const auto &id : hosts_ids)
     {
-        exclude_host(id);
+        this->exclude_host(id);
     }
 
     return;
@@ -176,21 +170,15 @@ ipinfo::informer::run()
         __conn_num = ipinfo::avail_hosts.size();
     }
 
-    for (auto i{0u}; i < ipinfo::avail_hosts.size() &&
-                     i < __conn_num; i++)
+    for (auto i{0u}; i < ipinfo::avail_hosts.size() && i < __conn_num; i++)
     {
-        error_t     curr_error{};
-        const auto  &curr_host{ipinfo::avail_hosts.at(i)};
+        ipinfo::error   curr_error{};
+        const auto      &curr_host{ipinfo::avail_hosts.at(i)};
 
-        __errors.insert(std::make_pair(
-                    curr_host,
-                    error{}));
-
+        __errors.insert(std::make_pair(curr_host, error{}));
         curr_error = __errors.at(curr_host);
 
-        if (__utiler::is_host_excluded(
-                        curr_host,
-                        __excluded_hosts))
+        if (__utiler::is_host_excluded(curr_host, __excluded_hosts))
         {
             continue;
         }
@@ -202,7 +190,6 @@ ipinfo::informer::run()
                         __api_keys[curr_host]);
 
         __requester::send_request();
-
         curr_error = __requester::get_last_error();
 
         if (ERRORS_IDS::NO_ERRORS != curr_error.code)
@@ -212,14 +199,13 @@ ipinfo::informer::run()
 
         __parser::put_json(__requester::get_request_answer());
         __parser::deserialize_json(__info, curr_host);
-
         curr_error = __parser::get_last_error();
     }
 
     return;
 }
 
-ipinfo::error_t
+ipinfo::error
 ipinfo::informer::get_last_error(const std::string &host) const
 {
     if (host.empty())
@@ -258,7 +244,7 @@ ipinfo::informer::get_last_error(const std::string &host) const
     return {};
 }
 
-ipinfo::error_t
+ipinfo::error
 ipinfo::informer::get_last_error(const std::uint8_t host_id) const
 {
     if (!(__utiler::is_host_supported(host_id)))
@@ -269,7 +255,7 @@ ipinfo::informer::get_last_error(const std::uint8_t host_id) const
         };
     }
 
-    return get_last_error(ipinfo::avail_hosts.at(host_id));
+    return this->get_last_error(ipinfo::avail_hosts.at(host_id));
 }
 
 std::size_t

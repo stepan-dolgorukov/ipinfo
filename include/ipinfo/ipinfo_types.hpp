@@ -10,14 +10,22 @@
 
     namespace ipinfo
     {
-        typedef struct error
+        struct error
         {
-            std::uint8_t    code{0u};
+            std::uint8_t    code{ipinfo::ERRORS_IDS::NO_ERRORS};
             std::string     desc{"No error"};
 
             std::string     part{};
             std::string     func{};
-        } error_t;
+        };
+
+        template<typename T> struct user_node
+        {
+            bool        is_parsed : 1 {false};
+            T           val{};
+            std::string host{};
+            std::string desc{};
+        };
 
         template<typename T> struct __data_node
         {
@@ -32,15 +40,7 @@
             std::map<const std::string, data_content>   content{};
         };
 
-        template<typename T> struct user_node
-        {
-            bool            is_parsed : 1 {false};
-            T               val{};
-            std::string     host{};
-            std::string     desc{};
-        };
-
-        typedef struct __info
+        struct __info
         {
             __data_node<std::string> ip
             {
@@ -739,6 +739,6 @@
                 }
             };
 
-        } __info_t;
+        };
     }
 #endif

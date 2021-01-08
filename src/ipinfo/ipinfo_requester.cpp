@@ -29,7 +29,7 @@ ipinfo::recv(const char * const data,
              std::size_t ch_nums,
              std::string * const res)
 {
-    const auto total_bytes{ch_size * ch_nums};
+    const std::size_t total_bytes{ch_size * ch_nums};
 
     res->append(data, total_bytes);
     return total_bytes;
@@ -161,7 +161,7 @@ ipinfo::__requester::get_request_answer() const
     return __request_answer;
 }
 
-ipinfo::error_t
+ipinfo::error
 ipinfo::__requester::get_last_error() const
 {
     return __error;

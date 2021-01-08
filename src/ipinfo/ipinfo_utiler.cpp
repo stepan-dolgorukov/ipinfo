@@ -14,7 +14,7 @@ namespace ipinfo
 }
 
 void
-ipinfo::__utiler::set_error(ipinfo::error_t &error,
+ipinfo::__utiler::set_error(ipinfo::error &error,
                             const std::uint8_t code,
                             const std::string &&desc,
                             const std::string &&func)
@@ -54,7 +54,7 @@ ipinfo::clear_node(__data_node<std::string> &node)
 }
 
 void
-ipinfo::__utiler::clear_info(ipinfo::__info_t &info)
+ipinfo::__utiler::clear_info(ipinfo::__info &info)
 {
     ipinfo::clear_node(info.ip);
     ipinfo::clear_node(info.ip_type);

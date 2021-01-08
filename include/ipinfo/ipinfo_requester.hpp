@@ -9,9 +9,9 @@
         class __requester
         {
             private:
-                std::string __request_url{};
-                std::string __request_answer{};
-                error_t     __error{};
+                std::string     __request_url{};
+                std::string     __request_answer{};
+                ipinfo::error   __error{};
 
             public:
                 void        create_request_url(const std::string &host,
@@ -19,9 +19,9 @@
                                                const std::string &lang_name,
                                                const std::string &api_key);
 
-                void        send_request(void);
-                std::string get_request_answer(void) const;
-                error_t     get_last_error(void) const;
+                void           send_request(void);
+                std::string    get_request_answer(void) const;
+                ipinfo::error  get_last_error(void) const;
         };
     }
 

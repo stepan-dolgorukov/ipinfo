@@ -13,12 +13,12 @@
         {
             public:
                 static void
-                set_error(error_t &error,
+                set_error(ipinfo::error &error,
                           const std::uint8_t code,
                           const std::string &&desc,
                           const std::string &&func);
 
-                void        clear_info(__info_t &info);
+                void        clear_info(ipinfo::__info &info);
                 double      round_double(const double value,
                                          const std::uint8_t places) const;
 

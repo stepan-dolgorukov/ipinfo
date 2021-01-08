@@ -19,14 +19,14 @@
                          private __utiler
         {
             private:
-                __info_t        __info;
+                ipinfo::__info  __info;
                 std::string     __ip;
                 std::string     __lang;
                 std::uint8_t    __conn_num;
 
-                std::map<std::string, std::string>  __api_keys;
-                std::map<std::string, error_t>      __errors;
-                std::vector<std::string>            __excluded_hosts;
+                std::map<std::string, std::string>      __api_keys;
+                std::map<std::string, ipinfo::error>    __errors;
+                std::vector<std::string>                __excluded_hosts;
 
             public:
                 informer(void);
@@ -64,9 +64,9 @@
 
                 void    run(void);
 
-                error_t     get_last_error(const std::string &host) const;
-                error_t     get_last_error(const std::uint8_t host_id) const;
-                std::size_t get_errors_num(void) const;
+                ipinfo::error   get_last_error(const std::string &host) const;
+                ipinfo::error   get_last_error(const std::uint8_t host_id) const;
+                std::size_t     get_errors_num(void) const;
 
                 // default getters
                 std::string     get_ip(void) const;
