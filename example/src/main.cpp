@@ -16,11 +16,11 @@ int
 main(void)
 {
     // IPv4
-    // my_app::show_ip_info("8.8.8.8", "english");
-    // my_app::show_ip_info_ex("8.8.8.8", "english");
+    //my_app::show_ip_info("8.8.8.8", "english");
+    //my_app::show_ip_info_ex("8.8.8.8", "english");
 
     // IPv6
-    // my_app::show_ip_info("2001:4860:4860::8888", "russian");
+    //my_app::show_ip_info("2001:4860:4860::8888", "russian");
     my_app::show_ip_info_ex("2001:4860:4860::8888", "russian");
 
     return 0;
@@ -58,6 +58,7 @@ my_app::show_ip_info(const std::string &ip,
 
     std::printf("IP: %s\n", informer.get_ip().c_str());
     std::printf("IP type: %s\n", informer.get_ip_type().c_str());
+
     std::printf("Continent: %s\n", informer.get_continent().c_str());
     std::printf("Continent code: %s\n", informer.get_continent_code().c_str());
     std::printf("County: %s\n", informer.get_country().c_str());
@@ -316,6 +317,5 @@ my_app::show_ip_info_ex(const std::string &ip,
                                                   curr_str_cont.val.c_str(),
                                                   curr_str_cont.is_parsed,
                                                   curr_str_cont.host.c_str());
-
     return;
 }
