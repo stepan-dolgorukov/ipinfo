@@ -1,5 +1,5 @@
 .PHONY: prepare \
-	    clean \
+        clean \
         install \
         uninstall
 
