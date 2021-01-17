@@ -1,26 +1,56 @@
-#ifndef __IPINFO__PARSER__HPP__
-    #define __IPINFO__PARSER__HPP__
+#ifndef IPINFO_PARSER_HPP__
+    #define IPINFO_PARSER_HPP
 
-    #include <string>
-    #include <cjson/cJSON.h>
+#include "ipinfo_types.hpp"
 
-    #include "ipinfo_types.hpp"
+#include <cjson/cJSON.h>
+#include <cstdint>
+#include <string>
 
-    namespace ipinfo
+namespace ipinfo::service
+{
+    class parser
     {
-        class __parser
-        {
-            private:
-                ::cJSON         *__data{};
-                ipinfo::error   __error{};
+        private:
+            ::cJSON* __prepare(const std::string &json);
 
-            public:
-                void    put_json(const std::string &json);
-                void    deserialize_json(ipinfo::__info &info,
-                                         const std::string &host) const;
+            template<template<typename ...> class T, typename sub_T> void
+            __catch_node(
+                    const ::cJSON &data,
+                    T<sub_T> &node,
+                    const std::string &host);
 
-                ipinfo::error get_last_error(void) const;
-        };
-   }
+            template<template<typename ...> class T> void
+            __fill_node(
+                    T<std::string> &node,
+                    const ::cJSON &item,
+                    const std::string &host);
+
+            template<template<typename ...> class T> void
+            __fill_node(
+                    T<std::int32_t> &node,
+                    const ::cJSON &item,
+                    const std::string &host);
+
+            template<template<typename ...> class T> void
+            __fill_node(
+                    T<double> &node,
+                    const ::cJSON &item,
+                    const std::string &host);
+
+            template<template<typename ...> class T> void
+            __fill_node(
+                    T<bool> &node,
+                    const ::cJSON &item,
+                    const std::string &host);
+        public:
+            void parse(
+                    const std::string &json,
+                    ipinfo::service::types::info &info,
+                    const std::string &host);
+
+            ipinfo::types::error get_last_error(void) const;
+    };
+}
 
 #endif

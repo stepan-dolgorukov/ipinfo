@@ -1,11 +1,8 @@
-#ifndef __IPINFO__HPP__
-    #define __IPINFO__HPP__
+#ifndef IPINFO_HPP
+    #define IPINFO_HPP
 
-    #include "ipinfo_informer.hpp"
-    #include "ipinfo_requester.hpp"
-    #include "ipinfo_parser.hpp"
-    #include "ipinfo_utiler.hpp"
-    #include "ipinfo_types.hpp"
-    #include "ipinfo_values.hpp"
+#include "ipinfo_informer.hpp"
+#include "ipinfo_types.hpp"
+#include "ipinfo_constants.hpp"
 
 #endif
