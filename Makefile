@@ -48,7 +48,6 @@ $(TARG): $(OBJ_D)/ipinfo_informer.o \
          $(OBJ_D)/ipinfo_utiler.o
 	@ $(ECHO) "building $(TARG)"
 	@ $(CXX) \
-	$(LDLIBS) \
 	-shared \
 	$^ \
 	-o $@
