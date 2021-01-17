@@ -42,9 +42,6 @@ else
                 -march=native
 endif
 
-LDLIBS := -lcjson \
-          -lcurl
-
 $(TARG): $(OBJ_D)/ipinfo_informer.o \
          $(OBJ_D)/ipinfo_parser.o \
          $(OBJ_D)/ipinfo_requester.o \
@@ -87,8 +84,12 @@ install: $(TARG)
 	@ $(ECHO) "copying $(TARG) to $(INSTALL_LIB_D)"
 	@ $(CP) $(TARG) $(INSTALL_LIB_D)
 
-	@ $(ECHO) "copying $(INCL_D) to $(INSTALL_INCL_D)"
-	@ $(CP) -r $(INCL_D)/ipinfo $(INSTALL_INCL_D)
+	# !!!
+	$(MKDIR) -p $(INSTALL_INCL_D)/ipinfo
+	$(CP) $(INCL_D)/ipinfo/ipinfo.hpp $(INSTALL_INCL_D)/ipinfo
+	$(CP) $(INCL_D)/ipinfo/ipinfo_types.hpp $(INSTALL_INCL_D)/ipinfo
+	$(CP) $(INCL_D)/ipinfo/ipinfo_constants.hpp $(INSTALL_INCL_D)/ipinfo
+	$(CP) $(INCL_D)/ipinfo/ipinfo_informer.hpp $(INSTALL_INCL_D)/ipinfo
 
 uninstall:
 	@ ($(TEST) -e $(INSTALL_LIB_D)/libipinfo.so && \
