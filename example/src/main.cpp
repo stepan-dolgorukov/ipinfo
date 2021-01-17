@@ -15,12 +15,7 @@ namespace my_app
 int
 main(void)
 {
-    // IPv4
-    //my_app::show_ip_info("8.8.8.8", "english");
-    //my_app::show_ip_info_ex("8.8.8.8", "english");
-
-    // IPv6
-    //my_app::show_ip_info("2001:4860:4860::8888", "russian");
+    my_app::show_ip_info("8.8.8.8", "english");
     my_app::show_ip_info_ex("2001:4860:4860::8888", "russian");
 
     return 0;
@@ -30,31 +25,12 @@ void
 my_app::show_ip_info(const std::string &ip,
                      const std::string &lang)
 {
-    ipinfo::informer informer{};
-    ipinfo::error    error{};
+    ipinfo::interface::informer informer{};
+    ipinfo::types::error        error{};
 
     informer.set_ip(ip);
     informer.set_lang(lang);
     informer.run();
-
-    // if we have some errors
-    if (0u != informer.get_errors_num())
-    {
-        std::printf("%s\n", "O-o-o-o-ops!");
-
-        for (const auto &curr_host : ipinfo::avail_hosts)
-        {
-            error = informer.get_last_error(curr_host);
-
-            if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
-            {
-                std::printf("Host: %s\n", curr_host.c_str());
-                std::printf("Code: %u\n", error.code);
-                std::printf("Description: %s\n", error.desc.c_str());
-                std::printf("Function: %s\n", error.func.c_str());
-            }
-        }
-    }
 
     std::printf("IP: %s\n", informer.get_ip().c_str());
     std::printf("IP type: %s\n", informer.get_ip_type().c_str());
@@ -98,34 +74,15 @@ void
 my_app::show_ip_info_ex(const std::string &ip,
                         const std::string &lang)
 {
-    ipinfo::informer informer(ip, lang, 0u);
-    ipinfo::error    error{};
+    ipinfo::interface::informer informer(ip, lang, 0u);
+    ipinfo::types::error        error{};
 
     informer.run();
 
-    ipinfo::user_node<std::string>  curr_str_cont{};
-    ipinfo::user_node<double>       curr_dbl_cont{};
-    ipinfo::user_node<std::int32_t> curr_i32_cont{};
-    ipinfo::user_node<bool>         curr_bool_cont{};
-
-    // if we have some errors
-    if (0u != informer.get_errors_num())
-    {
-        std::printf("%s\n", "O-o-o-o-ops!");
-
-        for (const auto &curr_host : ipinfo::avail_hosts)
-        {
-            error = informer.get_last_error(curr_host);
-
-            if (ipinfo::ERRORS_IDS::NO_ERRORS != error.code)
-            {
-                std::printf("Host: %s\n", curr_host.c_str());
-                std::printf("Code: %u\n", error.code);
-                std::printf("Description: %s\n", error.desc.c_str());
-                std::printf("Function: %s\n", error.func.c_str());
-            }
-        }
-    }
+    ipinfo::types::node<std::string>  curr_str_cont{};
+    ipinfo::types::node<std::int32_t> curr_i32_cont{};
+    ipinfo::types::node<double>       curr_dbl_cont{};
+    ipinfo::types::node<bool>         curr_bool_cont{};
 
     curr_str_cont = informer.get_ip_ex();
     std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),

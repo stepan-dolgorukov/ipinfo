@@ -37,7 +37,10 @@ else
                 -flto
 endif
 
-LDLIBS := -lipinfo
+LDLIBS := -lipinfo \
+          -lcjson \
+          -lcpr \
+          -lcurl
 
 $(TARG): $(OBJ_D)/main.o
 	@ $(ECHO) "building $(TARG)"
