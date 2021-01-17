@@ -84,12 +84,19 @@ install: $(TARG)
 	@ $(ECHO) "copying $(TARG) to $(INSTALL_LIB_D)"
 	@ $(CP) $(TARG) $(INSTALL_LIB_D)
 
-	# !!!
-	$(MKDIR) -p $(INSTALL_INCL_D)/ipinfo
-	$(CP) $(INCL_D)/ipinfo/ipinfo.hpp $(INSTALL_INCL_D)/ipinfo
-	$(CP) $(INCL_D)/ipinfo/ipinfo_types.hpp $(INSTALL_INCL_D)/ipinfo
-	$(CP) $(INCL_D)/ipinfo/ipinfo_constants.hpp $(INSTALL_INCL_D)/ipinfo
-	$(CP) $(INCL_D)/ipinfo/ipinfo_informer.hpp $(INSTALL_INCL_D)/ipinfo
+	@ $(MKDIR) -p $(INSTALL_INCL_D)/ipinfo
+
+	@ $(ECHO) "copying $(INCL_D)/ipinfo.hpp to $(INSTALL_INCL_D)/ipinfo"
+	@ $(CP) $(INCL_D)/ipinfo/ipinfo.hpp $(INSTALL_INCL_D)/ipinfo
+
+	@ $(ECHO) "copying $(INCL_D)/ipinfo_types.hpp to $(INSTALL_INCL_D)/ipinfo"
+	@ $(CP) $(INCL_D)/ipinfo/ipinfo_types.hpp $(INSTALL_INCL_D)/ipinfo
+
+	@ $(ECHO) "copying $(INCL_D)/ipinfo_constants.hpp to $(INSTALL_INCL_D)/ipinfo"
+	@ $(CP) $(INCL_D)/ipinfo/ipinfo_constants.hpp $(INSTALL_INCL_D)/ipinfo
+
+	@ $(ECHO) "copying $(INCL_D)/ipinfo_informer.hpp to $(INSTALL_INCL_D)/ipinfo"
+	@ $(CP) $(INCL_D)/ipinfo/ipinfo_informer.hpp $(INSTALL_INCL_D)/ipinfo
 
 uninstall:
 	@ ($(TEST) -e $(INSTALL_LIB_D)/libipinfo.so && \
