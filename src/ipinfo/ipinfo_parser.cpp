@@ -1,45 +1,68 @@
-#include <string>
-#include <cstdint>
-#include <cjson/cJSON.h>
-
 #include "../../include/ipinfo/ipinfo_types.hpp"
 #include "../../include/ipinfo/ipinfo_parser.hpp"
 #include "../../include/ipinfo/ipinfo_utiler.hpp"
 
-namespace ipinfo
+#include <string>
+#include <cstdint>
+#include <cjson/cJSON.h>
+
+::cJSON*
+ipinfo::service::parser::__prepare(const std::string &json)
 {
-    static void
-    fill_node(const ::cJSON &item,
-              const std::string &host,
-              __data_node<std::int32_t> &node);
+    if (json.empty())
+    {
+        return nullptr;
+    }
 
-    static void
-    fill_node(const ::cJSON &item,
-              const std::string &host,
-              __data_node<double> &node);
+    auto *data{::cJSON_Parse(json.c_str())};
 
-    static void
-    fill_node(const ::cJSON &item,
-              const std::string &host,
-              __data_node<std::string> &node);
+    if (nullptr == data)
+    {
+        std::string        error_location{"unknown"};
+        const auto * const json_error{::cJSON_GetErrorPtr()};
 
-    static void
-    fill_node(const ::cJSON &item,
-              const std::string &host,
-              ipinfo::__data_node<bool> &node);
+        if (nullptr != json_error &&
+            !(std::string{json_error}.empty()))
+        {
+            error_location = json_error;
+        }
+    }
 
-    template<typename T> static void
-    process_node(const ::cJSON &item,
-                 const std::string &host,
-                 ipinfo::__data_node<T> &node);
+    return data;
 }
 
-void
-ipinfo::fill_node(const ::cJSON &item,
-                  const std::string &host,
-                  ipinfo::__data_node<std::int32_t> &node)
+template<template<typename ...> class T> void
+ipinfo::service::parser::__fill_node(
+        T<std::string> &node,
+        const ::cJSON &item,
+        const std::string &host)
 {
-    auto &content{node.content.at(host)};
+    if (::cJSON_IsString(&item))
+    {
+        auto &content{node.cont.at(host)};
+        const auto *val{item.valuestring};
+
+        if (nullptr == val ||
+            std::string(val).empty())
+        {
+            content.is_parsed = false;
+            return;
+        }
+
+        content.val = val;
+        content.is_parsed = true;
+    }
+
+    return;
+}
+
+template<template<typename ...> class T> void
+ipinfo::service::parser::__fill_node(
+        T<std::int32_t> &node,
+        const ::cJSON &item,
+        const std::string &host)
+{
+    auto &content{node.cont.at(host)};
 
     if (::cJSON_IsString(&item))
     {
@@ -67,25 +90,26 @@ ipinfo::fill_node(const ::cJSON &item,
     return;
 }
 
-void
-ipinfo::fill_node(const ::cJSON &item,
-                  const std::string &host,
-                  ipinfo::__data_node<double> &node)
-{;
-    auto &content{node.content.at(host)};
+template<template<typename ...> class T> void
+ipinfo::service::parser::__fill_node(
+        T<double> &node,
+        const ::cJSON &item,
+        const std::string &host)
+{
+    auto &content{node.cont.at(host)};
 
     if (::cJSON_IsString(&item))
     {
         const auto *val{item.valuestring};
 
         if (nullptr == val ||
-            std::string(val).empty())
+            std::string{val}.empty())
         {
             content.is_parsed = false;
             return;
         }
 
-        content.val = std::stod(std::string(val));
+        content.val = std::stod(val);
         content.is_parsed = true;
     }
 
@@ -98,40 +122,16 @@ ipinfo::fill_node(const ::cJSON &item,
     return;
 }
 
-void
-ipinfo::fill_node(const ::cJSON &item,
-                  const std::string &host,
-                  ipinfo::__data_node<std::string> &node)
+template<template<typename ...> class T> void
+ipinfo::service::parser::__fill_node(
+        T<bool> &node,
+        const ::cJSON &item,
+        const std::string &host)
 {
-    if (::cJSON_IsString(&item))
-    {
-        auto &content{node.content.at(host)};
-        const auto *val{item.valuestring};
-
-        if (nullptr == val ||
-            std::string(val).empty())
-        {
-            content.is_parsed = false;
-            return;
-        }
-
-        content.val = val;
-        content.is_parsed = true;
-    }
-
-    return;
-}
-
-void
-ipinfo::fill_node(const ::cJSON &item,
-                  const std::string &host,
-                  ipinfo::__data_node<bool> &node)
-{
-    auto &content{node.content.at(host)};
+    auto &content{node.cont.at(host)};
 
     if (::cJSON_IsString(&item))
     {
-        auto &content{node.content.at(host)};
         const auto *val{item.valuestring};
 
         if (nullptr == val ||
@@ -154,111 +154,72 @@ ipinfo::fill_node(const ::cJSON &item,
     return;
 }
 
-template<typename T> void
-ipinfo::process_node(const ::cJSON &data,
-                     const std::string &host,
-                     ipinfo::__data_node<T> &node)
+template<template<typename ...> class T, typename sub_T> void
+ipinfo::service::parser::__catch_node(
+        const ::cJSON &data,
+        T<sub_T> &node,
+        const std::string &host)
 {
-    const auto node_name{
-        node.content.at(host).json_name.c_str()};
+    const auto &node_name{node.cont.at(host).json_name.c_str()};
+    const auto * const item{::cJSON_GetObjectItemCaseSensitive(&data, node_name)};
 
-    const auto *item{
-        ::cJSON_GetObjectItemCaseSensitive(&data, node_name)};
-
-    if (nullptr == item)
-    {
-        // log!
-        return;
-    }
-
-    ipinfo::fill_node(*item, host, node);
+    this->__fill_node(node, *item, host);
     return;
 }
 
 void
-ipinfo::__parser::put_json(const std::string &json)
+ipinfo::service::parser::parse(
+        const std::string &json,
+        ipinfo::service::types::info &info,
+        const std::string &host)
 {
-    if (json.empty())
-    {
-        __utiler::set_error(
-                __error,
-                EMPTY_JSON_STRING,
-                "Empty JSON string",
-                __func__);
-        return;
-    }
+    auto *data{this->__prepare(json)};
 
-    __data = ::cJSON_Parse(json.c_str());
-
-    if (nullptr == __data)
-    {
-        std::string error_location{"unknown"};
-        const auto * const json_error{::cJSON_GetErrorPtr()};
-
-        if (nullptr != json_error)
-        {
-            error_location = json_error;
-        }
-
-        __utiler::set_error(
-                __error,
-                FAILED_JSON_PARSING,
-                "JSON parsing error. " \
-                "Error before: " + error_location,
-                __func__);
-    }
-
-    return;
-}
-
-void
-ipinfo::__parser::deserialize_json(ipinfo::__info &i,
-                                   const std::string &host) const
-{
-    if (nullptr == __data)
+    if (nullptr == data)
     {
         return;
     }
 
-    ipinfo::process_node(*__data, host, i.ip);
-    ipinfo::process_node(*__data, host, i.ip_type);
-    ipinfo::process_node(*__data, host, i.continent);
-    ipinfo::process_node(*__data, host, i.continent_code);
-    ipinfo::process_node(*__data, host, i.country);
-    ipinfo::process_node(*__data, host, i.country_code);
-    ipinfo::process_node(*__data, host, i.country_capital);
-    ipinfo::process_node(*__data, host, i.country_ph_code);
-    ipinfo::process_node(*__data, host, i.country_neighbors);
-    ipinfo::process_node(*__data, host, i.region);
-    ipinfo::process_node(*__data, host, i.region_code);
-    ipinfo::process_node(*__data, host, i.city);
-    ipinfo::process_node(*__data, host, i.city_district);
-    ipinfo::process_node(*__data, host, i.zip_code);
-    ipinfo::process_node(*__data, host, i.latitude);
-    ipinfo::process_node(*__data, host, i.longitude);
-    ipinfo::process_node(*__data, host, i.city_timezone);
-    ipinfo::process_node(*__data, host, i.timezone);
-    ipinfo::process_node(*__data, host, i.gmt_offset);
-    ipinfo::process_node(*__data, host, i.dst_offset);
-    ipinfo::process_node(*__data, host, i.timezone_gmt);
-    ipinfo::process_node(*__data, host, i.isp);
-    ipinfo::process_node(*__data, host, i.as);
-    ipinfo::process_node(*__data, host, i.org);
-    ipinfo::process_node(*__data, host, i.reverse_dns);
-    ipinfo::process_node(*__data, host, i.is_hosting);
-    ipinfo::process_node(*__data, host, i.is_proxy);
-    ipinfo::process_node(*__data, host, i.is_mobile);
-    ipinfo::process_node(*__data, host, i.currency);
-    ipinfo::process_node(*__data, host, i.currency_code);
-    ipinfo::process_node(*__data, host, i.currency_symbol);
-    ipinfo::process_node(*__data, host, i.currency_rates);
-    ipinfo::process_node(*__data, host, i.currency_plural);
+    this->__catch_node(*data, info.ip, host);
+    this->__catch_node(*data, info.ip_type, host);
+    this->__catch_node(*data, info.continent, host);
+    this->__catch_node(*data, info.continent_code, host);
+    this->__catch_node(*data, info.country, host);
+    this->__catch_node(*data, info.country_code, host);
+    this->__catch_node(*data, info.country_capital, host);
+    this->__catch_node(*data, info.country_ph_code, host);
+    this->__catch_node(*data, info.country_neighbors, host);
+    this->__catch_node(*data, info.region, host);
+    this->__catch_node(*data, info.region_code, host);
+    this->__catch_node(*data, info.city, host);
+    this->__catch_node(*data, info.city_district, host);
+    this->__catch_node(*data, info.zip_code, host);
+    this->__catch_node(*data, info.latitude, host);
+    this->__catch_node(*data, info.longitude, host);
+    this->__catch_node(*data, info.city_timezone, host);
+    this->__catch_node(*data, info.timezone, host);
+    this->__catch_node(*data, info.gmt_offset, host);
+    this->__catch_node(*data, info.dst_offset, host);
+    this->__catch_node(*data, info.timezone_gmt, host);
+    this->__catch_node(*data, info.isp, host);
+    this->__catch_node(*data, info.as, host);
+    this->__catch_node(*data, info.org, host);
+    this->__catch_node(*data, info.reverse_dns, host);
+    this->__catch_node(*data, info.is_hosting, host);
+    this->__catch_node(*data, info.is_proxy, host);
+    this->__catch_node(*data, info.is_mobile, host);
+    this->__catch_node(*data, info.currency, host);
+    this->__catch_node(*data, info.currency_code, host);
+    this->__catch_node(*data, info.currency_symbol, host);
+    this->__catch_node(*data, info.currency_rates, host);
+    this->__catch_node(*data, info.currency_plural, host);
 
+    ::cJSON_Delete(data);
     return;
 }
 
-ipinfo::error
-ipinfo::__parser::get_last_error() const
+ipinfo::types::error
+ipinfo::service::parser::get_last_error() const
 {
-    return __error;
+    return {}; // !!!
 }

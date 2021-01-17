@@ -1,28 +1,27 @@
-#ifndef __IPINFO__REQUESTER__HPP__
-    #define __IPINFO__REQUESTER__HPP__
+#ifndef IPINFO_REQUESTER_HPP
+    #define IPINFO_REQUESTER_HPP
 
-    #include <string>
-    #include "ipinfo_types.hpp"
+#include "ipinfo_types.hpp"
+#include <string>
 
-    namespace ipinfo
+namespace ipinfo::service
+{
+    class requester
     {
-        class __requester
-        {
-            private:
-                std::string     __request_url{};
-                std::string     __request_answer{};
-                ipinfo::error   __error{};
+        private:
+            std::string __get_ready_request_info_fields(const std::string &host);
+            std::string __get_ready_request_lang(const std::string &host,
+                                                 const std::string &lang);
 
-            public:
-                void        create_request_url(const std::string &host,
-                                               const std::string &ip,
-                                               const std::string &lang_name,
-                                               const std::string &api_key);
+        public:
+            std::string request(
+                    const std::string &host,
+                    const std::string &ip,
+                    const std::string &lang,
+                    const std::string &api_key);
 
-                void           send_request(void);
-                std::string    get_request_answer(void) const;
-                ipinfo::error  get_last_error(void) const;
-        };
-    }
+            ipinfo::types::error get_last_error(void) const;
+    };
+}
 
 #endif

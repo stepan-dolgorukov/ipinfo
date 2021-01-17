@@ -1,36 +1,40 @@
-#ifndef __IPINFO__UTILER__HPP__
-    #define __IPINFO__UTILER__HPP__
+#ifndef IPINFO_UTILER_HPP
+    #define IPINFO_UTILER_HPP
 
-    #include <cstdint>
-    #include <string>
-    #include <vector>
+#include "ipinfo_types.hpp"
 
-    #include "ipinfo_types.hpp"
+#include <cstdint>
+#include <string>
+#include <vector>
 
-    namespace ipinfo
+namespace ipinfo::service
+{
+    class utiler
     {
-        class __utiler
-        {
-            public:
-                static void
-                set_error(ipinfo::error &error,
-                          const std::uint8_t code,
-                          const std::string &&desc,
-                          const std::string &&func);
+        private:
+            template<template<typename ...> class T, typename sub_T> void
+            __clear_node(T<sub_T> &node) const;
 
-                void        clear_info(ipinfo::__info &info);
-                double      round_double(const double value,
-                                         const std::uint8_t places) const;
+        public:
+            void clear_info(ipinfo::service::types::info &info);
 
-                static bool is_host_supported(const std::string &host);
-                static bool is_host_supported(const std::uint8_t host_id);
-                static bool is_lang_correct(const std::string &lang,
-                                            const std::string &host);
+            double round_val(
+                    const double v,
+                    const std::uint8_t places) const;
 
-                std::string str_to_lower_case(const std::string &s);
-                static bool is_host_excluded(const std::string &host,
-                                             const std::vector<std::string> &excl_hosts);
-        };
-    }
+            bool is_host_supported(const std::string &host);
+            bool is_host_supported(const std::uint8_t host_id);
+
+            bool is_lang_supported(
+                    const std::string &lang,
+                    const std::string &host);
+
+            std::string to_lower_case(const std::string &s);
+
+            bool is_host_excluded(
+                    const std::string &host,
+                    const std::vector<std::string> &excl_hosts);
+    };
+}
 
 #endif
