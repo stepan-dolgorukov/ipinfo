@@ -7,9 +7,6 @@ target/*
 example/target/*
 example/include/*
 example/obj/*
-example/lib/*
 
 test/ipinfo_test
-test/include/
-test/obj/
-test/lib/
+test/obj
