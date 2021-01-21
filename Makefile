@@ -5,13 +5,13 @@
 
 DEBUG_MODE := 1
 
-CURR_D := $(shell pwd)
-OBJ_D  := $(CURR_D)/obj
-SRC_D  := $(CURR_D)/src
-INCL_D := $(CURR_D)/include
-TARG_D := $(CURR_D)/target
+CURR_DIR    := $(shell pwd)
+OBJ_DIR     := $(CURR_DIR)/obj
+SRC_DIR     := $(CURR_DIR)/src
+INCLUDE_DIR := $(CURR_DIR)/include/ipinfo
+TARGET_DIR  := $(CURR_DIR)/target
 
-TARG :=  $(TARG_D)/libipinfo.so
+TARG :=  $(TARGET_DIR)/libipinfo.so
 
 RM    := /usr/bin/rm
 CXX   := /usr/bin/g++
@@ -20,8 +20,9 @@ TEST  := /usr/bin/test
 CP    := /usr/bin/cp
 ECHO  := /usr/bin/echo
 
-INSTALL_LIB_D  := /usr/lib
-INSTALL_INCL_D := /usr/include
+PREFIX              ?= /usr/local
+INSTALL_LIB_DIR     := $(DESTDIR)$(PREFIX)/lib
+INSTALL_INCLUDE_DIR := $(DESTDIR)$(PREFIX)/include/ipinfo
 
 CXXFLAGS := -std=c++2a \
             -Wall \
@@ -42,68 +43,68 @@ else
                 -march=native
 endif
 
-$(TARG): $(OBJ_D)/ipinfo_informer.o \
-         $(OBJ_D)/ipinfo_parser.o \
-         $(OBJ_D)/ipinfo_requester.o \
-         $(OBJ_D)/ipinfo_utiler.o
+$(TARG): $(OBJ_DIR)/ipinfo_informer.o \
+         $(OBJ_DIR)/ipinfo_parser.o \
+         $(OBJ_DIR)/ipinfo_requester.o \
+         $(OBJ_DIR)/ipinfo_utiler.o
 	@ $(ECHO) "building $(TARG)"
 	@ $(CXX) \
 	-shared \
 	$^ \
 	-o $@
 
-$(OBJ_D)/%.o: $(SRC_D)/ipinfo/%.cpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/ipinfo/%.cpp
 	@ $(ECHO) "compiling $<"
 	@ $(CXX) \
-	-I$(INCL_D)/ipinfo \
+	-I$(INCLUDE_DIR) \
 	$(CXXFLAGS) \
 	-fPIC \
 	-c $< \
 	-o $@
 
 prepare:
-	@ ($(TEST) -d $(OBJ_D) && \
-		$(ECHO) "$(OBJ_D) already exists") || \
-		($(ECHO) "creating $(OBJ_D)" && $(MKDIR) $(OBJ_D))
+	@ ($(TEST) -d $(OBJ_DIR) && \
+		$(ECHO) "$(OBJ_DIR) already exists") || \
+		($(ECHO) "creating $(OBJ_DIR)" && $(MKDIR) $(OBJ_DIR))
 
-	@ $(TEST) -d $(TARG_D) && \
-		$(ECHO) "$(TARG_D) already exists" || \
-		($(ECHO) "creating $(TARG_D)" && $(MKDIR) $(TARG_D))
+	@ $(TEST) -d $(TARGET_DIR) && \
+		$(ECHO) "$(TARGET_DIR) already exists" || \
+		($(ECHO) "creating $(TARGET_DIR)" && $(MKDIR) $(TARGET_DIR))
 
 clean:
-	@ ($(TEST) -d $(TARG_D) && \
-		$(ECHO) "deleting $(TARG_D)" && $(RM) -r $(TARG_D)) || \
-		($(ECHO) "$(TARG_D) doesn't exist")
+	@ ($(TEST) -d $(TARGET_DIR) && \
+		$(ECHO) "deleting $(TARGET_DIR)" && $(RM) -r $(TARGET_DIR)) || \
+		($(ECHO) "$(TARGET_DIR) doesn't exist")
 
-	@ ($(TEST) -d $(OBJ_D) && \
-		$(ECHO) "deleting $(OBJ_D)" && $(RM) -r $(OBJ_D)) || \
-		($(ECHO) "$(OBJ_D) doesn't exist")
+	@ ($(TEST) -d $(OBJ_DIR) && \
+		$(ECHO) "deleting $(OBJ_DIR)" && $(RM) -r $(OBJ_DIR)) || \
+		($(ECHO) "$(OBJ_DIR) doesn't exist")
 
 install: $(TARG)
-	@ $(ECHO) "copying $(TARG) to $(INSTALL_LIB_D)"
-	@ $(CP) $(TARG) $(INSTALL_LIB_D)
+	@ $(ECHO) "copying $(TARG) to $(INSTALL_LIB_DIR)"
+	@ $(CP) $(TARG) $(INSTALL_LIB_DIR)
 
-	@ $(MKDIR) -p $(INSTALL_INCL_D)/ipinfo
+	@ $(MKDIR) -p $(INSTALL_INCLUDE_DIR)
 
-	@ $(ECHO) "copying $(INCL_D)/ipinfo.hpp to $(INSTALL_INCL_D)/ipinfo"
-	@ $(CP) $(INCL_D)/ipinfo/ipinfo.hpp $(INSTALL_INCL_D)/ipinfo
+	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo.hpp to $(INSTALL_INCLUDE_DIR)"
+	@ $(CP) $(INCLUDE_DIR)/ipinfo.hpp $(INSTALL_INCLUDE_DIR)
 
-	@ $(ECHO) "copying $(INCL_D)/ipinfo_types.hpp to $(INSTALL_INCL_D)/ipinfo"
-	@ $(CP) $(INCL_D)/ipinfo/ipinfo_types.hpp $(INSTALL_INCL_D)/ipinfo
+	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo_types.hpp to $(INSTALL_INCLUDE_DIR)"
+	@ $(CP) $(INCLUDE_DIR)/ipinfo_types.hpp $(INSTALL_INCLUDE_DIR)
 
-	@ $(ECHO) "copying $(INCL_D)/ipinfo_constants.hpp to $(INSTALL_INCL_D)/ipinfo"
-	@ $(CP) $(INCL_D)/ipinfo/ipinfo_constants.hpp $(INSTALL_INCL_D)/ipinfo
+	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo_constants.hpp to $(INSTALL_INCLUDE_DIR)"
+	@ $(CP) $(INCLUDE_DIR)/ipinfo_constants.hpp $(INSTALL_INCLUDE_DIR)
 
-	@ $(ECHO) "copying $(INCL_D)/ipinfo_informer.hpp to $(INSTALL_INCL_D)/ipinfo"
-	@ $(CP) $(INCL_D)/ipinfo/ipinfo_informer.hpp $(INSTALL_INCL_D)/ipinfo
+	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo_informer.hpp to $(INSTALL_INCLUDE_DIR)"
+	@ $(CP) $(INCLUDE_DIR)/ipinfo_informer.hpp $(INSTALL_INCLUDE_DIR)
 
 uninstall:
-	@ ($(TEST) -e $(INSTALL_LIB_D)/libipinfo.so && \
-		($(ECHO) "remove $(INSTALL_LIB_D)/libipinfo.so" && \
-		$(RM) $(INSTALL_LIB_D)/libipinfo.so)) || \
-		($(ECHO) "$(INSTALL_LIB_D)/libipinfo.so doesn't exist")
+	@ ($(TEST) -e "$(INSTALL_LIB_DIR)/libipinfo.so" && \
+		($(ECHO) "removing $(INSTALL_LIB_DIR)/libipinfo.so" && \
+		$(RM) "$(INSTALL_LIB_DIR)/libipinfo.so")) || \
+		($(ECHO) "$(INSTALL_LIB_DIR)/libipinfo.so doesn't exist")
 
-	@ ($(TEST) -d $(INSTALL_INCL_D)/ipinfo && \
-		($(ECHO) "remove $(INSTALL_INCL_D)/ipinfo" && \
-		$(RM) -r $(INSTALL_INCL_D)/ipinfo)) || \
-		($(ECHO) "$(INSTALL_INCL_D)/ipinfo doesn't exist")
+	@ ($(TEST) -d $(INSTALL_INCLUDE_DIR) && \
+		($(ECHO) "removing $(INSTALL_INCLUDE_DIR)" && \
+			$(RM) -r $(INSTALL_INCLUDE_DIR)) || \
+			($(ECHO) "$(INSTALL_INCLUDE_DIR) doesn't exist"))
