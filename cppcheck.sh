@@ -9,7 +9,8 @@ check_flags="--std=c++20 \
 check_platforms="unix32 \
                  unix64"
 
-check_files="src/ipinfo/*cpp include/ipinfo/*hpp"
+check_files="$PWD/include/ipinfo/*hpp \
+             $PWD/src/ipinfo/*cpp"
 
 declare -a colors=(
     "\e[1;32m" # green
