@@ -3,13 +3,13 @@
 
 DEBUG_MODE := 1
 
-CURR_D := $(shell pwd)
-OBJ_D  := $(CURR_D)/obj
-SRC_D  := $(CURR_D)/src
-INCL_D := $(CURR_D)/include
-TARG_D := $(CURR_D)/target
+CURR_DIR    := $(shell pwd)
+OBJ_DIR     := $(CURR_DIR)/obj
+SRC_DIR     := $(CURR_DIR)/src
+INCLUDE_DIR := $(CURR_DIR)/include
+TARGET_DIR  := $(CURR_DIR)/target
 
-TARG := $(TARG_D)/ipinfo_xmpl
+TARG := $(TARGET_DIR)/ipinfo_xmpl
 
 RM    := /usr/bin/rm
 CP    := /usr/bin/cp
@@ -37,19 +37,22 @@ else
                 -flto
 endif
 
+LDFLAGS := -Wl,-rpath=/usr/local/lib
 LDLIBS := -lipinfo \
           -lcjson \
           -lcpr \
-          -lcurl
+          -lcurl \
+          -lfmt
 
-$(TARG): $(OBJ_D)/main.o
+$(TARG): $(OBJ_DIR)/main.o
 	@ $(ECHO) "building $(TARG)"
 	@ $(CXX) \
+	$(LDFLAGS) \
 	$(LDLIBS) \
 	$? \
 	-o $@
 
-$(OBJ_D)/%.o: $(SRC_D)/%.cpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@ $(ECHO) "compiling $<"
 	@ $(CXX) \
 	$(CXXFLAGS) \
@@ -57,19 +60,19 @@ $(OBJ_D)/%.o: $(SRC_D)/%.cpp
 	-o $@
 
 prepare:
-	@ ($(TEST) -d $(OBJ_D) && \
-		$(ECHO) "$(OBJ_D) already exists") || \
-		($(ECHO) "creating $(OBJ_D)" && $(MKDIR) $(OBJ_D))
+	@ ($(TEST) -d $(OBJ_DIR) && \
+		$(ECHO) "$(OBJ_DIR) already exists") || \
+		($(ECHO) "creating $(OBJ_DIR)" && $(MKDIR) $(OBJ_DIR))
 
-	@ $(TEST) -d $(TARG_D) && \
-		$(ECHO) "$(TARG_D) already exists" || \
-		($(ECHO) "creating $(TARG_D)" && $(MKDIR) $(TARG_D))
+	@ $(TEST) -d $(TARGET_DIR) && \
+		$(ECHO) "$(TARGET_DIR) already exists" || \
+		($(ECHO) "creating $(TARGET_DIR)" && $(MKDIR) $(TARGET_DIR))
 
 clean:
-	@ ($(TEST) -d $(TARG_D) && \
-		$(ECHO) "deleting $(TARG_D)" && $(RM) -r $(TARG_D)) || \
-		($(ECHO) "$(TARG_D) doesn't exist")
+	@ ($(TEST) -d $(TARGET_DIR) && \
+		$(ECHO) "deleting $(TARGET_DIR)" && $(RM) -r $(TARGET_DIR)) || \
+		($(ECHO) "$(TARGET_DIR) doesn't exist")
 
-	@ ($(TEST) -d $(OBJ_D) && \
-		$(ECHO) "deleting $(OBJ_D)" && $(RM) -r $(OBJ_D)) || \
-		($(ECHO) "$(OBJ_D) doesn't exist")
+	@ ($(TEST) -d $(OBJ_DIR) && \
+		$(ECHO) "deleting $(OBJ_DIR)" && $(RM) -r $(OBJ_DIR)) || \
+		($(ECHO) "$(OBJ_DIR) doesn't exist")
