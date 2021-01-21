@@ -1,29 +1,31 @@
-#include <cstdint>
 #include <ipinfo/ipinfo.hpp>
+#include <fmt/core.h>
+#include <cstdint>
 
-namespace my_app
+namespace app
 {
-    void
-    show_ip_info(const std::string &ip,
-                 const std::string &lang);
+    void show_ip_info(
+            const std::string &ip,
+            const std::string &lang);
 
-    void
-    show_ip_info_ex(const std::string &ip,
-                    const std::string &lang);
+    void show_ip_info_ex(
+            const std::string &ip,
+            const std::string &lang);
 }
 
 int
 main(void)
 {
-    my_app::show_ip_info("8.8.8.8", "english");
-    my_app::show_ip_info_ex("2001:4860:4860::8888", "russian");
+    // app::show_ip_info("8.8.8.8", "english");
+    app::show_ip_info_ex("2001:4860:4860::888", "russian");
 
     return 0;
 }
 
 void
-my_app::show_ip_info(const std::string &ip,
-                     const std::string &lang)
+app::show_ip_info(
+        const std::string &ip,
+        const std::string &lang)
 {
     ipinfo::interface::informer informer{};
     ipinfo::types::error        error{};
@@ -32,247 +34,284 @@ my_app::show_ip_info(const std::string &ip,
     informer.set_lang(lang);
     informer.run();
 
-    std::printf("IP: %s\n", informer.get_ip().c_str());
-    std::printf("IP type: %s\n", informer.get_ip_type().c_str());
-
-    std::printf("Continent: %s\n", informer.get_continent().c_str());
-    std::printf("Continent code: %s\n", informer.get_continent_code().c_str());
-    std::printf("County: %s\n", informer.get_country().c_str());
-    std::printf("Country code: %s\n", informer.get_country_code().c_str());
-    std::printf("Country capital: %s\n", informer.get_country_capital().c_str());
-    std::printf("Country phone code: %s\n", informer.get_country_ph_code().c_str());
-    std::printf("Country neighbors: %s\n", informer.get_country_neighbors().c_str());
-    std::printf("Region: %s\n", informer.get_region().c_str());
-    std::printf("Region code: %s\n", informer.get_region_code().c_str());
-    std::printf("City: %s\n", informer.get_city().c_str());
-    std::printf("City district: %s\n", informer.get_city_district().c_str());
-    std::printf("ZIP code: %s\n", informer.get_zip_code().c_str());
-    std::printf("Latitude: %.3lf\n", informer.get_latitude());
-    std::printf("Longitude: %.3lf\n", informer.get_longitude());
-    std::printf("Timezone: %s\n", informer.get_timezone().c_str());
-    std::printf("City timezone: %s\n", informer.get_city_timezone().c_str());
-    std::printf("Timezone GMT: %s\n", informer.get_timezone_gmt().c_str());
-    std::printf("GMT offset: %i\n", informer.get_gmt_offset());
-    std::printf("DST offset: %i\n", informer.get_dst_offset());
-    std::printf("ISP: %s\n", informer.get_isp().c_str());
-    std::printf("AS: %s\n", informer.get_as().c_str());
-    std::printf("Organization: %s\n", informer.get_org().c_str());
-    std::printf("Reverse DNS lookup: %s\n", informer.get_reverse_dns().c_str());
-    std::printf("Hosting, data center: %u\n", informer.get_hosting_status());
-    std::printf("Proxy, VPN, Tor usage: %u\n", informer.get_proxy_status());
-    std::printf("Mobile connection usage: %u\n", informer.get_mobile_status());
-    std::printf("Currency: %s\n", informer.get_currency().c_str());
-    std::printf("Currency code: %s\n", informer.get_currency_code().c_str());
-    std::printf("Currency symbol: %s\n", informer.get_currency_symbol().c_str());
-    std::printf("Currency exchange rate to USD: %.2lf\n", informer.get_currency_rates());
-    std::printf("Currency plural: %s\n", informer.get_currency_plural().c_str());
+    fmt::print("IP: {:s}\n", informer.get_ip());
+    fmt::print("IP type: {:s}\n", informer.get_ip_type());
+    fmt::print("Continent: {:s}\n", informer.get_continent());
+    fmt::print("Continent code: {}\n", informer.get_continent_code());
+    fmt::print("County: {:s}\n", informer.get_country());
+    fmt::print("Country code: {:s}\n", informer.get_country_code());
+    fmt::print("Country capital: {:s}\n", informer.get_country_capital());
+    fmt::print("Country phone code: {:s}\n", informer.get_country_ph_code());
+    fmt::print("Country neighbors: {:s}\n", informer.get_country_neighbors());
+    fmt::print("Region: {:s}\n", informer.get_region());
+    fmt::print("Region code: {:s}\n", informer.get_region_code());
+    fmt::print("City: {:s}\n", informer.get_city());
+    fmt::print("City district: {:s}\n", informer.get_city_district());
+    fmt::print("ZIP code: {:s}\n", informer.get_zip_code());
+    fmt::print("Latitude: {:.2f}\n", informer.get_latitude());
+    fmt::print("Longitude: {:.2f}\n", informer.get_longitude());
+    fmt::print("Timezone: {:s}\n", informer.get_timezone());
+    fmt::print("City timezone: {:s}\n", informer.get_city_timezone());
+    fmt::print("Timezone GMT: {:s}\n", informer.get_timezone_gmt());
+    fmt::print("GMT offset: {:d}\n", informer.get_gmt_offset());
+    fmt::print("DST offset: {:d}\n", informer.get_dst_offset());
+    fmt::print("ISP: {:s}\n", informer.get_isp());
+    fmt::print("AS: {:s}\n", informer.get_as());
+    fmt::print("Organization: {:s}\n", informer.get_org());
+    fmt::print("Reverse DNS lookup: {:s}\n", informer.get_reverse_dns());
+    fmt::print("Hosting, data center: {:d}\n", informer.get_hosting_status());
+    fmt::print("Proxy, VPN, Tor usage: {:d}\n", informer.get_proxy_status());
+    fmt::print("Mobile connection usage: {:d}\n", informer.get_mobile_status());
+    fmt::print("Currency: {:s}\n", informer.get_currency());
+    fmt::print("Currency code: {:s}\n", informer.get_currency_code());
+    fmt::print("Currency symbol: {:s}\n", informer.get_currency_symbol());
+    fmt::print("Currency exchange rate to USD: {:.2f}\n", informer.get_currency_rates());
+    fmt::print("Currency plural: {:s}\n", informer.get_currency_plural());
 
     return;
 }
 
 void
-my_app::show_ip_info_ex(const std::string &ip,
-                        const std::string &lang)
+app::show_ip_info_ex(
+        const std::string &ip,
+        const std::string &lang)
 {
-    ipinfo::interface::informer informer(ip, lang, 0u);
+    ipinfo::interface::informer informer{ip, lang, 0u};
     ipinfo::types::error        error{};
 
     informer.run();
 
-    ipinfo::types::node<std::string>  curr_str_cont{};
-    ipinfo::types::node<std::int32_t> curr_i32_cont{};
-    ipinfo::types::node<double>       curr_dbl_cont{};
-    ipinfo::types::node<bool>         curr_bool_cont{};
+    ipinfo::types::node<std::string>  str_cont{};
+    ipinfo::types::node<std::int32_t> i32_cont{};
+    ipinfo::types::node<double>       dbl_cont{};
+    ipinfo::types::node<bool>         bool_cont{};
 
-    curr_str_cont = informer.get_ip_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    // printing below isn't such of good
+    // we need to find a compact solution
 
-    curr_str_cont = informer.get_ip_type_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_ip_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed}, // this is a bit field, OK? - Sure!
+            str_cont.host);
 
-    curr_str_cont = informer.get_continent_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_ip_type_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont= informer.get_continent_code_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_continent_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{(str_cont.is_parsed)},
+            str_cont.host);
 
-    curr_str_cont = informer.get_country_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont= informer.get_continent_code_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_country_code_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_country_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_country_capital_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_country_code_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_country_ph_code_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_country_capital_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_country_neighbors_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_country_ph_code_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_region_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_country_neighbors_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_region_code_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_region_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_city_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_region_code_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_city_district_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_city_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_zip_code_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_city_district_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_dbl_cont = informer.get_latitude_ex();
-    std::printf("%s: %.2f; parsed: %u; host: %s\n", curr_dbl_cont.desc.c_str(),
-                                                    curr_dbl_cont.val,
-                                                    curr_dbl_cont.is_parsed,
-                                                    curr_dbl_cont.host.c_str());
+    str_cont = informer.get_zip_code_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_dbl_cont = informer.get_longitude_ex();
-    std::printf("%s: %.2f; parsed: %u; host: %s\n", curr_dbl_cont.desc.c_str(),
-                                                    curr_dbl_cont.val,
-                                                    curr_dbl_cont.is_parsed,
-                                                    curr_dbl_cont.host.c_str());
+    dbl_cont = informer.get_latitude_ex();
+    fmt::print("{:s}: {:.2f}; parsed: {:d}; host: {:s}\n",
+            dbl_cont.desc,
+            dbl_cont.val,
+            bool{dbl_cont.is_parsed},
+            dbl_cont.host);
 
-    curr_str_cont = informer.get_timezone_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    dbl_cont = informer.get_longitude_ex();
+    fmt::print("{:s}: {:.2f}; parsed: {:d}; host: {:s}\n",
+            dbl_cont.desc,
+            dbl_cont.val,
+            bool{dbl_cont.is_parsed},
+            dbl_cont.host);
 
-    curr_str_cont = informer.get_city_timezone_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_timezone_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_timezone_gmt_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_city_timezone_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_i32_cont = informer.get_gmt_offset_ex();
-    std::printf("%s: %i; parsed: %u; host: %s\n", curr_i32_cont.desc.c_str(),
-                                                  curr_i32_cont.val,
-                                                  curr_i32_cont.is_parsed,
-                                                  curr_i32_cont.host.c_str());
+    str_cont = informer.get_timezone_gmt_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_i32_cont = informer.get_dst_offset_ex();
-    std::printf("%s: %i; parsed: %u; host: %s\n", curr_i32_cont.desc.c_str(),
-                                                  curr_i32_cont.val,
-                                                  curr_i32_cont.is_parsed,
-                                                  curr_i32_cont.host.c_str());
+    i32_cont = informer.get_gmt_offset_ex();
+    fmt::print("{:s}: {:d}; parsed: {:d}; host: {:s}\n",
+            i32_cont.desc,
+            i32_cont.val,
+            bool{i32_cont.is_parsed},
+            i32_cont.host);
 
-    curr_str_cont = informer.get_isp_ex();
-    std::printf("ISP: %s; parsed: %u; host: %s\n", curr_str_cont.val.c_str(),
-                                                   curr_str_cont.is_parsed,
-                                                   curr_str_cont.host.c_str());
+    i32_cont = informer.get_dst_offset_ex();
+    fmt::print("{:s}: {:d}; parsed: {:d}; host: {:s}\n",
+            i32_cont.desc,
+            i32_cont.val,
+            bool{i32_cont.is_parsed},
+            i32_cont.host);
 
-    curr_str_cont = informer.get_as_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_isp_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_org_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_as_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_reverse_dns_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_org_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_bool_cont = informer.get_proxy_status_ex();
-    std::printf("%s: %u; parsed: %u; host: %s\n", curr_bool_cont.desc.c_str(),
-                                                  curr_bool_cont.val,
-                                                  curr_bool_cont.is_parsed,
-                                                  curr_bool_cont.host.c_str());
+    str_cont = informer.get_reverse_dns_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_bool_cont = informer.get_mobile_status_ex();
-    std::printf("%s: %u; parsed: %u; host: %s\n", curr_bool_cont.desc.c_str(),
-                                                  curr_bool_cont.val,
-                                                  curr_bool_cont.is_parsed,
-                                                  curr_bool_cont.host.c_str());
+    bool_cont = informer.get_proxy_status_ex();
+    fmt::print("{:s}: {:d}; parsed: {:d}; host: {:s}\n",
+            bool_cont.desc,
+            bool_cont.val,
+            bool{bool_cont.is_parsed},
+            bool_cont.host);
 
-    curr_str_cont = informer.get_currency_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    bool_cont = informer.get_mobile_status_ex();
+    fmt::print("{:s}: {:d}; parsed: {:d}; host: {:s}\n",
+            bool_cont.desc,
+            bool_cont.val,
+            bool{bool_cont.is_parsed},
+            bool_cont.host);
 
-    curr_str_cont = informer.get_currency_code_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_currency_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_currency_symbol_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    str_cont = informer.get_currency_code_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_dbl_cont = informer.get_currency_rates_ex();
-    std::printf("%s: %0.2lf; parsed: %u; host: %s\n", curr_dbl_cont.desc.c_str(),
-                                                      curr_dbl_cont.val,
-                                                      curr_dbl_cont.is_parsed,
-                                                      curr_dbl_cont.host.c_str());
+    str_cont = informer.get_currency_symbol_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
 
-    curr_str_cont = informer.get_currency_plural_ex();
-    std::printf("%s: %s; parsed: %u; host: %s\n", curr_str_cont.desc.c_str(),
-                                                  curr_str_cont.val.c_str(),
-                                                  curr_str_cont.is_parsed,
-                                                  curr_str_cont.host.c_str());
+    dbl_cont = informer.get_currency_rates_ex();
+    fmt::print("{:s}: {:.2f}; parsed: {:d}; host: {:s}\n",
+            dbl_cont.desc,
+            dbl_cont.val,
+            bool{dbl_cont.is_parsed},
+            dbl_cont.host);
+
+    str_cont = informer.get_currency_plural_ex();
+    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n", 
+            str_cont.desc,
+            str_cont.val,
+            bool{str_cont.is_parsed},
+            str_cont.host);
+
     return;
 }
