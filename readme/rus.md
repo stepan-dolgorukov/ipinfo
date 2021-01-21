@@ -20,8 +20,9 @@
 + Удобный пробив по IP.
 
 ## Какие зависимости необходимы?
-+ Работа с запросами - [libcurl](https://github.com/curl/curl)
-+ Парсинг JSON - [cJSON](https://github.com/DaveGamble/cJSON)
++ [libcurl](https://github.com/curl/curl), [cpr](https://github.com/whoshuu/cpr) - работа с запросами;
++ [cJSON](https://github.com/DaveGamble/cJSON) - десериализация JSON;
++ [libfmt](https://github.com/fmtlib/fmt) - строковое форматирование (используется только в демонстрационном примере).
 
 ## Заинтриговал, как же без болячек установить модуль?
 Cтарайтесь придерживаться такого плана:
