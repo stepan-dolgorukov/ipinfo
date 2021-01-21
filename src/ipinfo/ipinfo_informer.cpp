@@ -25,11 +25,11 @@ ipinfo::interface::informer::informer(
     __lang{},
     __conn_num{conn_num}
 {
-    const auto &avail_langs = ipinfo::constants::AVAILABLE_LANGS;
+    const auto &avl_langs{ipinfo::constants::AVAILABLE_LANGS};
 
-    if (lang_id < avail_langs.size())
+    if (lang_id < avl_langs.size())
     {
-        __lang = avail_langs.at(lang_id);
+        __lang = avl_langs.at(lang_id);
     }
 }
 

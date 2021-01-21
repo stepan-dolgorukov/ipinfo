@@ -28,6 +28,14 @@ namespace ipinfo::types
 
 namespace ipinfo::service::types
 {
+    struct req_attrs
+    {
+        const std::string ip{};
+        const std::string lang{};
+        const std::string host{};
+        const std::string api_key{};
+    };
+
     struct info
     {
         private:

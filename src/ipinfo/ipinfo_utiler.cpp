@@ -68,7 +68,7 @@ ipinfo::service::utiler::round_val(
         const std::uint8_t places) const
 {
     const auto n{std::pow(10u, places)};
-    return {std::round(v * n) / (n)};
+    return (std::round(v * n) / (n));
 }
 
 bool

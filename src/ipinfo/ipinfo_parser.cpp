@@ -9,16 +9,11 @@
 ::cJSON*
 ipinfo::service::parser::__prepare(const std::string &json)
 {
-    if (json.empty())
-    {
-        return nullptr;
-    }
-
-    auto *data{::cJSON_Parse(json.c_str())};
+    ::cJSON * const data{::cJSON_Parse(json.c_str())};
 
     if (nullptr == data)
     {
-        std::string        error_location{"unknown"};
+        std::string error_location{"unknown"};
         const auto * const json_error{::cJSON_GetErrorPtr()};
 
         if (nullptr != json_error &&
@@ -40,10 +35,9 @@ ipinfo::service::parser::__fill_node(
     if (::cJSON_IsString(&item))
     {
         auto &content{node.cont.at(host)};
-        const auto *val{item.valuestring};
+        const char * const val{item.valuestring};
 
-        if (nullptr == val ||
-            std::string(val).empty())
+        if ((nullptr == val) || (std::string{val}.empty()))
         {
             content.is_parsed = false;
             return;
@@ -68,8 +62,7 @@ ipinfo::service::parser::__fill_node(
     {
         const auto *val{item.valuestring};
 
-        if (nullptr == val ||
-            std::string(val).empty())
+        if ((nullptr == val) || (std::string{val}.empty()))
         {
             content.is_parsed = false;
             return;
@@ -102,8 +95,7 @@ ipinfo::service::parser::__fill_node(
     {
         const auto *val{item.valuestring};
 
-        if (nullptr == val ||
-            std::string{val}.empty())
+        if ((nullptr == val) || (std::string{val}.empty()))
         {
             content.is_parsed = false;
             return;
@@ -134,14 +126,13 @@ ipinfo::service::parser::__fill_node(
     {
         const auto *val{item.valuestring};
 
-        if (nullptr == val ||
-            std::string(val).empty())
+        if ((nullptr == val) || (std::string{val}.empty()))
         {
             content.is_parsed = false;
             return;
         }
 
-        content.val = ("true" == std::string(val));
+        content.val = ("true" == std::string{val});
         content.is_parsed = true;
     }
 
@@ -173,13 +164,14 @@ ipinfo::service::parser::parse(
         ipinfo::service::types::info &info,
         const std::string &host)
 {
-    auto *data{this->__prepare(json)};
+    ::cJSON * const data{this->__prepare(json)};
 
     if (nullptr == data)
     {
         return;
     }
 
+    // think about a shorting of the call list below
     this->__catch_node(*data, info.ip, host);
     this->__catch_node(*data, info.ip_type, host);
     this->__catch_node(*data, info.continent, host);
