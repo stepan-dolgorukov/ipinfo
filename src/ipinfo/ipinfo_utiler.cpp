@@ -23,7 +23,7 @@ ipinfo::service::utiler::__clear_node(T<sub_T> &node) const
 }
 
 void
-ipinfo::service::utiler::clear_info(ipinfo::service::types::info &info)
+ipinfo::service::utiler::clear_info(ipinfo::service::types::info &info) const
 {
     this->__clear_node(info.ip);
     this->__clear_node(info.ip_type);
@@ -70,7 +70,7 @@ ipinfo::service::utiler::round_val(
 }
 
 bool
-ipinfo::service::utiler::is_host_supported(const std::string &host)
+ipinfo::service::utiler::is_host_supported(const std::string &host) const
 {
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
 
@@ -80,7 +80,7 @@ ipinfo::service::utiler::is_host_supported(const std::string &host)
 }
 
 bool
-ipinfo::service::utiler::is_host_supported(const std::uint8_t host_id)
+ipinfo::service::utiler::is_host_supported(const std::uint8_t host_id) const
 {
     return (host_id < ipinfo::constants::AVAILABLE_HOSTS.size());
 }
@@ -88,7 +88,7 @@ ipinfo::service::utiler::is_host_supported(const std::uint8_t host_id)
 bool
 ipinfo::service::utiler::is_lang_supported(
         const std::string &lang,
-        const std::string &host)
+        const std::string &host) const
 {
     if (!(this->is_host_supported(host)))
     {
@@ -100,7 +100,7 @@ ipinfo::service::utiler::is_lang_supported(
 }
 
 std::string
-ipinfo::service::utiler::to_lower_case(const std::string &s)
+ipinfo::service::utiler::to_lower_case(const std::string &s) const
 {
     std::string lc_s{};
 
@@ -115,7 +115,7 @@ ipinfo::service::utiler::to_lower_case(const std::string &s)
 bool
 ipinfo::service::utiler::is_host_excluded(
         const std::string &host,
-        const std::vector<std::string> &excl_hosts)
+        const std::vector<std::string> &excl_hosts) const
 {
     const auto find_res{std::find(
             excl_hosts.begin(),
