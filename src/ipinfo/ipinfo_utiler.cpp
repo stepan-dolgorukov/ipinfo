@@ -1,11 +1,10 @@
 #include "../../include/ipinfo/ipinfo_types.hpp"
 #include "../../include/ipinfo/ipinfo_utiler.hpp"
 
-#include <cctype>
-#include <cmath>
-#include <cstdint>
-#include <locale>
-#include <algorithm>
+#include <cmath>     // std::pow, std::round
+#include <cstdint>   // std::uint8_t
+#include <locale>    // std::tolower
+#include <algorithm> // std::find
 
 template<template<typename ...> class T, typename sub_T> void
 ipinfo::service::utiler::__clear_node(T<sub_T> &node) const
@@ -32,7 +31,6 @@ ipinfo::service::utiler::clear_info(ipinfo::service::types::info &info)
     this->__clear_node(info.continent);
     this->__clear_node(info.continent_code);
     this->__clear_node(info.country);
-    this->__clear_node(info.continent_code);
     this->__clear_node(info.country_capital);
     this->__clear_node(info.country_ph_code);
     this->__clear_node(info.country_neighbors);
@@ -92,22 +90,13 @@ ipinfo::service::utiler::is_lang_supported(
         const std::string &lang,
         const std::string &host)
 {
-    if (this->is_host_supported(host))
+    if (!(this->is_host_supported(host)))
     {
-        const auto &host_avl_langs{ipinfo::constants::HOSTS_AVAILABLE_LANGS.at(host)};
-
-        // !!!
-        for (auto &&[__lang, _] : host_avl_langs)
-        {
-            if (__lang == lang)
-            {
-                return true;
-            }
-        }
+        return false;
     }
 
-
-    return false;
+    const auto &host_avl_langs{ipinfo::constants::HOSTS_AVAILABLE_LANGS.at(host)};
+    return (host_avl_langs.end() != host_avl_langs.find(lang));
 }
 
 std::string
@@ -128,9 +117,10 @@ ipinfo::service::utiler::is_host_excluded(
         const std::string &host,
         const std::vector<std::string> &excl_hosts)
 {
-    const auto &find_res{std::find(excl_hosts.begin(),
-                                   excl_hosts.end(),
-                                   host)};
+    const auto find_res{std::find(
+            excl_hosts.begin(),
+            excl_hosts.end(),
+            host)};
 
     return (find_res != excl_hosts.end());
 }
