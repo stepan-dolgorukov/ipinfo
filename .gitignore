@@ -1,12 +1,12 @@
 .vscode
 .vim
 
-obj/*
-target/*
+obj
+target
 
 example/target/*
 example/include/*
 example/obj/*
 
-test/ipinfo_test
+test/target
 test/obj

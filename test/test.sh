@@ -3,7 +3,7 @@
 make="/usr/bin/make"
 echo="/usr/bin/echo"
 
-ipinfo_test="./ipinfo_test"
+ipinfo_test="./target/ipinfo_test"
 
 declare -a colors=(
     "\e[1;32m" # green
