@@ -43,7 +43,7 @@ namespace ipinfo::service
                        ipinfo::service::types::info &info,
                        const std::string &host);
 
-            ipinfo::types::error get_last_error(void) const;
+            ipinfo::user::types::error get_last_error(void) const;
     };
 }
 

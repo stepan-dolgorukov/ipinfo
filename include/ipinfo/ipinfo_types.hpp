@@ -9,9 +9,9 @@
 
 namespace ipinfo
 {
-    namespace types
+    namespace user::types
     {
-        struct error;
+                              struct error;
         template <typename T> struct node;
     }
 
@@ -22,14 +22,14 @@ namespace ipinfo
     }
 }
 
-struct ipinfo::types::error
+struct ipinfo::user::types::error
 {
     std::uint8_t code{};
     std::string  desc{};
 };
 
 // node structure for user
-template<typename T> struct ipinfo::types::node
+template<typename T> struct ipinfo::user::types::node
 {
     bool        is_parsed : 1 {false};
     T           val{};

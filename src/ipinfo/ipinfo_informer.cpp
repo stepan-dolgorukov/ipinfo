@@ -7,7 +7,7 @@
 #include <string>
 #include <utility>
 
-ipinfo::interface::informer::informer(
+ipinfo::user::interface::informer::informer(
         const std::string &ip,
         const std::string &lang,
         const std::uint8_t conn_num) :
@@ -16,7 +16,7 @@ ipinfo::interface::informer::informer(
     __lang{lang},
     __conn_num{conn_num} {}
 
-ipinfo::interface::informer::informer(
+ipinfo::user::interface::informer::informer(
         const std::string &ip,
         const std::uint8_t &lang_id,
         const std::uint8_t conn_num) :
@@ -34,28 +34,28 @@ ipinfo::interface::informer::informer(
 }
 
 void
-ipinfo::interface::informer::set_conn_num(const std::uint8_t n)
+ipinfo::user::interface::informer::set_conn_num(const std::uint8_t n)
 {
     __conn_num = n;
     return;
 }
 
 void
-ipinfo::interface::informer::set_ip(const std::string &ip)
+ipinfo::user::interface::informer::set_ip(const std::string &ip)
 {
     __ip = ip;
     return;
 }
 
 void
-ipinfo::interface::informer::set_lang(const std::string &lang)
+ipinfo::user::interface::informer::set_lang(const std::string &lang)
 {
     __lang = __utiler->to_lower_case(lang);
     return;
 }
 
 void /// !!!
-ipinfo::interface::informer::set_lang(const std::uint8_t lang_id)
+ipinfo::user::interface::informer::set_lang(const std::uint8_t lang_id)
 {
     const auto &avl_langs{ipinfo::constants::AVAILABLE_LANGS};
 
@@ -68,7 +68,7 @@ ipinfo::interface::informer::set_lang(const std::uint8_t lang_id)
 }
 
 void /// !!!
-ipinfo::interface::informer::set_api_key(
+ipinfo::user::interface::informer::set_api_key(
         const std::string &host,
         const std::string &key)
 {
@@ -81,7 +81,7 @@ ipinfo::interface::informer::set_api_key(
 }
 
 void
-ipinfo::interface::informer::set_api_key(
+ipinfo::user::interface::informer::set_api_key(
         const std::uint8_t host_id,
         const std::string &key)
 {
@@ -95,7 +95,7 @@ ipinfo::interface::informer::set_api_key(
 }
 
 void
-ipinfo::interface::informer::set_api_keys(
+ipinfo::user::interface::informer::set_api_keys(
         const std::map<std::string, std::string> &host_key_mp)
 {
     for (auto &&[host, api_key] : host_key_mp)
@@ -107,7 +107,7 @@ ipinfo::interface::informer::set_api_keys(
 }
 
 void
-ipinfo::interface::informer::set_api_keys(
+ipinfo::user::interface::informer::set_api_keys(
         const std::map<std::uint8_t, std::string> &host_id_key_mp)
 {
     for (auto &&[host_id, api_key] : host_id_key_mp)
@@ -119,7 +119,7 @@ ipinfo::interface::informer::set_api_keys(
 }
 
 void
-ipinfo::interface::informer::exclude_host(const std::string &host)
+ipinfo::user::interface::informer::exclude_host(const std::string &host)
 {
     if (__utiler->is_host_supported(host))
     {
@@ -130,7 +130,7 @@ ipinfo::interface::informer::exclude_host(const std::string &host)
 }
 
 void
-ipinfo::interface::informer::exclude_host(const std::uint8_t host_id)
+ipinfo::user::interface::informer::exclude_host(const std::uint8_t host_id)
 {
     if (__utiler->is_host_supported(host_id))
     {
@@ -142,7 +142,7 @@ ipinfo::interface::informer::exclude_host(const std::uint8_t host_id)
 }
 
 void
-ipinfo::interface::informer::exclude_hosts(
+ipinfo::user::interface::informer::exclude_hosts(
         const std::vector<std::string> &hosts)
 {
     for (const auto &host : hosts)
@@ -154,7 +154,7 @@ ipinfo::interface::informer::exclude_hosts(
 }
 
 void
-ipinfo::interface::informer::exclude_hosts(
+ipinfo::user::interface::informer::exclude_hosts(
         const std::vector<std::uint8_t> &hosts_ids)
 {
     for (const auto &id : hosts_ids)
@@ -166,7 +166,7 @@ ipinfo::interface::informer::exclude_hosts(
 }
 
 void
-ipinfo::interface::informer::run()
+ipinfo::user::interface::informer::run()
 {
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
     __utiler->clear_info(__info);
@@ -193,8 +193,8 @@ ipinfo::interface::informer::run()
     return;
 }
 
-ipinfo::types::error
-ipinfo::interface::informer::get_last_error(const std::string &host) const
+ipinfo::user::types::error
+ipinfo::user::interface::informer::get_last_error(const std::string &host) const
 {
     if (host.empty())
     {
@@ -232,8 +232,8 @@ ipinfo::interface::informer::get_last_error(const std::string &host) const
     return {};
 }
 
-ipinfo::types::error
-ipinfo::interface::informer::get_last_error(const std::uint8_t host_id) const
+ipinfo::user::types::error
+ipinfo::user::interface::informer::get_last_error(const std::uint8_t host_id) const
 {
     if (!(__utiler->is_host_supported(host_id)))
     {
@@ -243,14 +243,13 @@ ipinfo::interface::informer::get_last_error(const std::uint8_t host_id) const
         };
     }
 
-    return (this->get_last_error(
-                ipinfo::constants::AVAILABLE_HOSTS.at(host_id)));
+    return this->get_last_error(ipinfo::constants::AVAILABLE_HOSTS.at(host_id));
 }
 
 std::size_t
-ipinfo::interface::informer::get_errors_num() const
+ipinfo::user::interface::informer::get_errors_num() const
 {
-    auto i{0u};
+    std::size_t i{0u};
 
     for (auto &&[_, __error] : __errors)
     {
@@ -264,206 +263,206 @@ ipinfo::interface::informer::get_errors_num() const
 }
 
 std::string
-ipinfo::interface::informer::get_ip() const
+ipinfo::user::interface::informer::get_ip() const
 {
     return get_ip_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_ip_type() const
+ipinfo::user::interface::informer::get_ip_type() const
 {
     return get_ip_type_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_continent() const
+ipinfo::user::interface::informer::get_continent() const
 {
     return get_continent_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_continent_code() const
+ipinfo::user::interface::informer::get_continent_code() const
 {
     return get_continent_code_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_country() const
+ipinfo::user::interface::informer::get_country() const
 {
     return get_country_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_country_code() const
+ipinfo::user::interface::informer::get_country_code() const
 {
     return get_country_code_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_country_capital() const
+ipinfo::user::interface::informer::get_country_capital() const
 {
     return get_country_capital_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_country_ph_code() const
+ipinfo::user::interface::informer::get_country_ph_code() const
 {
     return get_country_ph_code_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_country_neighbors() const
+ipinfo::user::interface::informer::get_country_neighbors() const
 {
     return get_country_neighbors_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_region() const
+ipinfo::user::interface::informer::get_region() const
 {
 
     return get_region_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_region_code() const
+ipinfo::user::interface::informer::get_region_code() const
 {
     return get_region_code_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_city() const
+ipinfo::user::interface::informer::get_city() const
 {
     return get_city_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_city_district() const
+ipinfo::user::interface::informer::get_city_district() const
 {
     return get_city_district_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_zip_code() const
+ipinfo::user::interface::informer::get_zip_code() const
 {
     return get_zip_code_ex().val;
 }
 
 double
-ipinfo::interface::informer::get_latitude() const
+ipinfo::user::interface::informer::get_latitude() const
 {
     return get_latitude_ex().val;
 }
 
 double
-ipinfo::interface::informer::get_longitude() const
+ipinfo::user::interface::informer::get_longitude() const
 {
     return get_longitude_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_city_timezone() const
+ipinfo::user::interface::informer::get_city_timezone() const
 {
     return get_city_timezone_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_timezone() const
+ipinfo::user::interface::informer::get_timezone() const
 {
     return get_timezone_ex().val;
 }
 
 std::int32_t
-ipinfo::interface::informer::get_gmt_offset() const
+ipinfo::user::interface::informer::get_gmt_offset() const
 {
     return get_gmt_offset_ex().val;
 }
 
 std::int32_t
-ipinfo::interface::informer::get_dst_offset() const
+ipinfo::user::interface::informer::get_dst_offset() const
 {
     return get_dst_offset_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_timezone_gmt() const
+ipinfo::user::interface::informer::get_timezone_gmt() const
 {
     return get_timezone_gmt_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_isp() const
+ipinfo::user::interface::informer::get_isp() const
 {
     return get_isp_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_as() const
+ipinfo::user::interface::informer::get_as() const
 {
     return get_as_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_org() const
+ipinfo::user::interface::informer::get_org() const
 {
     return get_org_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_reverse_dns() const
+ipinfo::user::interface::informer::get_reverse_dns() const
 {
     return get_reverse_dns_ex().val;
 }
 
 bool
-ipinfo::interface::informer::get_hosting_status() const
+ipinfo::user::interface::informer::get_hosting_status() const
 {
     return get_hosting_status_ex().val;
 }
 
 bool
-ipinfo::interface::informer::get_proxy_status() const
+ipinfo::user::interface::informer::get_proxy_status() const
 {
     return get_proxy_status_ex().val;
 }
 
 bool
-ipinfo::interface::informer::get_mobile_status() const
+ipinfo::user::interface::informer::get_mobile_status() const
 {
     return get_mobile_status_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_currency() const
+ipinfo::user::interface::informer::get_currency() const
 {
     return get_currency_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_currency_code() const
+ipinfo::user::interface::informer::get_currency_code() const
 {
     return get_currency_code_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_currency_symbol() const
+ipinfo::user::interface::informer::get_currency_symbol() const
 {
     return get_currency_symbol_ex().val;
 }
 
 double
-ipinfo::interface::informer::get_currency_rates() const
+ipinfo::user::interface::informer::get_currency_rates() const
 {
     return get_currency_rates_ex().val;
 }
 
 std::string
-ipinfo::interface::informer::get_currency_plural() const
+ipinfo::user::interface::informer::get_currency_plural() const
 {
     return get_currency_plural_ex().val;
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_ip_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_ip_ex() const
 {
     const auto &node{__info.ip};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -488,8 +487,8 @@ ipinfo::interface::informer::get_ip_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_ip_type_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_ip_type_ex() const
 {
     const auto &node{__info.ip_type};
     const auto &avail_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -514,8 +513,8 @@ ipinfo::interface::informer::get_ip_type_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_continent_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_continent_ex() const
 {
     const auto &node{__info.continent};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -540,8 +539,8 @@ ipinfo::interface::informer::get_continent_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_continent_code_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_continent_code_ex() const
 {
     const auto &node{ __info.continent_code};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -566,8 +565,8 @@ ipinfo::interface::informer::get_continent_code_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_country_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_country_ex() const
 {
     const auto &node{__info.country_code};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -592,8 +591,8 @@ ipinfo::interface::informer::get_country_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_country_code_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_country_code_ex() const
 {
     const auto &node{__info.country_code};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -618,8 +617,8 @@ ipinfo::interface::informer::get_country_code_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_country_capital_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_country_capital_ex() const
 {
     const auto &node{__info.country_capital};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -644,8 +643,8 @@ ipinfo::interface::informer::get_country_capital_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_country_ph_code_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_country_ph_code_ex() const
 {
     const auto &node{__info.country_ph_code};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -670,8 +669,8 @@ ipinfo::interface::informer::get_country_ph_code_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_country_neighbors_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_country_neighbors_ex() const
 {
     const auto &node{__info.country_neighbors};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -696,8 +695,8 @@ ipinfo::interface::informer::get_country_neighbors_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_region_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_region_ex() const
 {
     const auto &node{__info.region};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -722,8 +721,8 @@ ipinfo::interface::informer::get_region_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_region_code_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_region_code_ex() const
 {
     const auto &node{__info.region_code};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -748,8 +747,8 @@ ipinfo::interface::informer::get_region_code_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_city_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_city_ex() const
 {
     const auto &node{__info.city};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -775,8 +774,8 @@ ipinfo::interface::informer::get_city_ex() const
 }
 
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_city_district_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_city_district_ex() const
 {
     const auto &node{__info.city_district};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -801,8 +800,8 @@ ipinfo::interface::informer::get_city_district_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_zip_code_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_zip_code_ex() const
 {
     const auto &node{__info.zip_code};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -827,8 +826,8 @@ ipinfo::interface::informer::get_zip_code_ex() const
     };
 }
 
-ipinfo::types::node<double>
-ipinfo::interface::informer::get_latitude_ex() const
+ipinfo::user::types::node<double>
+ipinfo::user::interface::informer::get_latitude_ex() const
 {
     const auto &node{__info.latitude};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -853,8 +852,8 @@ ipinfo::interface::informer::get_latitude_ex() const
     };
 }
 
-ipinfo::types::node<double>
-ipinfo::interface::informer::get_longitude_ex() const
+ipinfo::user::types::node<double>
+ipinfo::user::interface::informer::get_longitude_ex() const
 {
     const auto &node{__info.longitude};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -879,8 +878,8 @@ ipinfo::interface::informer::get_longitude_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_timezone_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_timezone_ex() const
 {
     const auto &node{__info.timezone};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -905,8 +904,8 @@ ipinfo::interface::informer::get_timezone_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_city_timezone_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_city_timezone_ex() const
 {
     const auto &node{__info.city_timezone};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -931,8 +930,8 @@ ipinfo::interface::informer::get_city_timezone_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_timezone_gmt_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_timezone_gmt_ex() const
 {
     const auto &node{__info.timezone_gmt};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -957,8 +956,8 @@ ipinfo::interface::informer::get_timezone_gmt_ex() const
     };
 }
 
-ipinfo::types::node<std::int32_t>
-ipinfo::interface::informer::get_gmt_offset_ex() const
+ipinfo::user::types::node<std::int32_t>
+ipinfo::user::interface::informer::get_gmt_offset_ex() const
 {
     const auto &node{__info.gmt_offset};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -983,8 +982,8 @@ ipinfo::interface::informer::get_gmt_offset_ex() const
     };
 }
 
-ipinfo::types::node<std::int32_t>
-ipinfo::interface::informer::get_dst_offset_ex() const
+ipinfo::user::types::node<std::int32_t>
+ipinfo::user::interface::informer::get_dst_offset_ex() const
 {
     const auto &node{__info.dst_offset};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1009,8 +1008,8 @@ ipinfo::interface::informer::get_dst_offset_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_isp_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_isp_ex() const
 {
     const auto &node{__info.isp};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1035,8 +1034,8 @@ ipinfo::interface::informer::get_isp_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_as_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_as_ex() const
 {
     const auto &node{__info.as};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1061,8 +1060,8 @@ ipinfo::interface::informer::get_as_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_org_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_org_ex() const
 {
     const auto &node{__info.org};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1087,8 +1086,8 @@ ipinfo::interface::informer::get_org_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_reverse_dns_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_reverse_dns_ex() const
 {
     const auto &node{__info.reverse_dns};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1113,8 +1112,8 @@ ipinfo::interface::informer::get_reverse_dns_ex() const
     };
 }
 
-ipinfo::types::node<bool>
-ipinfo::interface::informer::get_hosting_status_ex() const
+ipinfo::user::types::node<bool>
+ipinfo::user::interface::informer::get_hosting_status_ex() const
 {
     const auto &node{__info.is_hosting};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1139,8 +1138,8 @@ ipinfo::interface::informer::get_hosting_status_ex() const
     };
 }
 
-ipinfo::types::node<bool>
-ipinfo::interface::informer::get_proxy_status_ex() const
+ipinfo::user::types::node<bool>
+ipinfo::user::interface::informer::get_proxy_status_ex() const
 {
     const auto &node{__info.is_proxy};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1165,8 +1164,8 @@ ipinfo::interface::informer::get_proxy_status_ex() const
     };
 }
 
-ipinfo::types::node<bool>
-ipinfo::interface::informer::get_mobile_status_ex() const
+ipinfo::user::types::node<bool>
+ipinfo::user::interface::informer::get_mobile_status_ex() const
 {
     const auto &node{__info.is_mobile};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1191,8 +1190,8 @@ ipinfo::interface::informer::get_mobile_status_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_currency_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_currency_ex() const
 {
     const auto &node{__info.currency};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1217,8 +1216,8 @@ ipinfo::interface::informer::get_currency_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_currency_code_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_currency_code_ex() const
 {
     const auto &node{__info.currency_code};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1243,8 +1242,8 @@ ipinfo::interface::informer::get_currency_code_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_currency_symbol_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_currency_symbol_ex() const
 {
     const auto &node{__info.currency_symbol};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1269,8 +1268,8 @@ ipinfo::interface::informer::get_currency_symbol_ex() const
     };
 }
 
-ipinfo::types::node<double>
-ipinfo::interface::informer::get_currency_rates_ex() const
+ipinfo::user::types::node<double>
+ipinfo::user::interface::informer::get_currency_rates_ex() const
 {
     const auto &node{ __info.currency_rates};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
@@ -1295,8 +1294,8 @@ ipinfo::interface::informer::get_currency_rates_ex() const
     };
 }
 
-ipinfo::types::node<std::string>
-ipinfo::interface::informer::get_currency_plural_ex() const
+ipinfo::user::types::node<std::string>
+ipinfo::user::interface::informer::get_currency_plural_ex() const
 {
     const auto &node{__info.currency_plural};
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
