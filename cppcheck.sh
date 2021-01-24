@@ -1,24 +1,31 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo="/usr/bin/echo"
 cppcheck="/usr/bin/cppcheck "
 
-check_flags="--std=c++20 \
-             --enable=all"
+flags="
+    --language=c++ \
+    --std=c++20 \
+    --enable=all \
+    --suppress=missingIncludeSystem \
+    --quiet"
 
-check_platforms="unix32 \
-                 unix64"
+include_dir="-i$PWD/include/ipinfo/"
 
-check_files="$PWD/include/ipinfo/*hpp \
-             $PWD/src/ipinfo/*cpp"
+platforms="
+    unix32 \
+    unix64 \
+    win32A \
+    win32W \
+    win64"
 
 declare -a colors=(
     "\e[1;32m" # green
     "\e[0m"    # reset
 )
 
-for platform in $check_platforms
+for platform in ${platforms}
 do
     $echo -e "\e[${colors[0]}Checking for \"$platform\"${colors[1]}:"
-    $cppcheck $check_files $check_flags $platform
+    $cppcheck --platform=$platform $flags $include_dir .
 done
