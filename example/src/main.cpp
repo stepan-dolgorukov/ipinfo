@@ -1,6 +1,11 @@
-#include <ipinfo/ipinfo.hpp>
-#include <fmt/core.h>
-#include <cstdint>
+#include <ipinfo/ipinfo.hpp> // ipinfo::user::interface::informer,
+                             // ipinfo::user::types::error,
+                             // ipinfo::user::types::node
+
+#include <fmt/core.h>        // fmt::print
+
+#include <string>            // std::string
+#include <cstdint>           // std::int32_t
 
 namespace app
 {
@@ -8,6 +13,7 @@ namespace app
             const std::string &ip,
             const std::string &lang);
 
+    // version with extra information
     void show_ip_info_ex(
             const std::string &ip,
             const std::string &lang);
