@@ -75,7 +75,7 @@ ipinfo::service::requester::request(
     return resp.text;
 }
 
-ipinfo::types::error
+ipinfo::user::types::error
 ipinfo::service::requester::get_last_error() const
 {
     return {}; // !!!

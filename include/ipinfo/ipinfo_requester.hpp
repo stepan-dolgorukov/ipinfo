@@ -12,7 +12,6 @@ namespace ipinfo::service
             std::string __get_ready_request_info_fields(const std::string &host);
             std::string __get_ready_request_lang(const std::string &host,
                                                  const std::string &lang);
-
         public:
             std::string request(
                     const std::string &host,
@@ -20,7 +19,7 @@ namespace ipinfo::service
                     const std::string &lang,
                     const std::string &api_key);
 
-            ipinfo::types::error get_last_error(void) const;
+            ipinfo::user::types::error get_last_error(void) const;
     };
 }
 
