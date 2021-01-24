@@ -210,7 +210,7 @@ ipinfo::service::parser::parse(
     return;
 }
 
-ipinfo::types::error
+ipinfo::user::types::error
 ipinfo::service::parser::get_last_error() const
 {
     return {}; // !!!
