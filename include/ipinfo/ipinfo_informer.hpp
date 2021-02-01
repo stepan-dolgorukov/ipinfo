@@ -40,7 +40,7 @@ class ipinfo::user::interface::informer
         ipinfo::service::utiler                           *__utiler{};
 
     public:
-        informer() {}
+        informer() = default;
 
         informer(
             const std::string &ip,
