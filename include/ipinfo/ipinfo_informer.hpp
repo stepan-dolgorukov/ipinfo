@@ -4,27 +4,23 @@
 #include "ipinfo_constants.hpp"
 #include "ipinfo_types.hpp"
 
-#include <cstdint>
-#include <string>
-#include <vector>
-#include <map>
+#include <cstdint> // std::uint8_t
+#include <cstddef> // std::size_t
 
-namespace ipinfo
+#include <string>  // std::string
+#include <vector>  // std::vector
+#include <map>     // std::map
+
+namespace ipinfo::service
 {
-    namespace service
-    {
-        class requester;
-        class parser;
-        class utiler;
-    }
+    class requester;
+    class parser;
+    class utiler;
+}
 
-    namespace user
-    {
-        namespace interface
-        {
-            class informer;
-        }
-    }
+namespace ipinfo::user::interface
+{
+    class informer;
 }
 
 class ipinfo::user::interface::informer
@@ -156,4 +152,4 @@ class ipinfo::user::interface::informer
         ipinfo::user::types::node<std::string>  get_currency_plural_ex(void)   const;
 };
 
-#endif
+#endif // IPINFO_INFORMER_HPP
