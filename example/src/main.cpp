@@ -3,7 +3,6 @@
                              // ipinfo::user::types::node
 
 #include <fmt/core.h>        // fmt::print
-
 #include <string>            // std::string
 #include <cstdint>           // std::int32_t
 
@@ -13,7 +12,7 @@ namespace app
             const std::string &ip,
             const std::string &lang);
 
-    // version with extra information
+    // Expanded variant.
     void show_ip_info_ex(
             const std::string &ip,
             const std::string &lang);
@@ -38,6 +37,15 @@ app::show_ip_info(
 
     informer.set_ip(ip);
     informer.set_lang(lang);
+
+    // You can set your API keys below.
+    // In example they're initialized they as an empty string,
+    // but initialization isn't compulsory.
+    informer.set_api_keys({
+        {ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM,  {}},
+        {ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {}}
+    });
+
     informer.run();
 
     fmt::print("IP: {:s}\n",                              informer.get_ip());
@@ -90,10 +98,14 @@ app::show_ip_info_ex(
     ipinfo::user::types::node<double>       dbl_cont{};
     ipinfo::user::types::node<bool>         bool_cont{};
 
+    // Another way of API keys setting.
+    informer.set_api_key(ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM, {});
+    informer.set_api_key(ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {});
+
     informer.run();
 
-    // printing below isn't such of good
-    // we need to find a compact solution
+    // Printing below isn't such of good,
+    // we need to find a compact solution.
 
     str_cont = informer.get_ip_ex();
     fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
