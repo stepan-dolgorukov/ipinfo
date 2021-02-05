@@ -38,11 +38,7 @@ else
 endif
 
 LDFLAGS := -Wl,-rpath=/usr/local/lib
-LDLIBS := -lipinfo \
-          -lcjson \
-          -lcpr \
-          -lcurl \
-          -lfmt
+LDLIBS  := -lipinfo -lfmt
 
 $(TARG): $(OBJ_DIR)/main.o
 	@ $(ECHO) "building $(TARG)"

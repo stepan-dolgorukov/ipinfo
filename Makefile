@@ -44,12 +44,17 @@ else
                 -march=native
 endif
 
+LDFLAGS := -Wl,-rpath=/usr/local/lib
+LDLIBS  := -lcjson -lcpr
+
 $(TARG): $(OBJ_DIR)/ipinfo_informer.o \
          $(OBJ_DIR)/ipinfo_parser.o \
          $(OBJ_DIR)/ipinfo_requester.o \
          $(OBJ_DIR)/ipinfo_utiler.o
 	@ $(ECHO) "building $(TARG)"
 	@ $(CXX) \
+	$(LDFLAGS) \
+	$(LDLIBS) \
 	-shared \
 	$^ \
 	-o $@
