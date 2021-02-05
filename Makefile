@@ -1,7 +1,8 @@
-.PHONY: prepare \
-        clean \
-        install \
-        uninstall
+.PHONY:
+	prepare \
+	clean \
+	install \
+	uninstall
 
 DEBUG_MODE := 1
 
@@ -81,22 +82,20 @@ clean:
 		($(ECHO) "$(OBJ_DIR) doesn't exist")
 
 install: $(TARG)
+	@ $(MKDIR) -p $(INSTALL_LIB_DIR)
 	@ $(ECHO) "copying $(TARG) to $(INSTALL_LIB_DIR)"
 	@ $(CP) $(TARG) $(INSTALL_LIB_DIR)
 
 	@ $(MKDIR) -p $(INSTALL_INCLUDE_DIR)
-
-	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo.hpp to $(INSTALL_INCLUDE_DIR)"
-	@ $(CP) $(INCLUDE_DIR)/ipinfo.hpp $(INSTALL_INCLUDE_DIR)
-
-	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo_types.hpp to $(INSTALL_INCLUDE_DIR)"
-	@ $(CP) $(INCLUDE_DIR)/ipinfo_types.hpp $(INSTALL_INCLUDE_DIR)
-
 	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo_constants.hpp to $(INSTALL_INCLUDE_DIR)"
-	@ $(CP) $(INCLUDE_DIR)/ipinfo_constants.hpp $(INSTALL_INCLUDE_DIR)
-
+	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo_types.hpp to $(INSTALL_INCLUDE_DIR)"
 	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo_informer.hpp to $(INSTALL_INCLUDE_DIR)"
+	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo.hpp to $(INSTALL_INCLUDE_DIR)"
+
+	@ $(CP) $(INCLUDE_DIR)/ipinfo_constants.hpp $(INSTALL_INCLUDE_DIR)
+	@ $(CP) $(INCLUDE_DIR)/ipinfo_types.hpp $(INSTALL_INCLUDE_DIR)
 	@ $(CP) $(INCLUDE_DIR)/ipinfo_informer.hpp $(INSTALL_INCLUDE_DIR)
+	@ $(CP) $(INCLUDE_DIR)/ipinfo.hpp $(INSTALL_INCLUDE_DIR)
 
 uninstall:
 	@ ($(TEST) -e "$(INSTALL_LIB_DIR)/libipinfo.so" && \
