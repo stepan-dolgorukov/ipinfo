@@ -86,6 +86,23 @@ ipinfo::service::utiler::is_host_supported(const std::uint8_t host_id) const
 }
 
 bool
+ipinfo::service::utiler::is_lang_supported(const std::string &lang) const
+{
+    const auto &avl_langs{ipinfo::constants::AVAILABLE_LANGS};
+    const auto find_res{std::find(avl_langs.begin(),
+                                  avl_langs.end(),
+                                  lang)};
+
+    return (avl_langs.end() != find_res);
+}
+
+bool
+ipinfo::service::utiler::is_lang_supported(const std::uint8_t lang_id) const
+{
+    return (lang_id < ipinfo::constants::AVAILABLE_LANGS.size());
+}
+
+bool
 ipinfo::service::utiler::is_lang_supported(
         const std::string &lang,
         const std::string &host) const
