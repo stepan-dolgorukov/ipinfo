@@ -39,8 +39,8 @@ app::show_ip_info(
     informer.set_lang(lang);
 
     // You can set your API keys below.
-    // In example they're initialized they as an empty string,
-    // but initialization isn't compulsory.
+    // In example they're initialized as empty strings.
+    // This initialization isn't compulsory.
     informer.set_api_keys({
         {ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM,  {}},
         {ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {}}
