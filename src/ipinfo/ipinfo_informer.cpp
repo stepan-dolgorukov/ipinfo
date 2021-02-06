@@ -22,7 +22,6 @@ ipinfo::user::interface::informer::informer(
         const std::uint8_t conn_num) :
 
     __ip{ip},
-    __lang{},
     __conn_num{conn_num}
 {
     if (__utiler->is_lang_supported(lang_id))
