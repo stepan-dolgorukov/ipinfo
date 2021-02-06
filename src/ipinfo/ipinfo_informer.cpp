@@ -171,7 +171,7 @@ ipinfo::user::interface::informer::run()
         __conn_num = avl_hosts.size();
     }
 
-    for (std::size_t i{0u}; i < __conn_num; i++)
+    for (std::uint8_t i{0u}; i < __conn_num; i++)
     {
         std::string       answ{};
         const std::string &host{avl_hosts.at(i)};
