@@ -1,12 +1,24 @@
 .vscode
 .vim
 
+**/.o
+**/.so
+**/.a
+**/.dll
+**/.lib
+**/.exe
+**/.out
+
 obj
 target
+lib
 
-example/target/*
-example/include/*
-example/obj/*
+example/include
+example/obj
+example/lib
+example/target
 
-test/target
+test/include
 test/obj
+test/lib
+test/target
