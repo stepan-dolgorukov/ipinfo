@@ -1,114 +1,149 @@
 .PHONY:
-	prepare \
-	clean \
-	install \
+	prepare   \
+	clean     \
+	install   \
 	uninstall
 
+PROJECT    := ipinfo
 DEBUG_MODE := 1
 
-CURR_DIR    := $(shell pwd)
-OBJ_DIR     := $(CURR_DIR)/obj
-SRC_DIR     := $(CURR_DIR)/src
-INCLUDE_DIR := $(CURR_DIR)/include/ipinfo
-TARGET_DIR  := $(CURR_DIR)/target
+OBJ_DIR     := obj
+SRC_DIR     := src
+INCLUDE_DIR := include
+TARGET_DIR  := target
 
-TARG :=  $(TARGET_DIR)/libipinfo.so
+TARG := $(TARGET_DIR)/lib$(PROJECT).so
+SRCS := $(shell find $(SRC_DIR)/ipinfo -name "*.cpp" -type f -printf "%P ")
+OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
 
-RM    := /usr/bin/rm
-CXX   := /usr/bin/g++
-MKDIR := /usr/bin/mkdir
-TEST  := /usr/bin/test
-CP    := /usr/bin/cp
-ECHO  := /usr/bin/echo
+RM    := rm
+CXX   := g++
+MKDIR := mkdir
+TEST  := test
+CP    := cp
+ECHO  := echo
 
 PREFIX              ?= /usr/local
 INSTALL_LIB_DIR     := $(DESTDIR)$(PREFIX)/lib
 INSTALL_INCLUDE_DIR := $(DESTDIR)$(PREFIX)/include/ipinfo
 
-CXXFLAGS := -std=c++2a \
-            -Wall \
-            -Wextra \
-            -Wpedantic \
-            -Wconversion \
-            -Wunreachable-code \
-            -Wsign-conversion \
-            -Wlogical-op \
-            -pipe
+# There are only headers needed by user will be installed.
+INSTALL_HDRS := \
+    $(shell find $(INCLUDE_DIR)/ipinfo        \
+	         \( ! -name "*requester*" \) -and \
+             \( ! -name "*parser*" \)    -and \
+             \( ! -name "*utiler*" \)         \
+                  -name "*.hpp"               \
+                  -type f                     \
+                  -printf "%p ")
+CXXFLAGS := \
+    -std=c++2a         \
+    -Wall              \
+    -Wextra            \
+    -Wpedantic         \
+    -Wconversion       \
+    -Wunreachable-code \
+    -Wsign-conversion  \
+    -Wlogical-op       \
+    -pipe
 
 ifeq ($(DEBUG_MODE), 1)
     CXXFLAGS += -g3 \
                 -O0
 else
-    CXXFLAGS += -Os \
+    CXXFLAGS += -Os   \
                 -flto \
                 -march=native
 endif
 
-LDFLAGS := -Wl,-rpath=/usr/local/lib
-LDLIBS  := -lcjson -lcpr
+LDFLAGS := \
+    -Wl,-rpath=$(PREFIX)/lib   \
+    -Wl,-rpath=./lib           \
+    -Wl,-rpath=/usr/lib        \
+    -Wl,-rpath=/usr/local/lib
 
-$(TARG): $(OBJ_DIR)/ipinfo_informer.o \
-         $(OBJ_DIR)/ipinfo_parser.o \
-         $(OBJ_DIR)/ipinfo_requester.o \
-         $(OBJ_DIR)/ipinfo_utiler.o
-	@ $(ECHO) "building $(TARG)"
-	@ $(CXX) \
+LDLIBS := \
+   -lcjson \
+   -lcpr
+
+all: prepare $(TARG)
+
+$(TARG): $(OBJS)
+	@ $(foreach obj,                                    \
+	  $(shell find $(OBJ_DIR) -name "*.cpp.o" -type f), \
+	  $(ECHO) "LNK" $(obj); )
+
+	@ $(CXX)   \
 	$(LDFLAGS) \
-	$(LDLIBS) \
-	-shared \
-	$^ \
+	$(LDLIBS)  \
+	-shared    \
+	$^         \
 	-o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/ipinfo/%.cpp
-	@ $(ECHO) "compiling $<"
-	@ $(CXX) \
+$(OBJ_DIR)/%.cpp.o: $(SRC_DIR)/$(PROJECT)/%.cpp
+	@ $(ECHO) "CMP $<"
+
+	@ $(CXX)         \
+	$(CXXFLAGS)      \
 	-I$(INCLUDE_DIR) \
-	$(CXXFLAGS) \
-	-fPIC \
-	-c $< \
+	-fPIC            \
+	-c $<            \
 	-o $@
 
 prepare:
-	@ ($(TEST) -d $(OBJ_DIR) && \
-		$(ECHO) "$(OBJ_DIR) already exists") || \
-		($(ECHO) "creating $(OBJ_DIR)" && $(MKDIR) $(OBJ_DIR))
+	@ ($(TEST) "-d" $(OBJ_DIR) &&                   \
+		$(ECHO) \"$(OBJ_DIR)\" "already exists") || \
+		($(ECHO) "CRT" \"$(OBJ_DIR)\" && $(MKDIR) $(OBJ_DIR))
 
-	@ $(TEST) -d $(TARGET_DIR) && \
-		$(ECHO) "$(TARGET_DIR) already exists" || \
-		($(ECHO) "creating $(TARGET_DIR)" && $(MKDIR) $(TARGET_DIR))
+	@ $(TEST) "-d" $(TARGET_DIR) &&                   \
+		$(ECHO) \"$(TARGET_DIR)\" "already exists" || \
+		($(ECHO) "CRT" \"$(TARGET_DIR)\" && $(MKDIR) $(TARGET_DIR))
 
 clean:
-	@ ($(TEST) -d $(TARGET_DIR) && \
-		$(ECHO) "deleting $(TARGET_DIR)" && $(RM) -r $(TARGET_DIR)) || \
-		($(ECHO) "$(TARGET_DIR) doesn't exist")
+	@ ($(TEST) "-d" $(TARGET_DIR) &&                                   \
+		$(ECHO) "RM" \"$(TARGET_DIR)\" && $(RM) "-r" $(TARGET_DIR)) || \
+		($(ECHO) \"$(TARGET_DIR)\" "doesn't exist")
 
-	@ ($(TEST) -d $(OBJ_DIR) && \
-		$(ECHO) "deleting $(OBJ_DIR)" && $(RM) -r $(OBJ_DIR)) || \
-		($(ECHO) "$(OBJ_DIR) doesn't exist")
+	@ ($(TEST) "-d" $(OBJ_DIR) &&                              \
+		$(ECHO) "RM" \"$(OBJ_DIR)\" && $(RM) -r $(OBJ_DIR)) || \
+		($(ECHO) \"$(OBJ_DIR)\" "doesn't exist")
 
 install: $(TARG)
 	@ $(MKDIR) -p $(INSTALL_LIB_DIR)
-	@ $(ECHO) "copying $(TARG) to $(INSTALL_LIB_DIR)"
+	@ $(ECHO) "CP" $(TARG) "->" $(INSTALL_LIB_DIR)
 	@ $(CP) $(TARG) $(INSTALL_LIB_DIR)
 
 	@ $(MKDIR) -p $(INSTALL_INCLUDE_DIR)
-	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo_constants.hpp to $(INSTALL_INCLUDE_DIR)"
-	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo_types.hpp to $(INSTALL_INCLUDE_DIR)"
-	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo_informer.hpp to $(INSTALL_INCLUDE_DIR)"
-	@ $(ECHO) "copying $(INCLUDE_DIR)/ipinfo.hpp to $(INSTALL_INCLUDE_DIR)"
 
-	@ $(CP) $(INCLUDE_DIR)/ipinfo_constants.hpp $(INSTALL_INCLUDE_DIR)
-	@ $(CP) $(INCLUDE_DIR)/ipinfo_types.hpp $(INSTALL_INCLUDE_DIR)
-	@ $(CP) $(INCLUDE_DIR)/ipinfo_informer.hpp $(INSTALL_INCLUDE_DIR)
-	@ $(CP) $(INCLUDE_DIR)/ipinfo.hpp $(INSTALL_INCLUDE_DIR)
+	@ $(foreach header, \
+	  $(INSTALL_HDRS),  \
+	  $(ECHO) "CP" $(header) "->" $(INSTALL_INCLUDE_DIR); )
+
+	@ $(foreach header, \
+	  $(INSTALL_HDRS),  \
+	  $(CP) $(header) $(INSTALL_INCLUDE_DIR); )
 
 uninstall:
-	@ ($(TEST) -e "$(INSTALL_LIB_DIR)/libipinfo.so" && \
-		($(ECHO) "removing $(INSTALL_LIB_DIR)/libipinfo.so" && \
-		$(RM) "$(INSTALL_LIB_DIR)/libipinfo.so")) || \
-		($(ECHO) "$(INSTALL_LIB_DIR)/libipinfo.so doesn't exist")
+	@ ($(TEST) "-e" $(INSTALL_LIB_DIR)"/lib$(PROJECT).so"           \
+		&&                                                          \
+		(                                                           \
+			$(ECHO) "RM $(INSTALL_LIB_DIR)/lib$(PROJECT).so" &&     \
+			$(RM) "$(INSTALL_LIB_DIR)/lib$(PROJECT).so"             \
+		)                                                           \
+	  )                                                             \
+		||                                                          \
+	  (                                                             \
+		$(ECHO) "$(INSTALL_LIB_DIR)/lib$(PROJECT).so doesn't exist" \
+	  )
 
-	@ ($(TEST) -d $(INSTALL_INCLUDE_DIR) && \
-		($(ECHO) "removing $(INSTALL_INCLUDE_DIR)" && \
-			$(RM) -r $(INSTALL_INCLUDE_DIR)) || \
-			($(ECHO) "$(INSTALL_INCLUDE_DIR) doesn't exist"))
+	@ ($(TEST) "-d" $(INSTALL_INCLUDE_DIR)             \
+		&&                                             \
+		(                                              \
+			$(ECHO) "RM" $(INSTALL_INCLUDE_DIR) &&     \
+			$(RM) "-r" $(INSTALL_INCLUDE_DIR)          \
+		)                                              \
+	  )                                                \
+		||                                             \
+	  (                                                \
+		$(ECHO) $(INSTALL_INCLUDE_DIR) "doesn't exist" \
+	  )
