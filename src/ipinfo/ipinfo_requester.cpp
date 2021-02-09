@@ -5,25 +5,24 @@
 
 #include <cpr/cpr.h>
 
-#include <string>
 #include <cstddef>    // std::size_t
 #include <functional> // std::function (for lambdas)
 #include <numeric>    // std::accumulate
 
-std::string
+const std::string
 ipinfo::service::requester::__get_ready_request_info_fields(const std::string &host)
 {
     const auto &fields{ipinfo::constants::REQUEST_INFO_FIELDS.at(host)};
-    return std::accumulate(
-            std::next(fields.begin()),
-            fields.end(),
-            fields.at(0u),
-            [](const std::string &chain, const std::string &elem) {
-                return std::move(chain + "," + elem);
-            });
+    const auto itemize {
+        [](const std::string &chain, const std::string &elem) {
+            return std::move(chain + ',' + elem);
+        }
+    };
+
+    return std::accumulate(std::next(fields.begin()), fields.end(), fields.at(0u), itemize);
 }
 
-std::string
+const std::string
 ipinfo::service::requester::__get_ready_request_lang(
         const std::string &host,
         const std::string &lang)
@@ -42,23 +41,40 @@ ipinfo::service::requester::__get_ready_request_lang(
 
 std::string
 ipinfo::service::requester::request(
-        const std::string &host,
-        const std::string &ip,
-        const std::string &lang,
-        const std::string &api_key)
+    const ipinfo::service::types::req_attrs &req_attrs)
 {
-    const auto &path{ipinfo::constants::REQUEST_START_PATHS.at(host)};
-    const auto &param_titles{ipinfo::constants::REQUEST_PARAMETERS_TITLES.at(host)};
+    const std::string &path {
+        ipinfo::constants::REQUEST_START_PATHS.at(req_attrs.host)
+    };
 
-    cpr::Response resp{};
+    const auto &param_titles {
+        ipinfo::constants::REQUEST_PARAMETERS_TITLES.at(req_attrs.host)
+    };
 
-    resp = cpr::Get(
-        cpr::Url(path + ip),
-        cpr::Parameters{
-            {param_titles.at("fields"), this->__get_ready_request_info_fields(host)},
-            {param_titles.at("lang"),   this->__get_ready_request_lang(host, lang)},
-            {param_titles.at("api_key"), api_key}
-        });
+    cpr::Response   resp{};
+    cpr::Url        url{};
+    cpr::Parameters params{};
+
+    url = path + req_attrs.ip;
+
+    params = {
+        {
+            param_titles.at("fields"),
+            this->__get_ready_request_info_fields(req_attrs.host)
+        },
+
+        {
+            param_titles.at("lang"),
+            this->__get_ready_request_lang(req_attrs.host, req_attrs.lang)
+        },
+
+        {
+            param_titles.at("api_key"),
+            req_attrs.api_key
+        }
+    };
+
+    resp = cpr::Get(url, params);
 
     if (200u != resp.status_code)
     {

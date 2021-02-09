@@ -39,6 +39,10 @@ class ipinfo::user::interface::informer
         ipinfo::service::parser                           *__parser{};
         ipinfo::service::utiler                           *__utiler{};
 
+        bool                              __is_api_key_setted_up(const std::string &host) const;
+        bool                              __is_host_excluded(const std::string &host)     const;
+        ipinfo::service::types::req_attrs __get_req_attrs(const std::string &host)        const;
+
     public:
         informer() = default;
 
@@ -59,11 +63,8 @@ class ipinfo::user::interface::informer
 
         void set_conn_num(const std::uint8_t n);
 
-        void set_api_key(const std::string &host,
-                         const std::string &key);
-
-        void set_api_key(const std::uint8_t host_id,
-                         const std::string &key);
+        void set_api_key(const std::string &host, const std::string &key);
+        void set_api_key(const std::uint8_t host_id, const std::string &key);
 
         void set_api_keys(const std::map<std::string, std::string> &host_key_mp);
         void set_api_keys(const std::map<std::uint8_t, std::string> &host_id_key_mp);
@@ -74,8 +75,7 @@ class ipinfo::user::interface::informer
         void exclude_hosts(const std::vector<std::string> &hosts);
         void exclude_hosts(const std::vector<std::uint8_t> &hosts_ids);
 
-        // let's ROLL!
-        void run(void);
+        void run(void); // let's ROLL!
 
         ipinfo::user::types::error get_last_error(const std::string &host)    const;
         ipinfo::user::types::error get_last_error(const std::uint8_t host_id) const;

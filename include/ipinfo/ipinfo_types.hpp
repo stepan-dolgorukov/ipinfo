@@ -7,19 +7,16 @@
 #include <string>  // std::string
 #include <cstdint> // std::uint8_t, std::int32_t
 
-namespace ipinfo
+namespace ipinfo::user::types
 {
-    namespace user::types
-    {
-                              struct error;
-        template <typename T> struct node;
-    }
+                          struct error;
+    template <typename T> struct node;
+}
 
-    namespace service::types
-    {
-        struct req_attrs;
-        struct info;
-    }
+namespace ipinfo::service::types
+{
+    struct req_attrs;
+    struct info;
 }
 
 struct ipinfo::user::types::error
@@ -41,9 +38,9 @@ template<typename T> struct ipinfo::user::types::node
 // add this structure usage to the code
 struct ipinfo::service::types::req_attrs
 {
+    const std::string host{};
     const std::string ip{};
     const std::string lang{};
-    const std::string host{};
     const std::string api_key{};
 };
 

@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <string>
 #include <utility>
+#include <algorithm>
 
 ipinfo::user::interface::informer::informer(
         const std::string &ip,
@@ -28,6 +29,36 @@ ipinfo::user::interface::informer::informer(
     {
         __lang = ipinfo::constants::AVAILABLE_LANGS.at(lang_id);
     }
+}
+
+bool
+ipinfo::user::interface::informer::__is_api_key_setted_up(const std::string &host) const
+{
+    return (0u != __api_keys.count(host));
+}
+
+bool
+ipinfo::user::interface::informer::__is_host_excluded(const std::string &host) const
+{
+    const auto &excl_hsts{ __excluded_hosts };
+    const auto res{ std::find(excl_hsts.begin(), excl_hsts.end(), host) };
+
+    return (excl_hsts.end() != res);
+}
+
+ipinfo::service::types::req_attrs
+ipinfo::user::interface::informer::__get_req_attrs(const std::string &host) const
+{
+    const std::string api_key {
+        (__is_api_key_setted_up(host)) ? __api_keys.at(host) : ""
+    };
+
+    return {
+        .host{ host },
+        .ip{ __ip },
+        .lang{ __lang },
+        .api_key{ api_key }
+    };
 }
 
 void
@@ -129,7 +160,9 @@ ipinfo::user::interface::informer::exclude_host(const std::uint8_t host_id)
 {
     if (__utiler->is_host_supported(host_id))
     {
-        __excluded_hosts.push_back(ipinfo::constants::AVAILABLE_HOSTS.at(host_id));
+        __excluded_hosts.push_back(
+            ipinfo::constants::AVAILABLE_HOSTS.at(host_id)
+        );
     }
 
     return;
@@ -162,8 +195,8 @@ ipinfo::user::interface::informer::exclude_hosts(
 void
 ipinfo::user::interface::informer::run()
 {
-    const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
     __utiler->clear_info(__info);
+    const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
 
     if ((0u == __conn_num) || (avl_hosts.size() < __conn_num))
     {
@@ -172,15 +205,18 @@ ipinfo::user::interface::informer::run()
 
     for (std::uint8_t i{0u}; i < __conn_num; i++)
     {
-        std::string       answ{};
+        std::string answ{};
         const std::string &host{avl_hosts.at(i)};
+        const ipinfo::service::types::req_attrs req_attrs {
+            this->__get_req_attrs(host)
+        };
 
-        if (__utiler->is_host_excluded(host, __excluded_hosts))
+        if (this->__is_host_excluded(host))
         {
             continue;
         }
 
-        answ = __requester->request(host, __ip, __lang, __api_keys[host]);
+        answ = __requester->request(req_attrs);
         __parser->parse(answ, __info, host);
     }
 
@@ -206,7 +242,7 @@ ipinfo::user::interface::informer::get_last_error(const std::string &host) const
         };
     }
 
-    if (__utiler->is_host_excluded(host, __excluded_hosts))
+    if (this->__is_host_excluded(host))
     {
         return {
             .code = ipinfo::constants::ERRORS_IDS::EXCLUDED_HOST,
@@ -214,6 +250,7 @@ ipinfo::user::interface::informer::get_last_error(const std::string &host) const
         };
     }
 
+    // !!!
     for (const auto &[__host, _] : __errors)
     {
         if (__host == host)

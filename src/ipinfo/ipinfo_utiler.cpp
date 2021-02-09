@@ -65,18 +65,19 @@ ipinfo::service::utiler::round_val(
         const double v,
         const std::uint8_t places) const
 {
-    const auto n{std::pow(10u, places)};
-    return (std::round(v * n) / (n));
+    const auto n{ std::pow(10u, places) };
+    const auto res{ std::round(v * n) / (n) };
+
+    return res;
 }
 
 bool
 ipinfo::service::utiler::is_host_supported(const std::string &host) const
 {
     const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
+    const auto res{ std::find(avl_hosts.begin(), avl_hosts.end(), host) };
 
-    return (avl_hosts.end() != std::find(avl_hosts.begin(),
-                                         avl_hosts.end(),
-                                         host));
+    return (avl_hosts.end() != res);
 }
 
 bool
@@ -89,11 +90,9 @@ bool
 ipinfo::service::utiler::is_lang_supported(const std::string &lang) const
 {
     const auto &avl_langs{ipinfo::constants::AVAILABLE_LANGS};
-    const auto find_res{std::find(avl_langs.begin(),
-                                  avl_langs.end(),
-                                  lang)};
+    const auto res{ std::find(avl_langs.begin(), avl_langs.end(), lang) };
 
-    return (avl_langs.end() != find_res);
+    return (avl_langs.end() != res);
 }
 
 bool
@@ -127,17 +126,4 @@ ipinfo::service::utiler::to_lower_case(const std::string &s) const
     }
 
     return lc_s;
-}
-
-bool
-ipinfo::service::utiler::is_host_excluded(
-        const std::string &host,
-        const std::vector<std::string> &excl_hosts) const
-{
-    const auto find_res{std::find(
-            excl_hosts.begin(),
-            excl_hosts.end(),
-            host)};
-
-    return (find_res != excl_hosts.end());
 }
