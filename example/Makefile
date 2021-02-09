@@ -1,57 +1,68 @@
-.PHONY: prepare, \
-        clean
+.PHONY:
+	prepare \
+	clean
+
+PROJECT := ipinfo
+EXE_BIN := $(PROJECT)_xmpl
 
 DEBUG_MODE := 1
 
-CURR_DIR    := $(shell pwd)
-OBJ_DIR     := $(CURR_DIR)/obj
-SRC_DIR     := $(CURR_DIR)/src
-INCLUDE_DIR := $(CURR_DIR)/include
-TARGET_DIR  := $(CURR_DIR)/target
+OBJ_DIR     := ./obj
+SRC_DIR     := ./src
+INCLUDE_DIR := ./include
+TARGET_DIR  := ./target
 
-TARG := $(TARGET_DIR)/ipinfo_xmpl
+TARG := $(TARGET_DIR)/$(EXE_BIN)
+SRCS := $(shell find $(SRC_DIR) -name "*.cpp" -type f -printf "%P ")
+OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
 
-RM    := /usr/bin/rm
-CP    := /usr/bin/cp
-CXX   := /usr/bin/g++
-MKDIR := /usr/bin/mkdir
-TEST  := /usr/bin/test
-ECHO  := /usr/bin/echo
+RM    := rm
+CP    := cp
+CXX   := g++
+MKDIR := mkdir
+TEST  := test
+ECHO  := echo
 
-CXXFLAGS := -std=c++2a \
-            -Wall \
-            -Wextra \
-            -Wpedantic \
-            -Wconversion \
-            -Wunreachable-code \
-            -Wsign-conversion \
-            -Wlogical-op \
-            -pipe
+CXXFLAGS := \
+	-std=c++2a         \
+	-Wall              \
+	-Wextra            \
+	-Wpedantic         \
+	-Wconversion       \
+	-Wunreachable-code \
+	-Wsign-conversion  \
+	-Wlogical-op       \
+	-pipe
 
 ifeq ($(DEBUG_MODE), 1)
-    CXXFLAGS += -g3 \
-                -O0
+	CXXFLAGS += -g3 -O0
 else
-    CXXFLAGS += -Os \
-                -march=native \
-                -flto
+	CXXFLAGS += -Os -flto -march=native
 endif
 
-LDFLAGS := -Wl,-rpath=/usr/local/lib
-LDLIBS  := -lipinfo -lfmt
+LDFLAGS := \
+	-Wl,-rpath=$(PREFIX)/lib   \
+	-Wl,-rpath=./lib           \
+	-Wl,-rpath=/usr/lib        \
+	-Wl,-rpath=/usr/local/lib
 
-$(TARG): $(OBJ_DIR)/main.o
-	@ $(ECHO) "building $(TARG)"
+LDLIBS := \
+	-lipinfo \
+	-lfmt
+
+$(TARG): $(OBJS)
+	@ $(ECHO) "linking objects"
 	@ $(CXX) \
 	$(LDFLAGS) \
 	$(LDLIBS) \
 	$? \
 	-o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(OBJ_DIR)/%.cpp.o: $(SRC_DIR)/%.cpp
 	@ $(ECHO) "compiling $<"
 	@ $(CXX) \
 	$(CXXFLAGS) \
+	-I$(INCLUDE_DIR) \
 	-c $< \
 	-o $@
 
