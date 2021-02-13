@@ -7,26 +7,26 @@
 #include <string>  // std::string
 #include <cstdint> // std::uint8_t, std::int32_t
 
-namespace ipinfo::user::types
+namespace ipinfo::usr::types
 {
-                          struct error;
+    struct error;
     template <typename T> struct node;
 }
 
-namespace ipinfo::service::types
+namespace ipinfo::srv::types
 {
     struct req_attrs;
     struct info;
 }
 
-struct ipinfo::user::types::error
+struct ipinfo::usr::types::error
 {
     std::uint8_t code{};
     std::string  desc{};
 };
 
 // node structure for user
-template<typename T> struct ipinfo::user::types::node
+template<typename T> struct ipinfo::usr::types::node
 {
     bool        is_parsed : 1 {false};
     T           val{};
@@ -36,7 +36,7 @@ template<typename T> struct ipinfo::user::types::node
 
 
 // add this structure usage to the code
-struct ipinfo::service::types::req_attrs
+struct ipinfo::srv::types::req_attrs
 {
     const std::string host{};
     const std::string ip{};
@@ -44,7 +44,7 @@ struct ipinfo::service::types::req_attrs
     const std::string api_key{};
 };
 
-struct ipinfo::service::types::info
+struct ipinfo::srv::types::info
 {
     private:
         template<typename T> struct node
@@ -69,7 +69,7 @@ struct ipinfo::service::types::info
             {
                 {
                     ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM), 
                     {
                         .json_name{"query"}
                     }

@@ -2,21 +2,21 @@
     #define IPINFO_REQUESTER_HPP
 
 #include "ipinfo_types.hpp"
+#include "ipinfo_aliases.hpp"
+
 #include <string>
 
-namespace ipinfo::service
+namespace ipinfo::srv{ class requester; }
+class ipinfo::srv::requester
 {
-    class requester
-    {
-        private:
-            const std::string __get_ready_request_info_fields(const std::string &host);
-            const std::string __get_ready_request_lang(
-                                    const std::string &host,
-                                    const std::string &lang);
-        public:
-            std::string request(const ipinfo::service::types::req_attrs &req_attrs);
-            ipinfo::user::types::error get_last_error(void) const;
-    };
-}
+    private:
+        const als::str __get_ready_request_info_fields(const als::str &host) const;
+        const als::str __get_ready_request_lang(
+                                const als::str &host,
+                                const als::str &lang) const;
+    public:
+        als::str request(const als::req_attrs &req_attrs) const;
+        als::err get_last_error(void)                     const;
+};
 
-#endif
+#endif // IPINFO_REQUESTER_HPP

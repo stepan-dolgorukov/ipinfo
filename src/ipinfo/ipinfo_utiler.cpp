@@ -7,13 +7,13 @@
 #include <algorithm> // std::find
 
 template<template<typename ...> class T, typename sub_T> void
-ipinfo::service::utiler::__clear_node(T<sub_T> &node) const
+ipinfo::srv::utiler::__clear_node(T<sub_T> &node) const
 {
-    const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
+    const auto &avl_hosts{ constants::AVAILABLE_HOSTS };
 
-    for (const auto &host : avl_hosts)
+    for (const std::string &host : avl_hosts)
     {
-        auto &content{node.cont.at(host)};
+        auto &content{ node.cont.at(host) };
 
         content.val = {};
         content.is_parsed = false;
@@ -23,7 +23,7 @@ ipinfo::service::utiler::__clear_node(T<sub_T> &node) const
 }
 
 void
-ipinfo::service::utiler::clear_info(ipinfo::service::types::info &info) const
+ipinfo::srv::utiler::clear_info(ipi::srv::types::info &info) const
 {
     this->__clear_node(info.ip);
     this->__clear_node(info.ip_type);
@@ -61,9 +61,7 @@ ipinfo::service::utiler::clear_info(ipinfo::service::types::info &info) const
 }
 
 double
-ipinfo::service::utiler::round_val(
-        const double v,
-        const std::uint8_t places) const
+ipi::srv::utiler::round_val(const double v, const std::uint8_t places) const
 {
     const auto n{ std::pow(10u, places) };
     const auto res{ std::round(v * n) / (n) };
@@ -72,37 +70,37 @@ ipinfo::service::utiler::round_val(
 }
 
 bool
-ipinfo::service::utiler::is_host_supported(const std::string &host) const
+ipinfo::srv::utiler::is_host_supported(const std::string &host) const
 {
-    const auto &avl_hosts{ipinfo::constants::AVAILABLE_HOSTS};
+    const auto &avl_hosts{ constants::AVAILABLE_HOSTS };
     const auto res{ std::find(avl_hosts.begin(), avl_hosts.end(), host) };
 
     return (avl_hosts.end() != res);
 }
 
 bool
-ipinfo::service::utiler::is_host_supported(const std::uint8_t host_id) const
+ipinfo::srv::utiler::is_host_supported(const std::uint8_t host_id) const
 {
-    return (host_id < ipinfo::constants::AVAILABLE_HOSTS.size());
+    return (host_id < constants::AVAILABLE_HOSTS.size());
 }
 
 bool
-ipinfo::service::utiler::is_lang_supported(const std::string &lang) const
+ipinfo::srv::utiler::is_lang_supported(const std::string &lang) const
 {
-    const auto &avl_langs{ipinfo::constants::AVAILABLE_LANGS};
+    const auto &avl_langs{ constants::AVAILABLE_LANGS };
     const auto res{ std::find(avl_langs.begin(), avl_langs.end(), lang) };
 
     return (avl_langs.end() != res);
 }
 
 bool
-ipinfo::service::utiler::is_lang_supported(const std::uint8_t lang_id) const
+ipinfo::srv::utiler::is_lang_supported(const std::uint8_t lang_id) const
 {
-    return (lang_id < ipinfo::constants::AVAILABLE_LANGS.size());
+    return (lang_id < constants::AVAILABLE_LANGS.size());
 }
 
 bool
-ipinfo::service::utiler::is_lang_supported(
+ipinfo::srv::utiler::is_lang_supported(
         const std::string &lang,
         const std::string &host) const
 {
@@ -111,12 +109,13 @@ ipinfo::service::utiler::is_lang_supported(
         return false;
     }
 
-    const auto &host_avl_langs{ipinfo::constants::HOSTS_AVAILABLE_LANGS.at(host)};
+    const auto &host_avl_langs{ constants::HOSTS_AVAILABLE_LANGS.at(host) };
     return (host_avl_langs.end() != host_avl_langs.find(lang));
 }
 
+// !!!
 std::string
-ipinfo::service::utiler::to_lower_case(const std::string &s) const
+ipinfo::srv::utiler::to_lower_case(const std::string &s) const
 {
     std::string lc_s{};
 

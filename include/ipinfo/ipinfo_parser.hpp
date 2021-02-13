@@ -1,4 +1,4 @@
-#ifndef IPINFO_PARSER_HPP__
+#ifndef IPINFO_PARSER_HPP
     #define IPINFO_PARSER_HPP
 
 #include "ipinfo_types.hpp"
@@ -7,44 +7,42 @@
 #include <cstdint>
 #include <string>
 
-namespace ipinfo::service
+namespace ipinfo::srv{ class parser; }
+class ipinfo::srv::parser
 {
-    class parser
-    {
-        private:
-            ::cJSON* __prepare(const std::string &json);
+    private:
+        ::cJSON* __prepare(const std::string &json);
 
-            template<template<typename ...> class T, typename sub_T> void
-            __catch_node(const ::cJSON &data,
-                         T<sub_T> &node,
-                         const std::string &host);
+        template<template<typename ...> class T, typename sub_T> void
+        __catch_node(const ::cJSON &data,
+                     T<sub_T> &node,
+                     const std::string &host);
 
-            template<template<typename ...> class T> void
-            __fill_node(T<std::string> &node,
-                        const ::cJSON &item,
-                        const std::string &host);
+        template<template<typename ...> class T> void
+        __fill_node(T<std::string> &node,
+                    const ::cJSON &item,
+                    const std::string &host);
 
-            template<template<typename ...> class T> void
-            __fill_node(T<std::int32_t> &node,
-                        const ::cJSON &item,
-                        const std::string &host);
+        template<template<typename ...> class T> void
+        __fill_node(T<std::int32_t> &node,
+                    const ::cJSON &item,
+                    const std::string &host);
 
-            template<template<typename ...> class T> void
-            __fill_node(T<double> &node,
-                        const ::cJSON &item,
-                        const std::string &host);
+        template<template<typename ...> class T> void
+        __fill_node(T<double> &node,
+                    const ::cJSON &item,
+                    const std::string &host);
 
-            template<template<typename ...> class T> void
-            __fill_node(T<bool> &node,
-                        const ::cJSON &item,
-                        const std::string &host);
-        public:
-            void parse(const std::string &json,
-                       ipinfo::service::types::info &info,
-                       const std::string &host);
+        template<template<typename ...> class T> void
+        __fill_node(T<bool> &node,
+                    const ::cJSON &item,
+                    const std::string &host);
+    public:
+        void parse(const std::string &json,
+                   srv::types::info &info,
+                   const std::string &host);
 
-            ipinfo::user::types::error get_last_error(void) const;
-    };
-}
+        usr::types::error get_last_error(void) const;
+};
 
-#endif
+#endif // IPINFO_PARSER_HPP

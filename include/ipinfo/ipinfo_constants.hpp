@@ -1,6 +1,8 @@
 #ifndef IPINFO_CONSTANTS_HPP
     #define IPINFO_CONSTANTS_HPP
 
+#include "ipinfo_aliases.hpp"
+
 #include <map>
 #include <array>
 #include <string>
@@ -9,15 +11,13 @@
 
 namespace ipinfo::constants
 {
-    static const
-    std::array<std::string, 2u> AVAILABLE_HOSTS
+    const std::array<std::string, 2u> AVAILABLE_HOSTS
     {
         "ip-api.com",
         "ipwhois.app"
     };
 
-    static const
-    std::array<std::string, 8u> AVAILABLE_LANGS
+    const std::array<std::string, 8u> AVAILABLE_LANGS
     {
         "english",
         "german",
@@ -31,7 +31,7 @@ namespace ipinfo::constants
 
     enum AVAILABLE_HOSTS_IDS : std::uint8_t
     {
-        IP_API_COM = 0u,
+       IP_API_COM = 0u,
         IPWHOIS_APP
     };
 
@@ -59,10 +59,7 @@ namespace ipinfo::constants
         FAILED_JSON_PARSING
     };
 
-    static const
-    std::map<std::string,
-             std::map<std::string,
-                      std::string>> HOSTS_AVAILABLE_LANGS
+    const std::map<als::str, std::map<als::str, als::str>> HOSTS_AVAILABLE_LANGS
     {
         {
             AVAILABLE_HOSTS.at(AVAILABLE_HOSTS_IDS::IP_API_COM),
@@ -97,9 +94,7 @@ namespace ipinfo::constants
         }
     };
 
-    static const
-    std::map<std::string,
-             std::string> REQUEST_START_PATHS
+    const std::map<std::string, std::string> REQUEST_START_PATHS
     {
         {
             AVAILABLE_HOSTS.at(AVAILABLE_HOSTS_IDS::IP_API_COM),
@@ -120,10 +115,7 @@ namespace ipinfo::constants
         }
     };
 
-    static const
-    std::map<std::string,
-             std::map<std::string,
-                      std::string>> REQUEST_PARAMETERS_TITLES
+    const std::map<als::str, std::map<als::str, als::str>> REQUEST_PARAMETERS_TITLES
     {
         {
             AVAILABLE_HOSTS.at(AVAILABLE_HOSTS_IDS::IP_API_COM),
@@ -144,9 +136,7 @@ namespace ipinfo::constants
         }
     };
 
-    static const
-    std::map<std::string,
-             std::vector<std::string>> REQUEST_INFO_FIELDS
+    const std::map<std::string, std::vector<std::string>> REQUEST_INFO_FIELDS
     {
         {
             AVAILABLE_HOSTS.at(AVAILABLE_HOSTS_IDS::IP_API_COM),
@@ -211,4 +201,4 @@ namespace ipinfo::constants
     };
 }
 
-#endif
+#endif // IPINFO_CONSTANTS_HPP

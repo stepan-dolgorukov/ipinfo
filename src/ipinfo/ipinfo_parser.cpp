@@ -7,17 +7,16 @@
 #include <cjson/cJSON.h>
 
 ::cJSON*
-ipinfo::service::parser::__prepare(const std::string &json)
+ipinfo::srv::parser::__prepare(const std::string &json)
 {
     ::cJSON * const data{::cJSON_Parse(json.c_str())};
 
     if (nullptr == data)
     {
-        std::string error_location{"unknown"};
-        const auto * const json_error{::cJSON_GetErrorPtr()};
+        std::string error_location{ "unknown" };
+        const char * const json_error{ ::cJSON_GetErrorPtr() };
 
-        if (nullptr != json_error &&
-            !(std::string{json_error}.empty()))
+        if (nullptr != json_error && !(std::string{json_error}.empty()))
         {
             error_location = json_error;
         }
@@ -27,7 +26,7 @@ ipinfo::service::parser::__prepare(const std::string &json)
 }
 
 template<template<typename ...> class T> void
-ipinfo::service::parser::__fill_node(
+ipinfo::srv::parser::__fill_node(
         T<std::string> &node,
         const ::cJSON &item,
         const std::string &host)
@@ -51,7 +50,7 @@ ipinfo::service::parser::__fill_node(
 }
 
 template<template<typename ...> class T> void
-ipinfo::service::parser::__fill_node(
+ipinfo::srv::parser::__fill_node(
         T<std::int32_t> &node,
         const ::cJSON &item,
         const std::string &host)
@@ -84,7 +83,7 @@ ipinfo::service::parser::__fill_node(
 }
 
 template<template<typename ...> class T> void
-ipinfo::service::parser::__fill_node(
+ipinfo::srv::parser::__fill_node(
         T<double> &node,
         const ::cJSON &item,
         const std::string &host)
@@ -115,7 +114,7 @@ ipinfo::service::parser::__fill_node(
 }
 
 template<template<typename ...> class T> void
-ipinfo::service::parser::__fill_node(
+ipinfo::srv::parser::__fill_node(
         T<bool> &node,
         const ::cJSON &item,
         const std::string &host)
@@ -146,7 +145,7 @@ ipinfo::service::parser::__fill_node(
 }
 
 template<template<typename ...> class T, typename sub_T> void
-ipinfo::service::parser::__catch_node(
+ipinfo::srv::parser::__catch_node(
         const ::cJSON &data,
         T<sub_T> &node,
         const std::string &host)
@@ -159,9 +158,9 @@ ipinfo::service::parser::__catch_node(
 }
 
 void
-ipinfo::service::parser::parse(
+ipinfo::srv::parser::parse(
         const std::string &json,
-        ipinfo::service::types::info &info,
+        ipinfo::srv::types::info &info,
         const std::string &host)
 {
     ::cJSON * const data{this->__prepare(json)};
@@ -210,8 +209,8 @@ ipinfo::service::parser::parse(
     return;
 }
 
-ipinfo::user::types::error
-ipinfo::service::parser::get_last_error() const
+ipinfo::usr::types::error
+ipinfo::srv::parser::get_last_error() const
 {
     return {}; // !!!
 }
