@@ -32,8 +32,8 @@ app::show_ip_info(
         const std::string &ip,
         const std::string &lang)
 {
-    ipinfo::user::interface::informer informer{};
-    ipinfo::user::types::error        error{};
+    ipinfo::usr::informer informer{};
+    ipinfo::usr::types::error error{};
 
     informer.set_ip(ip);
     informer.set_lang(lang);
@@ -90,17 +90,17 @@ app::show_ip_info_ex(
         const std::string &ip,
         const std::string &lang)
 {
-    ipinfo::user::interface::informer       informer{ip, lang, 0u};
-    ipinfo::user::types::error              error{};
+    ipinfo::usr::informer informer{ ip, lang, 0u };
+    ipinfo::usr::types::error error{};
 
-    ipinfo::user::types::node<std::string>  str_cont{};
-    ipinfo::user::types::node<std::int32_t> i32_cont{};
-    ipinfo::user::types::node<double>       dbl_cont{};
-    ipinfo::user::types::node<bool>         bool_cont{};
+    ipi::als::u_node<std::string> str_cont{};
+    ipi::als::u_node<std::int32_t> i32_cont{};
+    ipi::als::u_node<double> dbl_cont{};
+    ipi::als::u_node<bool> bool_cont{};
 
     // Another way of API keys setting.
-    informer.set_api_key(ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM, {});
-    informer.set_api_key(ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {});
+    informer.set_api_key(ipi::constants::AVAILABLE_HOSTS_IDS::IP_API_COM, {});
+    informer.set_api_key(ipi::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {});
 
     informer.run();
 
