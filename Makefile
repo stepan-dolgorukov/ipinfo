@@ -36,10 +36,8 @@ INSTALL_HDRS := \
 	$(shell find $(INCLUDE_DIR)/ipinfo \
 	\( ! -name "*requester*" \) -and \
 	\( ! -name "*parser*" \) -and \
-	\( ! -name "*utiler*" \) \
-		-name "*.hpp" \
-		-type f \
-		-printf "%p ")
+	\( ! -name "*utiler*" \) -and \
+	-name "*.hpp" -type f -printf "%p ")
 
 CXXFLAGS := \
 	-std=c++2a \
@@ -53,12 +51,9 @@ CXXFLAGS := \
 	-pipe
 
 ifeq ($(DEBUG_MODE), 1)
-	CXXFLAGS += -g3 \
-				-O0
+	CXXFLAGS += -g3 -O0 -DDEBUG_MODE
 else
-	CXXFLAGS += -Os \
-				-flto \
-				-march=native
+	CXXFLAGS += -Os -flto -march=native
 endif
 
 LDFLAGS := \
