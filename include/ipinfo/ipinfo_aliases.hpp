@@ -1,3 +1,7 @@
+// This file must not include other files of the ipinfo project.
+// The file provides entity aliases to save space in situations ...
+// ... where you really need it.
+
 #ifndef IPINFO_ALIASES_HPP
     #define IPINFO_ALIASES_HPP
 
@@ -30,9 +34,9 @@ namespace ipinfo::usr::types
 
 namespace ipinfo::als
 {
-    using info      = ipi::srv::types::info;
-    using req_attrs = ipi::srv::types::req_attrs;
-    using err       = ipi::usr::types::error;
+    using info      = ipinfo::srv::types::info;
+    using req_attrs = ipinfo::srv::types::req_attrs;
+    using err       = ipinfo::usr::types::error;
 
     template <typename T> using u_node = ipinfo::usr::types::node<T>;
 
