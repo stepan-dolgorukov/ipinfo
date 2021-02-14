@@ -116,7 +116,7 @@ install: $(TARG)
 	@ $(CP) $(TARG) $(INSTALL_LIB_DIR)
 
 	@ $(foreach header, \
-		$(INSTALL_HDRS),  \
+		$(INSTALL_HDRS), \
 		$(ECHO) "CP" $(header) "->" $(INSTALL_INCLUDE_DIR) && \
 		$(CP) $(header) $(INSTALL_INCLUDE_DIR); )
 
