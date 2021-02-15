@@ -12,7 +12,6 @@ namespace app
             const std::string &ip,
             const std::string &lang);
 
-    // Expanded variant.
     void show_ip_info_ex(
             const std::string &ip,
             const std::string &lang);
@@ -40,7 +39,7 @@ app::show_ip_info(
 
     // You can set your API keys below.
     // In example they're initialized as empty strings.
-    // This initialization isn't compulsory.
+    // But this initialization isn't compulsory.
     informer.set_api_keys({
         {ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM,  {}},
         {ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {}}
@@ -93,6 +92,8 @@ app::show_ip_info_ex(
     ipinfo::usr::informer informer{ ip, lang, 0u };
     ipinfo::usr::types::error error{};
 
+    // You can use the ipinfo aliases.
+    // They make your code rly shorter.
     ipi::als::u_node<std::string> str_cont{};
     ipi::als::u_node<std::int32_t> i32_cont{};
     ipi::als::u_node<double> dbl_cont{};
