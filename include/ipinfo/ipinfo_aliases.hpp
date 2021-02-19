@@ -10,9 +10,12 @@
 #include <vector>
 #include <map>
 
-namespace ipinfo{}
-namespace ipi = ipinfo;
+namespace ipinfo
+{
+    namespace constants{}
+}
 
+namespace ipi = ipinfo;
 namespace ipinfo::srv
 {
     class requester;
@@ -34,11 +37,13 @@ namespace ipinfo::usr::types
 
 namespace ipinfo::als
 {
-    using info      = ipinfo::srv::types::info;
-    using req_attrs = ipinfo::srv::types::req_attrs;
-    using err       = ipinfo::usr::types::error;
+    namespace C = constants;
 
-    template <typename T> using u_node = ipinfo::usr::types::node<T>;
+    using info      = srv::types::info;
+    using req_attrs = srv::types::req_attrs;
+    using err       = usr::types::error;
+
+    template <typename T> using u_node = usr::types::node<T>;
 
     using u8  = std::uint8_t;
     using str = std::string;
