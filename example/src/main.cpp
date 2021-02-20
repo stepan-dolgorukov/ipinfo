@@ -1,10 +1,7 @@
-#include <ipinfo/ipinfo.hpp> // ipinfo::user::interface::informer,
-                             // ipinfo::user::types::error,
-                             // ipinfo::user::types::node
-
-#include <fmt/core.h>        // fmt::print
-#include <string>            // std::string
-#include <cstdint>           // std::int32_t
+#include <ipinfo/ipinfo.hpp>
+#include <fmt/core.h>
+#include <string>
+#include <cstdint>
 
 namespace app
 {
@@ -41,8 +38,8 @@ app::show_ip_info(
     // In example they're initialized as empty strings.
     // But this initialization isn't compulsory.
     informer.set_api_keys({
-        {ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM,  {}},
-        {ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {}}
+        {ipi::constants::AVAILABLE_HOSTS_IDS::IP_API_COM, {}},
+        {ipi::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {}}
     });
 
     informer.run();
@@ -99,9 +96,15 @@ app::show_ip_info_ex(
     ipi::als::u_node<double> dbl_cont{};
     ipi::als::u_node<bool> bool_cont{};
 
+    const std::string
+        str_fmt{ "{:s}: {:s}; parsed: {:d}; host: {:s}\n" },
+        i32_fmt{ "{:s}: {:d}; parsed: {:d}; host: {:s}\n" },
+        dbl_fmt{ "{:s}: {:.2f}; parsed: {:d}; host: {:s}\n" },
+        bool_fmt{ "{:s}: {:d}; parsed: {:d}; host: {:s}\n" };
+
     // Another way of API keys setting.
-    informer.set_api_key(ipi::constants::AVAILABLE_HOSTS_IDS::IP_API_COM, {});
-    informer.set_api_key(ipi::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {});
+    informer.set_api_key(ipi::als::C::AVAILABLE_HOSTS_IDS::IP_API_COM, {});
+    informer.set_api_key(ipi::als::C::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {});
 
     informer.run();
 
@@ -109,228 +112,136 @@ app::show_ip_info_ex(
     // we need to find a compact solution.
 
     str_cont = informer.get_ip_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed}, // this is a bit field, OK? - Sure!
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_ip_type_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_continent_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{(str_cont.is_parsed)},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{(str_cont.is_parsed)}, str_cont.host);
 
     str_cont= informer.get_continent_code_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_country_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_country_code_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_country_capital_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_country_ph_code_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_country_neighbors_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_region_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_region_code_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_city_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_city_district_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_zip_code_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     dbl_cont = informer.get_latitude_ex();
-    fmt::print("{:s}: {:.2f}; parsed: {:d}; host: {:s}\n",
-            dbl_cont.desc,
-            dbl_cont.val,
-            bool{dbl_cont.is_parsed},
-            dbl_cont.host);
+    fmt::print(dbl_fmt, dbl_cont.desc, dbl_cont.val,
+            bool{dbl_cont.is_parsed}, dbl_cont.host);
 
     dbl_cont = informer.get_longitude_ex();
-    fmt::print("{:s}: {:.2f}; parsed: {:d}; host: {:s}\n",
-            dbl_cont.desc,
-            dbl_cont.val,
-            bool{dbl_cont.is_parsed},
-            dbl_cont.host);
+    fmt::print(dbl_fmt, dbl_cont.desc, dbl_cont.val,
+               bool{dbl_cont.is_parsed}, dbl_cont.host);
 
     str_cont = informer.get_timezone_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_city_timezone_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_timezone_gmt_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     i32_cont = informer.get_gmt_offset_ex();
-    fmt::print("{:s}: {:d}; parsed: {:d}; host: {:s}\n",
-            i32_cont.desc,
-            i32_cont.val,
-            bool{i32_cont.is_parsed},
-            i32_cont.host);
+    fmt::print(i32_fmt, i32_cont.desc, i32_cont.val,
+               bool{i32_cont.is_parsed}, i32_cont.host);
 
     i32_cont = informer.get_dst_offset_ex();
-    fmt::print("{:s}: {:d}; parsed: {:d}; host: {:s}\n",
-            i32_cont.desc,
-            i32_cont.val,
-            bool{i32_cont.is_parsed},
-            i32_cont.host);
+    fmt::print(i32_fmt, i32_cont.desc, i32_cont.val,
+               bool{i32_cont.is_parsed}, i32_cont.host);
 
     str_cont = informer.get_isp_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_as_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_org_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_reverse_dns_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
+
+    bool_cont = informer.get_hosting_status_ex();
+    fmt::print(bool_fmt, bool_cont.desc, bool_cont.val,
+               bool{bool_cont.is_parsed}, bool_cont.host);
 
     bool_cont = informer.get_proxy_status_ex();
-    fmt::print("{:s}: {:d}; parsed: {:d}; host: {:s}\n",
-            bool_cont.desc,
-            bool_cont.val,
-            bool{bool_cont.is_parsed},
-            bool_cont.host);
+    fmt::print(bool_fmt, bool_cont.desc, bool_cont.val,
+               bool{bool_cont.is_parsed}, bool_cont.host);
 
     bool_cont = informer.get_mobile_status_ex();
-    fmt::print("{:s}: {:d}; parsed: {:d}; host: {:s}\n",
-            bool_cont.desc,
-            bool_cont.val,
-            bool{bool_cont.is_parsed},
-            bool_cont.host);
+    fmt::print(bool_fmt, bool_cont.desc, bool_cont.val,
+               bool{bool_cont.is_parsed}, bool_cont.host);
 
     str_cont = informer.get_currency_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_currency_code_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     str_cont = informer.get_currency_symbol_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n",
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     dbl_cont = informer.get_currency_rates_ex();
-    fmt::print("{:s}: {:.2f}; parsed: {:d}; host: {:s}\n",
-            dbl_cont.desc,
-            dbl_cont.val,
-            bool{dbl_cont.is_parsed},
-            dbl_cont.host);
+    fmt::print(dbl_fmt, dbl_cont.desc, dbl_cont.val,
+               bool{dbl_cont.is_parsed}, dbl_cont.host);
 
     str_cont = informer.get_currency_plural_ex();
-    fmt::print("{:s}: {:s}; parsed: {:d}; host: {:s}\n", 
-            str_cont.desc,
-            str_cont.val,
-            bool{str_cont.is_parsed},
-            str_cont.host);
+    fmt::print(str_fmt, str_cont.desc, str_cont.val,
+               bool{str_cont.is_parsed}, str_cont.host);
 
     return;
 }
