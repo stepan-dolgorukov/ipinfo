@@ -2,40 +2,29 @@
     #define IPINFO_TYPES_HPP
 
 #include "ipinfo_constants.hpp"
+#include "ipinfo_aliases.hpp"
 
 #include <map>     // std::map
 #include <string>  // std::string
 #include <cstdint> // std::uint8_t, std::int32_t
 
-namespace ipinfo::usr::types
-{
-    struct error;
-    template <typename T> struct node;
-}
-
-namespace ipinfo::srv::types
-{
-    struct req_attrs;
-    struct info;
-}
+namespace ipinfo::usr::types{}
+namespace ipinfo::srv::types{}
 
 struct ipinfo::usr::types::error
 {
-    std::uint8_t code{};
+    std::uint8_t code{ 0u };
     std::string  desc{};
 };
 
-// node structure for user
 template<typename T> struct ipinfo::usr::types::node
 {
-    bool        is_parsed : 1 {false};
+    bool        is_parsed : (1u) { false };
     T           val{};
     std::string host{};
     std::string desc{};
 };
 
-
-// add this structure usage to the code
 struct ipinfo::srv::types::req_attrs
 {
     const std::string host{};
@@ -51,7 +40,7 @@ struct ipinfo::srv::types::info
         {
             struct data
             {
-                bool              is_parsed : 1 {false};
+                bool              is_parsed : (1u) { false };
                 T                 val{};
                 const std::string json_name{};
             };
@@ -64,22 +53,22 @@ struct ipinfo::srv::types::info
     public:
         node<std::string> ip
         {
-            .desc{"IP address"},
+            .desc{ "IP address" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM), 
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"query"}
+                        .json_name{ "query" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"ip"}
+                        .json_name{ "ip" }
                     }
                 }
             }
@@ -87,22 +76,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> ip_type
         {
-            .desc{"IP address type"},
+            .desc{ "IP address type" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
                         .json_name{}
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"type"}
+                        .json_name{ "type" }
                     }
                 }
             }
@@ -110,22 +99,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> continent
         {
-            .desc{"Continent name"},
+            .desc{ "Continent name" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"continent"}
+                        .json_name{ "continent" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"continent"}
+                        .json_name{ "continent" }
                     }
                 }
             }
@@ -133,22 +122,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> continent_code
         {
-            .desc{"Continent code"},
+            .desc{ "Continent code" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"continentCode"}
+                        .json_name{ "continentCode" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"continent_code"}
+                        .json_name{ "continent_code" }
                     }
                 }
             }
@@ -156,22 +145,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> country
         {
-            .desc{"Country name"},
+            .desc{ "Country name" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"country"}
+                        .json_name{ "country" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"country"}
+                        .json_name{ "country" }
                     }
                 }
             }
@@ -179,22 +168,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> country_code
         {
-            .desc{"Country code"},
+            .desc{ "Country code" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"countryCode"}
+                        .json_name{ "countryCode" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"country_code"}
+                        .json_name{ "country_code" }
                     }
                 }
             }
@@ -202,22 +191,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> country_capital
         {
-            .desc{"The capital of country"},
+            .desc{ "The capital of country" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
                         .json_name{}
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"country_capital"}
+                        .json_name{ "country_capital" }
                     }
                 }
             }
@@ -225,22 +214,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> country_ph_code
         {
-            .desc{"Country phone code"},
+            .desc{ "Country phone code" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
                         .json_name{}
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"country_phone"}
+                        .json_name{ "country_phone" }
                     }
                 }
             }
@@ -248,22 +237,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> country_neighbors
         {
-            .desc{"Neighboring countries"},
+            .desc{ "Neighboring countries" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
                         .json_name{}
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"country_neighbours"}
+                        .json_name{ "country_neighbours" }
                     }
                 }
             }
@@ -271,22 +260,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> region
         {
-            .desc{"Region name"},
+            .desc{ "Region name" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"regionName"}
+                        .json_name{ "regionName" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"region"}
+                        .json_name{ "region" }
                     }
                 }
             }
@@ -294,20 +283,20 @@ struct ipinfo::srv::types::info
 
         node<std::string> region_code
         {
-            .desc{"Region code"},
+            .desc{ "Region code" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"region"}
+                        .json_name{ "region" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
                         .json_name{}
                     }
@@ -317,22 +306,22 @@ struct ipinfo::srv::types::info
 
        node<std::string> city
         {
-            .desc{"City name"},
+            .desc{ "City name" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"city"}
+                        .json_name{ "city" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"city"}
+                        .json_name{ "city" }
                     }
                 }
             }
@@ -340,20 +329,20 @@ struct ipinfo::srv::types::info
 
         node<std::string> city_district
         {
-            .desc{"City district"},
+            .desc{ "City district" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"district"}
+                        .json_name{ "district" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
                         .json_name{}
                     }
@@ -363,20 +352,20 @@ struct ipinfo::srv::types::info
 
         node<std::string> zip_code
         {
-            .desc{"ZIP code"},
+            .desc{ "ZIP code" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"zip"}
+                        .json_name{ "zip" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
                         .json_name{}
                     }
@@ -386,22 +375,22 @@ struct ipinfo::srv::types::info
 
         node<double> latitude
         {
-            .desc{"Latitude"},
+            .desc{ "Latitude" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"lat"}
+                        .json_name{ "lat" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"latitude"}
+                        .json_name{ "latitude" }
                     }
                 }
             }
@@ -409,22 +398,22 @@ struct ipinfo::srv::types::info
 
         node<double> longitude
         {
-            .desc{"Longitude"},
+            .desc{ "Longitude" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"lon"}
+                        .json_name{ "lon" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"longitude"}
+                        .json_name{ "longitude" }
                     }
                 }
             }
@@ -432,22 +421,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> city_timezone
         {
-            .desc{"City timezone"},
+            .desc{ "City timezone" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"timezone"}
+                        .json_name{ "timezone" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"timezone"}
+                        .json_name{ "timezone" }
                     }
                 }
             }
@@ -455,22 +444,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> timezone
         {
-            .desc{"Full timezone name"},
+            .desc{ "Full timezone name" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
                         .json_name{}
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"timezone_name"}
+                        .json_name{ "timezone_name" }
                     }
                 }
 
@@ -479,22 +468,22 @@ struct ipinfo::srv::types::info
 
         node<std::int32_t> gmt_offset
         {
-            .desc{"UTC offset"},
+            .desc{ "UTC offset" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"offset"}
+                        .json_name{ "offset" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"timezone_gmtOffset"}
+                        .json_name{ "timezone_gmtOffset" }
                     }
                 }
             }
@@ -502,22 +491,22 @@ struct ipinfo::srv::types::info
 
         node<std::int32_t> dst_offset
         {
-            .desc{"DST offset"},
+            .desc{ "DST offset" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
                         .json_name{}
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"timezone_dstOffset"}
+                        .json_name{ "timezone_dstOffset" }
                     }
                 }
             }
@@ -525,22 +514,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> timezone_gmt
         {
-            .desc{"Timezone GMT"},
+            .desc{ "Timezone GMT" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
                         .json_name{}
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"timezone_gmt"}
+                        .json_name{ "timezone_gmt" }
                     }
                 }
             }
@@ -548,22 +537,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> isp
         {
-            .desc{"Internet Service Provider"},
+            .desc{ "Internet Service Provider" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"isp"}
+                        .json_name{ "isp" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"isp"}
+                        .json_name{ "isp" }
                     }
                 }
             }
@@ -571,22 +560,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> as
         {
-            .desc{"Autonomous system"},
+            .desc{ "Autonomous system" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"as"}
+                        .json_name{ "as" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"as"}
+                        .json_name{ "as" }
                     }
                 }
             }
@@ -594,22 +583,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> org
         {
-            .desc{"Organization name"},
+            .desc{ "Organization name" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"org"}
+                        .json_name{ "org" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"org"}
+                        .json_name{ "org" }
                     }
                 }
             }
@@ -617,20 +606,20 @@ struct ipinfo::srv::types::info
 
         node<std::string> reverse_dns
         {
-            .desc{"Reverse DNS of the IP"},
+            .desc{ "Reverse DNS of the IP" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"reverse"}
+                        .json_name{ "reverse" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
                         .json_name{}
                     }
@@ -641,20 +630,20 @@ struct ipinfo::srv::types::info
 
         node<bool> is_hosting
         {
-            .desc{"Hosting, colocated or data center"},
+            .desc{ "Hosting, colocated or data center" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"hosting"}
+                        .json_name{ "hosting" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
                         .json_name{}
                     }
@@ -665,20 +654,20 @@ struct ipinfo::srv::types::info
 
         node<bool> is_proxy
         {
-            .desc{"Proxy, VPN or Tor usage"},
+            .desc{ "Proxy, VPN or Tor usage" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"proxy"}
+                        .json_name{ "proxy" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
                         .json_name{}
                     }
@@ -688,20 +677,20 @@ struct ipinfo::srv::types::info
 
         node<bool> is_mobile
         {
-            .desc{"Mobile connection usage"},
+            .desc{ "Mobile connection usage" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"mobile"}
+                        .json_name{ "mobile" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
                         .json_name{}
                     }
@@ -712,22 +701,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> currency
         {
-            .desc{"Currency name"},
+            .desc{ "Currency name" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
                         .json_name{}
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"currency"}
+                        .json_name{ "currency" }
                     }
                 }
             }
@@ -735,22 +724,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> currency_code
         {
-            .desc{"Currency code"},
+            .desc{ "Currency code" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"currency"}
+                        .json_name{ "currency" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"currency_code"}
+                        .json_name{ "currency_code" }
                     }
                 }
             }
@@ -758,22 +747,22 @@ struct ipinfo::srv::types::info
 
         node<std::string> currency_symbol
         {
-            .desc{"Currency symbol"},
+            .desc{ "Currency symbol" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
                         .json_name{}
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"currency_symbol"}
+                        .json_name{ "currency_symbol" }
                     }
                 }
             }
@@ -781,22 +770,22 @@ struct ipinfo::srv::types::info
 
         node<double> currency_rates
         {
-            .desc{"Currency exchange rate to USD"},
+            .desc{ "Currency exchange rate to USD" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
                         .json_name{}
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"currency_rates"}
+                        .json_name{ "currency_rates" }
                     }
                 }
             }
@@ -804,26 +793,26 @@ struct ipinfo::srv::types::info
 
         node<std::string> currency_plural
         {
-            .desc{"Currency plural"},
+            .desc{ "Currency plural" },
             .cont
             {
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                     {
-                        .json_name{"currency_plural"}
+                        .json_name{ "currency_plural" }
                     }
                 },
 
                 {
-                    ipinfo::constants::AVAILABLE_HOSTS.at(
-                            ipinfo::constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                    constants::AVAILABLE_HOSTS.at(
+                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                     {
-                        .json_name{"currency_plural"}
+                        .json_name{ "currency_plural" }
                     }
                 }
             }
         };
 };
 
-#endif
+#endif // IPINFO_TYPES_HPP
