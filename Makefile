@@ -40,7 +40,7 @@ INSTALL_HDRS := \
 	-name "*.hpp" -type f -printf "%p ")
 
 CXXFLAGS := \
-	-std=c++2a \
+	-std=c++20 \
 	-Wall \
 	-Wextra \
 	-Wpedantic \
