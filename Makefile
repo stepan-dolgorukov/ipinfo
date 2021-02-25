@@ -20,13 +20,6 @@ SRCS := $(shell find $(SRC_DIR)/ipinfo \
 
 OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
 
-RM    := rm
-CXX   := g++
-MKDIR := mkdir
-TEST  := test
-CP    := cp
-ECHO  := echo
-
 PREFIX              ?= /usr/local
 INSTALL_LIB_DIR     := $(DESTDIR)$(PREFIX)/lib
 INSTALL_INCLUDE_DIR := $(DESTDIR)$(PREFIX)/include/ipinfo
@@ -39,6 +32,7 @@ INSTALL_HDRS := \
 	\( ! -name "*utiler*" \) -and \
 	-name "*.hpp" -type f -printf "%p ")
 
+CXX      := g++
 CXXFLAGS := \
 	-std=c++20 \
 	-Wall \
@@ -67,11 +61,12 @@ LDLIBS := \
 	-lcpr
 
 all: prepare $(TARG)
+	@ echo "bld" $(TARG)
 
 $(TARG): $(OBJS)
 	@ $(foreach obj, \
 		$(shell find $(OBJ_DIR) -name "*.cpp.o" -type f), \
-		$(ECHO) "LNK" $(obj); )
+		echo "lnk" $(obj); )
 	@ $(CXX) \
 	$(LDFLAGS) \
 	$(LDLIBS) \
@@ -80,7 +75,7 @@ $(TARG): $(OBJS)
 	-o $@
 
 $(OBJ_DIR)/%.cpp.o: $(SRC_DIR)/$(PROJECT)/%.cpp
-	@ $(ECHO) "CMPL $<"
+	@ echo "cmpl $<"
 	@ $(CXX) \
 	$(CXXFLAGS) \
 	-I$(INCLUDE_DIR) \
@@ -89,44 +84,44 @@ $(OBJ_DIR)/%.cpp.o: $(SRC_DIR)/$(PROJECT)/%.cpp
 	-o $@
 
 prepare:
-	@ ($(TEST) "-d" $(OBJ_DIR) \
-		&& $(ECHO) \"$(OBJ_DIR)\" "already exists") \
-		|| ($(ECHO) "CRT" \"$(OBJ_DIR)\" && $(MKDIR) $(OBJ_DIR))
+	@ (test -d $(OBJ_DIR) \
+		&& echo \"$(OBJ_DIR)\" "already exists") \
+		|| (echo "CRT" \"$(OBJ_DIR)\" && mkdir $(OBJ_DIR))
 
-	@ ($(TEST) "-d" $(TARGET_DIR) \
-		&& $(ECHO) \"$(TARGET_DIR)\" "already exists") \
-		|| ($(ECHO) "CRT" \"$(TARGET_DIR)\" && $(MKDIR) $(TARGET_DIR))
+	@ (test -d $(TARGET_DIR) \
+		&& echo \"$(TARGET_DIR)\" "already exists") \
+		|| (echo "CRT" \"$(TARGET_DIR)\" && mkdir $(TARGET_DIR))
 
 clean:
-	@ ($(TEST) "-d" $(TARGET_DIR) \
-		&& ($(ECHO) "RM" \"$(TARGET_DIR)\" && \
-			$(RM) "-r" $(TARGET_DIR))) \
-		|| ($(ECHO) \"$(TARGET_DIR)\" "doesn't exist")
+	@ (test "-d" $(TARGET_DIR) \
+		&& (echo "RM" \"$(TARGET_DIR)\" && \
+			rm "-r" $(TARGET_DIR))) \
+		|| (echo \"$(TARGET_DIR)\" "doesn't exist")
 
-	@ ($(TEST) "-d" $(OBJ_DIR)  \
-		&& ($(ECHO) "RM" \"$(OBJ_DIR)\" && \
-			$(RM) -r $(OBJ_DIR))) \
-		|| ($(ECHO) \"$(OBJ_DIR)\" "doesn't exist")
+	@ (test "-d" $(OBJ_DIR)  \
+		&& (echo "RM" \"$(OBJ_DIR)\" && \
+			rm -r $(OBJ_DIR))) \
+		|| (echo \"$(OBJ_DIR)\" "doesn't exist")
 
 install: $(TARG)
-	@ $(MKDIR) -p $(INSTALL_LIB_DIR)
-	@ $(MKDIR) -p $(INSTALL_INCLUDE_DIR)
+	@ mkdir -p $(INSTALL_LIB_DIR)
+	@ mkdir -p $(INSTALL_INCLUDE_DIR)
 
-	@ $(ECHO) "CP" $(TARG) "->" $(INSTALL_LIB_DIR)
-	@ $(CP) $(TARG) $(INSTALL_LIB_DIR)
+	@ echo "cp" $(TARG) "to" $(INSTALL_LIB_DIR)
+	@ cp $(TARG) $(INSTALL_LIB_DIR)
 
 	@ $(foreach header, \
 		$(INSTALL_HDRS), \
-		$(ECHO) "CP" $(header) "->" $(INSTALL_INCLUDE_DIR) && \
-		$(CP) $(header) $(INSTALL_INCLUDE_DIR); )
+		echo "cp" $(header) "to" $(INSTALL_INCLUDE_DIR) && \
+		cp $(header) $(INSTALL_INCLUDE_DIR); )
 
 uninstall:
 	@ ($(TEST) "-e" $(INSTALL_LIB_DIR)"/lib$(PROJECT).so" \
-		&& ($(ECHO) "RM $(INSTALL_LIB_DIR)/lib$(PROJECT).so" && \
+		&& (echo "RM $(INSTALL_LIB_DIR)/lib$(PROJECT).so" && \
 			$(RM) "$(INSTALL_LIB_DIR)/lib$(PROJECT).so")) \
-		|| ($(ECHO) "$(INSTALL_LIB_DIR)/lib$(PROJECT).so doesn't exist")
+		|| (echo "$(INSTALL_LIB_DIR)/lib$(PROJECT).so doesn't exist")
 
 	@ ($(TEST) "-d" $(INSTALL_INCLUDE_DIR) \
-		&& ($(ECHO) "RM" $(INSTALL_INCLUDE_DIR) && \
+		&& (echo "RM" $(INSTALL_INCLUDE_DIR) && \
 			$(RM) "-r" $(INSTALL_INCLUDE_DIR))) \
-		|| ($(ECHO) $(INSTALL_INCLUDE_DIR) "doesn't exist")
+		|| (echo $(INSTALL_INCLUDE_DIR) "doesn't exist")
