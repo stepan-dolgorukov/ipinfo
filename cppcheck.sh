@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
 
-echo="/usr/bin/echo"
-cppcheck="/usr/bin/cppcheck "
-
 flags="
     --language=c++ \
     --std=c++20 \
     --enable=all \
-    --suppress=missingIncludeSystem \
-    --quiet"
-
-include_dir="-i$PWD/include/ipinfo/"
+    --report-progress \
+    --suppress=missingIncludeSystem"
 
 platforms="
     unix32 \
@@ -26,6 +21,6 @@ declare -a colors=(
 
 for platform in ${platforms}
 do
-    $echo -e "\e[${colors[0]}Checking for \"$platform\"${colors[1]}:"
-    $cppcheck --platform=$platform $flags $include_dir .
+    echo -e "\e[${colors[0]}Checking for \"$platform\"${colors[1]}:"
+    cppcheck --platform=$platform $flags $include_dir .
 done
