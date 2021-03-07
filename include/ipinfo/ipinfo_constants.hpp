@@ -31,7 +31,7 @@ namespace ipinfo::constants
 
     enum AVAILABLE_HOSTS_IDS : std::uint8_t
     {
-       IP_API_COM = 0u,
+        IP_API_COM = 0u,
         IPWHOIS_APP
     };
 
@@ -65,14 +65,14 @@ namespace ipinfo::constants
             AVAILABLE_HOSTS.at(AVAILABLE_HOSTS_IDS::IP_API_COM),
             {
                 {
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::ENGLISH),    "en"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::GERMAN),     "de"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::SPANISH),    "es"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::PORTUGUESE), "pt-BR"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::FRENCH),     "fr"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::JAPANESE),   "ja"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::CHINESE),    "zh-CN"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::RUSSIAN),    "ru"}
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::ENGLISH),    "en"    },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::GERMAN),     "de"    },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::SPANISH),    "es"    },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::PORTUGUESE), "pt-BR" },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::FRENCH),     "fr"    },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::JAPANESE),   "ja"    },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::CHINESE),    "zh-CN" },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::RUSSIAN),    "ru"    }
                 }
             }
         },
@@ -81,14 +81,14 @@ namespace ipinfo::constants
             AVAILABLE_HOSTS.at(AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
             {
                 {
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::ENGLISH),    "en"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::GERMAN),     "de"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::SPANISH),    "es"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::PORTUGUESE), "pt-BR"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::FRENCH),     "fr"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::JAPANESE),   "ja"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::CHINESE),    "zh-CN"},
-                    {AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::RUSSIAN),    "ru"}
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::ENGLISH),    "en"    },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::GERMAN),     "de"    },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::SPANISH),    "es"    },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::PORTUGUESE), "pt-BR" },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::FRENCH),     "fr"    },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::JAPANESE),   "ja"    },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::CHINESE),    "zh-CN" },
+                    { AVAILABLE_LANGS.at(AVAILABLE_LANGS_IDS::RUSSIAN),    "ru"    }
                 }
             }
         }
@@ -120,18 +120,18 @@ namespace ipinfo::constants
         {
             AVAILABLE_HOSTS.at(AVAILABLE_HOSTS_IDS::IP_API_COM),
             {
-                {"fields",  "fields"},
-                {"lang",    "lang"},
-                {"api_key", "key"} // not exactly correct
+                { "fields",  "fields" },
+                { "lang",    "lang" },
+                { "api_key", "key" }
             }
         },
 
         {
             AVAILABLE_HOSTS.at(AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
             {
-                {"fields",  "objects"},
-                {"lang",    "lang"},
-                {"api_key", "key"} // not exactly correct
+                { "fields",  "objects" },
+                { "lang",    "lang" },
+                { "api_key", "key" }
             }
         }
     };
@@ -141,61 +141,61 @@ namespace ipinfo::constants
         {
             AVAILABLE_HOSTS.at(AVAILABLE_HOSTS_IDS::IP_API_COM),
             {
-                {"query"},
-                {"continent"},
-                {"gcontinentCode"},
-                {"country"},
-                {"countryCode"},
-                {"region"},
-                {"regionName"},
-                {"city"},
-                {"district"},
-                {"zip"},
-                {"lat"},
-                {"lon"},
-                {"timezone"},
-                {"offset"},
-                {"currency"},
-                {"isp"},
-                {"org"},
-                {"as"},
-                {"asname"},
-                {"reverse"},
-                {"mobile"},
-                {"proxy"},
-                {"hosting"}
+                "query",
+                "continent",
+                "gcontinentCode",
+                "country",
+                "countryCode",
+                "region",
+                "regionName",
+                "city",
+                "district",
+                "zip",
+                "lat",
+                "lon",
+                "timezone",
+                "offset",
+                "currency",
+                "isp",
+                "org",
+                "as",
+                "asname",
+                "reverse",
+                "mobile",
+                "proxy",
+                "hosting"
             }
         },
 
         {
             AVAILABLE_HOSTS.at(AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
             {
-                {"ip"},
-                {"type"},
-                {"continent"},
-                {"continent_code"},
-                {"country"},
-                {"country_code"},
-                {"country_capital"},
-                {"country_phone"},
-                {"country_neighbours"},
-                {"region"},
-                {"city"},
-                {"latitude"},
-                {"longitude"},
-                {"as"},
-                {"org"},
-                {"isp"},
-                {"timezone"},
-                {"timezone_name"},
-                {"timezone_dstOffset"},
-                {"timezone_gmtOffset"},
-                {"timezone_gmt"},
-                {"currency"},
-                {"currency_code"},
-                {"currency_symbol"},
-                {"currency_rates"},
-                {"currency_plural"}
+                "ip",
+                "type",
+                "continent",
+                "continent_code",
+                "country",
+                "country_code",
+                "country_capital",
+                "country_phone",
+                "country_neighbours",
+                "region",
+                "city",
+                "latitude",
+                "longitude",
+                "as",
+                "org",
+                "isp",
+                "timezone",
+                "timezone_name",
+                "timezone_dstOffset",
+                "timezone_gmtOffset",
+                "timezone_gmt",
+                "currency",
+                "currency_code",
+                "currency_symbol",
+                "currency_rates",
+                "currency_plural"
             }
         }
     };

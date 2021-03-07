@@ -8,811 +8,819 @@
 #include <string>  // std::string
 #include <cstdint> // std::uint8_t, std::int32_t
 
-namespace ipinfo::usr::types{}
-namespace ipinfo::srv::types{}
+namespace ipinfo::srv::types
+{
+    struct info;
+    struct request_attributes;
+}
+
+namespace ipinfo::usr::types
+{
+    struct error;
+
+    template<typename T>
+    struct node;
+}
 
 struct ipinfo::usr::types::error
 {
     std::uint8_t code{ 0u };
-    std::string  desc{};
-};
-
-template<typename T> struct ipinfo::usr::types::node
-{
-    bool        is_parsed : (1u) { false };
-    T           val{};
-    std::string host{};
     std::string desc{};
 };
 
-struct ipinfo::srv::types::req_attrs
+template<typename T>
+struct ipinfo::usr::types::node
 {
-    const std::string host{};
-    const std::string ip{};
-    const std::string lang{};
-    const std::string api_key{};
+    bool is_parsed : (1u) { false };
+    T val{};
+    std::string host{}, desc{};
+};
+
+struct ipinfo::srv::types::request_attributes
+{
+    const std::string host{}, ip{}, lang{}, api_key{};
 };
 
 struct ipinfo::srv::types::info
 {
-    private:
-        template<typename T> struct node
+  private:
+    template<typename T> struct node
+    {
+        struct data
         {
-            struct data
-            {
-                bool              is_parsed : (1u) { false };
-                T                 val{};
-                const std::string json_name{};
-            };
-
-            const std::string                 desc{};
-            std::map<const std::string, data> cont{};
-
+            bool is_parsed : (1u) { false };
+            T val{};
+            const std::string json_name{};
         };
 
-    public:
-        node<std::string> ip
-        {
-            .desc{ "IP address" },
-            .cont
-            {
-                {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "query" }
-                    }
-                },
+        const std::string desc{};
+        std::map<const std::string, data> cont{};
 
+    };
+
+  public:
+    node<std::string> ip
+    {
+        .desc{ "IP address" },
+        .cont
+        {
+            {
+                als::C::AVAILABLE_HOSTS.at(
+                    constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "ip" }
-                    }
+                    .json_name{ "query" }
+                }
+            },
+
+            {
+                constants::AVAILABLE_HOSTS.at(
+                    constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                {
+                    .json_name{ "ip" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> ip_type
+    node<std::string> ip_type
+    {
+        .desc{ "IP address type" },
+        .cont
         {
-            .desc{ "IP address type" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                    constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{}
-                    }
-                },
+                    .json_name{}
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                    constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "type" }
-                    }
+                    .json_name{ "type" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> continent
+    node<std::string> continent
+    {
+        .desc{ "Continent name" },
+        .cont
         {
-            .desc{ "Continent name" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                    constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "continent" }
-                    }
-                },
+                    .json_name{ "continent" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "continent" }
-                    }
+                    .json_name{ "continent" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> continent_code
+    node<std::string> continent_code
+    {
+        .desc{ "Continent code" },
+        .cont
         {
-            .desc{ "Continent code" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "continentCode" }
-                    }
-                },
+                    .json_name{ "continentCode" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "continent_code" }
-                    }
+                    .json_name{ "continent_code" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> country
+    node<std::string> country
+    {
+        .desc{ "Country name" },
+        .cont
         {
-            .desc{ "Country name" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "country" }
-                    }
-                },
+                    .json_name{ "country" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "country" }
-                    }
+                    .json_name{ "country" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> country_code
+    node<std::string> country_code
+    {
+        .desc{ "Country code" },
+        .cont
         {
-            .desc{ "Country code" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "countryCode" }
-                    }
-                },
+                    .json_name{ "countryCode" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "country_code" }
-                    }
+                    .json_name{ "country_code" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> country_capital
+    node<std::string> country_capital
+    {
+        .desc{ "The capital of country" },
+        .cont
         {
-            .desc{ "The capital of country" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{}
-                    }
-                },
+                    .json_name{}
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "country_capital" }
-                    }
+                    .json_name{ "country_capital" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> country_ph_code
+    node<std::string> country_ph_code
+    {
+        .desc{ "Country phone code" },
+        .cont
         {
-            .desc{ "Country phone code" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{}
-                    }
-                },
+                    .json_name{}
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "country_phone" }
-                    }
+                    .json_name{ "country_phone" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> country_neighbors
+    node<std::string> country_neighbors
+    {
+        .desc{ "Neighboring countries" },
+        .cont
         {
-            .desc{ "Neighboring countries" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{}
-                    }
-                },
+                    .json_name{}
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "country_neighbours" }
-                    }
+                    .json_name{ "country_neighbours" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> region
+    node<std::string> region
+    {
+        .desc{ "Region name" },
+        .cont
         {
-            .desc{ "Region name" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "regionName" }
-                    }
-                },
+                    .json_name{ "regionName" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "region" }
-                    }
+                    .json_name{ "region" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> region_code
+    node<std::string> region_code
+    {
+        .desc{ "Region code" },
+        .cont
         {
-            .desc{ "Region code" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "region" }
-                    }
-                },
+                    .json_name{ "region" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{}
-                    }
+                    .json_name{}
                 }
             }
-        };
+        }
+    };
 
-       node<std::string> city
+   node<std::string> city
+    {
+        .desc{ "City name" },
+        .cont
         {
-            .desc{ "City name" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "city" }
-                    }
-                },
+                    .json_name{ "city" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "city" }
-                    }
+                    .json_name{ "city" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> city_district
+    node<std::string> city_district
+    {
+        .desc{ "City district" },
+        .cont
         {
-            .desc{ "City district" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "district" }
-                    }
-                },
+                    .json_name{ "district" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{}
-                    }
+                    .json_name{}
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> zip_code
+    node<std::string> zip_code
+    {
+        .desc{ "ZIP code" },
+        .cont
         {
-            .desc{ "ZIP code" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "zip" }
-                    }
-                },
+                    .json_name{ "zip" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{}
-                    }
-                },
-            }
-        };
+                    .json_name{}
+                }
+            },
+        }
+    };
 
-        node<double> latitude
+    node<double> latitude
+    {
+        .desc{ "Latitude" },
+        .cont
         {
-            .desc{ "Latitude" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "lat" }
-                    }
-                },
+                    .json_name{ "lat" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "latitude" }
-                    }
+                    .json_name{ "latitude" }
                 }
             }
-        };
+        }
+    };
 
-        node<double> longitude
+    node<double> longitude
+    {
+        .desc{ "Longitude" },
+        .cont
         {
-            .desc{ "Longitude" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "lon" }
-                    }
-                },
+                    .json_name{ "lon" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "longitude" }
-                    }
+                    .json_name{ "longitude" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> city_timezone
+    node<std::string> city_timezone
+    {
+        .desc{ "City timezone" },
+        .cont
         {
-            .desc{ "City timezone" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "timezone" }
-                    }
-                },
+                    .json_name{ "timezone" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "timezone" }
-                    }
+                    .json_name{ "timezone" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> timezone
+    node<std::string> timezone
+    {
+        .desc{ "Full timezone name" },
+        .cont
         {
-            .desc{ "Full timezone name" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{}
-                    }
-                },
-
-                {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "timezone_name" }
-                    }
+                    .json_name{}
                 }
+            },
 
-            }
-        };
-
-        node<std::int32_t> gmt_offset
-        {
-            .desc{ "UTC offset" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "offset" }
-                    }
-                },
-
-                {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "timezone_gmtOffset" }
-                    }
+                    .json_name{ "timezone_name" }
                 }
             }
-        };
 
-        node<std::int32_t> dst_offset
+        }
+    };
+
+    node<std::int32_t> gmt_offset
+    {
+        .desc{ "UTC offset" },
+        .cont
         {
-            .desc{ "DST offset" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{}
-                    }
-                },
+                    .json_name{ "offset" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "timezone_dstOffset" }
-                    }
+                    .json_name{ "timezone_gmtOffset" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> timezone_gmt
+    node<std::int32_t> dst_offset
+    {
+        .desc{ "DST offset" },
+        .cont
         {
-            .desc{ "Timezone GMT" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{}
-                    }
-                },
+                    .json_name{}
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "timezone_gmt" }
-                    }
+                    .json_name{ "timezone_dstOffset" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> isp
+    node<std::string> timezone_gmt
+    {
+        .desc{ "Timezone GMT" },
+        .cont
         {
-            .desc{ "Internet Service Provider" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "isp" }
-                    }
-                },
+                    .json_name{}
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "isp" }
-                    }
+                    .json_name{ "timezone_gmt" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> as
+    node<std::string> isp
+    {
+        .desc{ "Internet Service Provider" },
+        .cont
         {
-            .desc{ "Autonomous system" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "as" }
-                    }
-                },
+                    .json_name{ "isp" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "as" }
-                    }
+                    .json_name{ "isp" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> org
+    node<std::string> as
+    {
+        .desc{ "Autonomous system" },
+        .cont
         {
-            .desc{ "Organization name" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "org" }
-                    }
-                },
+                    .json_name{ "as" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "org" }
-                    }
+                    .json_name{ "as" }
                 }
             }
-        };
+        }
+    };
 
-        node<std::string> reverse_dns
+    node<std::string> org
+    {
+        .desc{ "Organization name" },
+        .cont
         {
-            .desc{ "Reverse DNS of the IP" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "reverse" }
-                    }
-                },
-
-                {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{}
-                    }
+                    .json_name{ "org" }
                 }
+            },
 
-            }
-        };
-
-        node<bool> is_hosting
-        {
-            .desc{ "Hosting, colocated or data center" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "hosting" }
-                    }
-                },
-
-                {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{}
-                    }
-                }
-
-            }
-        };
-
-        node<bool> is_proxy
-        {
-            .desc{ "Proxy, VPN or Tor usage" },
-            .cont
-            {
-                {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "proxy" }
-                    }
-                },
-
-                {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{}
-                    }
+                    .json_name{ "org" }
                 }
             }
-        };
+        }
+    };
 
-        node<bool> is_mobile
+    node<std::string> reverse_dns
+    {
+        .desc{ "Reverse DNS of the IP" },
+        .cont
         {
-            .desc{ "Mobile connection usage" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "mobile" }
-                    }
-                },
-
-                {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{}
-                    }
+                    .json_name{ "reverse" }
                 }
+            },
 
-            }
-        };
-
-        node<std::string> currency
-        {
-            .desc{ "Currency name" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{}
-                    }
-                },
-
-                {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "currency" }
-                    }
+                    .json_name{}
                 }
             }
-        };
 
-        node<std::string> currency_code
+        }
+    };
+
+    node<bool> is_hosting
+    {
+        .desc{ "Hosting, colocated or data center" },
+        .cont
         {
-            .desc{ "Currency code" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "currency" }
-                    }
-                },
+                    .json_name{ "hosting" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "currency_code" }
-                    }
+                    .json_name{}
                 }
             }
-        };
 
-        node<std::string> currency_symbol
+        }
+    };
+
+    node<bool> is_proxy
+    {
+        .desc{ "Proxy, VPN or Tor usage" },
+        .cont
         {
-            .desc{ "Currency symbol" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{}
-                    }
-                },
+                    .json_name{ "proxy" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "currency_symbol" }
-                    }
+                    .json_name{}
                 }
             }
-        };
+        }
+    };
 
-        node<double> currency_rates
+    node<bool> is_mobile
+    {
+        .desc{ "Mobile connection usage" },
+        .cont
         {
-            .desc{ "Currency exchange rate to USD" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{}
-                    }
-                },
+                    .json_name{ "mobile" }
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "currency_rates" }
-                    }
+                    .json_name{}
                 }
             }
-        };
 
-        node<std::string> currency_plural
+        }
+    };
+
+    node<std::string> currency
+    {
+        .desc{ "Currency name" },
+        .cont
         {
-            .desc{ "Currency plural" },
-            .cont
             {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
-                    {
-                        .json_name{ "currency_plural" }
-                    }
-                },
+                    .json_name{}
+                }
+            },
 
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
                 {
-                    constants::AVAILABLE_HOSTS.at(
-                            constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
-                    {
-                        .json_name{ "currency_plural" }
-                    }
+                    .json_name{ "currency" }
                 }
             }
-        };
+        }
+    };
+
+    node<std::string> currency_code
+    {
+        .desc{ "Currency code" },
+        .cont
+        {
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                {
+                    .json_name{ "currency" }
+                }
+            },
+
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                {
+                    .json_name{ "currency_code" }
+                }
+            }
+        }
+    };
+
+    node<std::string> currency_symbol
+    {
+        .desc{ "Currency symbol" },
+        .cont
+        {
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                {
+                    .json_name{}
+                }
+            },
+
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                {
+                    .json_name{ "currency_symbol" }
+                }
+            }
+        }
+    };
+
+    node<double> currency_rates
+    {
+        .desc{ "Currency exchange rate to USD" },
+        .cont
+        {
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                {
+                    .json_name{}
+                }
+            },
+
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                {
+                    .json_name{ "currency_rates" }
+                }
+            }
+        }
+    };
+
+    node<std::string> currency_plural
+    {
+        .desc{ "Currency plural" },
+        .cont
+        {
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IP_API_COM),
+                {
+                    .json_name{ "currency_plural" }
+                }
+            },
+
+            {
+                constants::AVAILABLE_HOSTS.at(
+                        constants::AVAILABLE_HOSTS_IDS::IPWHOIS_APP),
+                {
+                    .json_name{ "currency_plural" }
+                }
+            }
+        }
+    };
 };
 
 #endif // IPINFO_TYPES_HPP

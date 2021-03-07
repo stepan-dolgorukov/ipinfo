@@ -4,22 +4,30 @@
 
 #include <string>
 #include <cstdint>
+
 #include <cjson/cJSON.h>
 
-::cJSON*
+::cJSON *
 ipinfo::srv::parser::__prepare(const std::string &json)
 {
-    ::cJSON * const data{::cJSON_Parse(json.c_str())};
+    ::cJSON * const data{ ::cJSON_Parse(json.c_str()) };
 
-    if (nullptr == data)
+    if (not data)
     {
         std::string error_location{ "unknown" };
         const char * const json_error{ ::cJSON_GetErrorPtr() };
 
-        if (nullptr != json_error && !(std::string{json_error}.empty()))
+        // If we couldn't get an information about parsing error.
+
+        if (not json_error or std::string{ json_error }.empty())
         {
-            error_location = json_error;
+            // if an execution is in this block, 'data' is
+            // nullptr, thus we can return nullptr directly
+
+            return nullptr;
         }
+
+        error_location = json_error;
     }
 
     return data;
@@ -27,16 +35,16 @@ ipinfo::srv::parser::__prepare(const std::string &json)
 
 template<template<typename ...> class T> void
 ipinfo::srv::parser::__fill_node(
-        T<std::string> &node,
-        const ::cJSON &item,
-        const std::string &host)
+    T<std::string> &node,
+    const ::cJSON &item,
+    const std::string &host)
 {
     if (::cJSON_IsString(&item))
     {
-        auto &content{node.cont.at(host)};
-        const char * const val{item.valuestring};
+        auto &content{ node.cont.at(host) };
+        const char * const val{ item.valuestring };
 
-        if ((nullptr == val) || (std::string{val}.empty()))
+        if (not val or std::string{ val }.empty())
         {
             content.is_parsed = false;
             return;
@@ -45,23 +53,21 @@ ipinfo::srv::parser::__fill_node(
         content.val = val;
         content.is_parsed = true;
     }
-
-    return;
 }
 
 template<template<typename ...> class T> void
 ipinfo::srv::parser::__fill_node(
-        T<std::int32_t> &node,
-        const ::cJSON &item,
-        const std::string &host)
+    T<std::int32_t> &node,
+    const ::cJSON &item,
+    const std::string &host)
 {
-    auto &content{node.cont.at(host)};
+    auto &content{ node.cont.at(host) };
 
     if (::cJSON_IsString(&item))
     {
-        const auto *val{item.valuestring};
+        const char * const val{ item.valuestring };
 
-        if ((nullptr == val) || (std::string{val}.empty()))
+        if (not val or std::string{val}.empty())
         {
             content.is_parsed = false;
             return;
@@ -73,28 +79,27 @@ ipinfo::srv::parser::__fill_node(
 
     if (::cJSON_IsNumber(&item))
     {
-        const auto &val{item.valueint};
+        const auto &val{ item.valueint };
 
         content.val = val;
         content.is_parsed = true;
     }
-
-    return;
 }
 
 template<template<typename ...> class T> void
 ipinfo::srv::parser::__fill_node(
-        T<double> &node,
-        const ::cJSON &item,
-        const std::string &host)
+    T<double> &node,
+    const ::cJSON &item,
+    const std::string &host)
 {
-    auto &content{node.cont.at(host)};
+    auto &content{ node.cont.at(host) };
 
     if (::cJSON_IsString(&item))
     {
-        const auto *val{item.valuestring};
+        const char * const val{ item.valuestring };
 
-        if ((nullptr == val) || (std::string{val}.empty()))
+        if (not val ||
+            std::string{val}.empty())
         {
             content.is_parsed = false;
             return;
@@ -109,29 +114,27 @@ ipinfo::srv::parser::__fill_node(
         content.val = item.valuedouble;
         content.is_parsed = true;
     }
-
-    return;
 }
 
 template<template<typename ...> class T> void
 ipinfo::srv::parser::__fill_node(
-        T<bool> &node,
-        const ::cJSON &item,
-        const std::string &host)
+    T<bool> &node,
+    const ::cJSON &item,
+    const std::string &host)
 {
-    auto &content{node.cont.at(host)};
+    auto &content{ node.cont.at(host) };
 
     if (::cJSON_IsString(&item))
     {
-        const auto *val{item.valuestring};
+        const char * const val{ item.valuestring };
 
-        if ((nullptr == val) || (std::string{val}.empty()))
+        if (not val or std::string{ val }.empty())
         {
             content.is_parsed = false;
             return;
         }
 
-        content.val = ("true" == std::string{val});
+        content.val = ("true" == std::string{ val });
         content.is_parsed = true;
     }
 
@@ -140,73 +143,71 @@ ipinfo::srv::parser::__fill_node(
         content.val = item.valueint;
         content.is_parsed = true;
     }
-
-    return;
 }
 
 template<template<typename ...> class T, typename sub_T> void
 ipinfo::srv::parser::__catch_node(
-        const ::cJSON &data,
-        T<sub_T> &node,
-        const std::string &host)
+    const ::cJSON &data,
+    T<sub_T> &node,
+    const std::string &host)
 {
-    const auto &node_name{node.cont.at(host).json_name.c_str()};
-    const auto * const item{::cJSON_GetObjectItemCaseSensitive(&data, node_name)};
+    const auto &node_name{ node.cont.at(host).json_name.c_str() };
+    const ::cJSON * const item {
+        ::cJSON_GetObjectItemCaseSensitive(&data, node_name)
+    };
 
-    this->__fill_node(node, *item, host);
-    return;
+    __fill_node(node, *item, host);
 }
 
 void
 ipinfo::srv::parser::parse(
-        const std::string &json,
-        ipinfo::srv::types::info &info,
-        const std::string &host)
+    const std::string &json,
+    ipinfo::srv::types::info &info,
+    const std::string &host)
 {
-    ::cJSON * const data{this->__prepare(json)};
+    ::cJSON * const data{ __prepare(json) };
 
-    if (nullptr == data)
+    if (not data)
     {
         return;
     }
 
     // think about a shorting of the call list below
-    this->__catch_node(*data, info.ip, host);
-    this->__catch_node(*data, info.ip_type, host);
-    this->__catch_node(*data, info.continent, host);
-    this->__catch_node(*data, info.continent_code, host);
-    this->__catch_node(*data, info.country, host);
-    this->__catch_node(*data, info.country_code, host);
-    this->__catch_node(*data, info.country_capital, host);
-    this->__catch_node(*data, info.country_ph_code, host);
-    this->__catch_node(*data, info.country_neighbors, host);
-    this->__catch_node(*data, info.region, host);
-    this->__catch_node(*data, info.region_code, host);
-    this->__catch_node(*data, info.city, host);
-    this->__catch_node(*data, info.city_district, host);
-    this->__catch_node(*data, info.zip_code, host);
-    this->__catch_node(*data, info.latitude, host);
-    this->__catch_node(*data, info.longitude, host);
-    this->__catch_node(*data, info.city_timezone, host);
-    this->__catch_node(*data, info.timezone, host);
-    this->__catch_node(*data, info.gmt_offset, host);
-    this->__catch_node(*data, info.dst_offset, host);
-    this->__catch_node(*data, info.timezone_gmt, host);
-    this->__catch_node(*data, info.isp, host);
-    this->__catch_node(*data, info.as, host);
-    this->__catch_node(*data, info.org, host);
-    this->__catch_node(*data, info.reverse_dns, host);
-    this->__catch_node(*data, info.is_hosting, host);
-    this->__catch_node(*data, info.is_proxy, host);
-    this->__catch_node(*data, info.is_mobile, host);
-    this->__catch_node(*data, info.currency, host);
-    this->__catch_node(*data, info.currency_code, host);
-    this->__catch_node(*data, info.currency_symbol, host);
-    this->__catch_node(*data, info.currency_rates, host);
-    this->__catch_node(*data, info.currency_plural, host);
+    __catch_node(*data, info.ip, host);
+    __catch_node(*data, info.ip_type, host);
+    __catch_node(*data, info.continent, host);
+    __catch_node(*data, info.continent_code, host);
+    __catch_node(*data, info.country, host);
+    __catch_node(*data, info.country_code, host);
+    __catch_node(*data, info.country_capital, host);
+    __catch_node(*data, info.country_ph_code, host);
+    __catch_node(*data, info.country_neighbors, host);
+    __catch_node(*data, info.region, host);
+    __catch_node(*data, info.region_code, host);
+    __catch_node(*data, info.city, host);
+    __catch_node(*data, info.city_district, host);
+    __catch_node(*data, info.zip_code, host);
+    __catch_node(*data, info.latitude, host);
+    __catch_node(*data, info.longitude, host);
+    __catch_node(*data, info.city_timezone, host);
+    __catch_node(*data, info.timezone, host);
+    __catch_node(*data, info.gmt_offset, host);
+    __catch_node(*data, info.dst_offset, host);
+    __catch_node(*data, info.timezone_gmt, host);
+    __catch_node(*data, info.isp, host);
+    __catch_node(*data, info.as, host);
+    __catch_node(*data, info.org, host);
+    __catch_node(*data, info.reverse_dns, host);
+    __catch_node(*data, info.is_hosting, host);
+    __catch_node(*data, info.is_proxy, host);
+    __catch_node(*data, info.is_mobile, host);
+    __catch_node(*data, info.currency, host);
+    __catch_node(*data, info.currency_code, host);
+    __catch_node(*data, info.currency_symbol, host);
+    __catch_node(*data, info.currency_rates, host);
+    __catch_node(*data, info.currency_plural, host);
 
     ::cJSON_Delete(data);
-    return;
 }
 
 ipinfo::usr::types::error

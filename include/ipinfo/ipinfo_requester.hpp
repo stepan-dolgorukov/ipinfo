@@ -6,17 +6,20 @@
 
 #include <string>
 
-namespace ipinfo::srv{ class requester; }
+namespace ipinfo::srv
+{
+    class requester;
+}
+
 class ipinfo::srv::requester
 {
-    private:
-        const als::str __get_ready_request_info_fields(const als::str &host) const;
-        const als::str __get_ready_request_lang(
-                                const als::str &host,
-                                const als::str &lang) const;
-    public:
-        als::str request(const als::req_attrs &req_attrs) const;
-        als::err get_last_error(void)                     const;
+  private:
+    std::string __get_info_fields(const als::str &host) const;
+    std::string __get_lang(const std::string &host,
+                           const std::string &lang) const;
+  public:
+    std::string request(const als::req_attrs &ra) const;
+    usr::types::error get_last_error() const;
 };
 
 #endif // IPINFO_REQUESTER_HPP

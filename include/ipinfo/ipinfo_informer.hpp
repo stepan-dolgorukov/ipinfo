@@ -5,12 +5,12 @@
 #include "ipinfo_types.hpp"
 #include "ipinfo_aliases.hpp"
 
-#include <cstdint> // std::uint8_t
-#include <cstddef> // std::size_t
+#include <cstdint>
+#include <cstddef>
 
-#include <string> // std::string
-#include <vector> // std::vector
-#include <map>    // std::map
+#include <string>
+#include <vector>
+#include <map>
 
 namespace ipinfo::srv
 {
@@ -19,132 +19,140 @@ namespace ipinfo::srv
     class utiler;
 }
 
-namespace ipinfo::usr { class informer; }
+namespace ipinfo::usr
+{
+    class informer;
+}
+
 class ipinfo::usr::informer
 {
-    private:
-        std::string  __ip{};
-        std::string  __lang{};
-        std::uint8_t __conn_num{ 0u };
+  private:
+    std::string __ip{};
+    std::string __lang{};
+    std::uint8_t __conn_num{ 0u };
 
-        std::map<std::string, als::err>    __errors{};
-        std::map<std::string, std::string> __api_keys{};
-        std::vector<std::string>           __excluded_hosts{};
+    std::map<std::string, usr::types::error> __errors{};
+    std::map<std::string, std::string> __api_keys{};
+    std::vector<std::string> __excluded_hosts{};
+    srv::types::info __info{};
 
-        als::info        __info{};
-        srv::requester * __requester{};
-        srv::parser    * __parser{};
-        srv::utiler    * __utiler{};
+    srv::requester * const __requester{};
+    srv::parser * const __parser{};
+    srv::utiler * const __utiler{};
 
-        bool           __is_api_key_setted_up(const als::str &host) const;
-        bool           __is_host_excluded(const als::str &host)     const;
-        als::req_attrs __get_req_attrs(const als::str &host)        const;
+    bool __is_api_key_setted_up(const std::string &host) const;
+    bool __is_host_excluded(const std::string &host) const;
+    als::req_attrs __get_request_attributes(const std::string &host) const;
 
-    public:
-        informer() = default;
+  public:
+    informer() = default;
 
-        informer(const std::string &ip,
-                 const std::string &lang,
-                 const std::uint8_t conn_num);
+    informer(
+        const std::string &ip,
+        const std::string &lang);
 
-        informer(const std::string &ip,
-                 const std::uint8_t lang_id,
-                 const std::uint8_t conn_num);
+    informer(
+        const std::string &ip,
+        const std::uint8_t lang_id);
 
-        void set_ip(const std::string &ip);
+    void set_ip(const std::string &ip);
+    void set_connections_num(const std::uint8_t n);
 
-        void set_lang(const std::string &lang);
-        void set_lang(const std::uint8_t lang_id);
+    void set_lang(const std::string &lang);
+    void set_lang(const std::uint8_t lang_id);
 
-        void set_conn_num(const std::uint8_t n);
+    void set_api_key(
+        const std::string &host,
+        const std::string &key);
 
-        void set_api_key(const std::string &host, const std::string &key);
-        void set_api_key(const std::uint8_t host_id, const std::string &key);
+    void set_api_key(
+        const std::uint8_t host_id,
+        const std::string &key);
 
-        void set_api_keys(const std::map<als::str, als::str> &host_key_mp);
-        void set_api_keys(const std::map<als::u8, als::str> &host_id_key_mp);
+    void set_api_keys(const std::map<als::str, als::str> &host_key_mp);
+    void set_api_keys(const std::map<als::u8, als::str> &host_id_key_mp);
 
-        void exclude_host(const std::string &host);
-        void exclude_host(const std::uint8_t host_id);
+    void exclude_host(const std::string &host);
+    void exclude_host(const std::uint8_t host_id);
 
-        void exclude_hosts(const std::vector<std::string> &hosts);
-        void exclude_hosts(const std::vector<std::uint8_t> &hosts_ids);
+    void exclude_hosts(const std::vector<std::string> &hosts);
+    void exclude_hosts(const std::vector<std::uint8_t> &hosts_ids);
 
-        void run(void); // let's ROLL!
+    void run(); // let's ROLL!
 
-        usr::types::error get_last_error(const std::string &host)    const;
-        usr::types::error get_last_error(const std::uint8_t host_id) const;
-        std::size_t       get_errors_num(void)                       const;
+    usr::types::error get_last_error(const std::string &host) const;
+    usr::types::error get_last_error(const std::uint8_t host_id) const;
+    std::uint8_t get_errors_num() const;
 
-        // ordinary getters
-        std::string  get_ip(void)                const;
-        std::string  get_ip_type(void)           const;
-        std::string  get_continent(void)         const;
-        std::string  get_continent_code(void)    const;
-        std::string  get_country(void)           const;
-        std::string  get_country_code(void)      const;
-        std::string  get_country_capital(void)   const;
-        std::string  get_country_ph_code(void)   const;
-        std::string  get_country_neighbors(void) const;
-        std::string  get_region(void)            const;
-        std::string  get_region_code(void)       const;
-        std::string  get_city(void)              const;
-        std::string  get_city_district(void)     const;
-        std::string  get_zip_code(void)          const;
-        double       get_latitude(void)          const;
-        double       get_longitude(void)         const;
-        std::string  get_timezone(void)          const;
-        std::string  get_city_timezone(void)     const;
-        std::string  get_timezone_gmt(void)      const;
-        std::int32_t get_gmt_offset(void)        const;
-        std::int32_t get_dst_offset(void)        const;
-        std::string  get_isp(void)               const;
-        std::string  get_as(void)                const;
-        std::string  get_org(void)               const;
-        std::string  get_reverse_dns(void)       const;
-        bool         get_hosting_status(void)    const;
-        bool         get_proxy_status(void)      const;
-        bool         get_mobile_status(void)     const;
-        std::string  get_currency(void)          const;
-        std::string  get_currency_code(void)     const;
-        std::string  get_currency_symbol(void)   const;
-        double       get_currency_rates(void)    const;
-        std::string  get_currency_plural(void)   const;
+    // ordinary getters
+    std::string get_ip() const;
+    std::string get_ip_type() const;
+    std::string get_continent() const;
+    std::string get_continent_code() const;
+    std::string get_country() const;
+    std::string get_country_code() const;
+    std::string get_country_capital() const;
+    std::string get_country_ph_code() const;
+    std::string get_country_neighbors() const;
+    std::string get_region() const;
+    std::string get_region_code() const;
+    std::string get_city() const;
+    std::string get_city_district() const;
+    std::string get_zip_code() const;
+    double get_latitude() const;
+    double get_longitude() const;
+    std::string get_timezone() const;
+    std::string get_city_timezone() const;
+    std::string get_timezone_gmt() const;
+    std::int32_t get_gmt_offset() const;
+    std::int32_t get_dst_offset() const;
+    std::string get_isp() const;
+    std::string get_as() const;
+    std::string get_org() const;
+    std::string get_reverse_dns() const;
+    bool get_hosting_status() const;
+    bool get_proxy_status() const;
+    bool get_mobile_status() const;
+    std::string get_currency() const;
+    std::string get_currency_code() const;
+    std::string get_currency_symbol() const;
+    double get_currency_rates() const;
+    std::string get_currency_plural() const;
 
-        // extra information getters
-        als::u_node<std::string>  get_ip_ex(void)                const;
-        als::u_node<std::string>  get_ip_type_ex(void)           const;
-        als::u_node<std::string>  get_continent_ex(void)         const;
-        als::u_node<std::string>  get_continent_code_ex(void)    const;
-        als::u_node<std::string>  get_country_ex(void)           const;
-        als::u_node<std::string>  get_country_code_ex(void)      const;
-        als::u_node<std::string>  get_country_capital_ex(void)   const;
-        als::u_node<std::string>  get_country_ph_code_ex(void)   const;
-        als::u_node<std::string>  get_country_neighbors_ex(void) const;
-        als::u_node<std::string>  get_region_ex(void)            const;
-        als::u_node<std::string>  get_region_code_ex(void)       const;
-        als::u_node<std::string>  get_city_ex(void)              const;
-        als::u_node<std::string>  get_city_district_ex(void)     const;
-        als::u_node<std::string>  get_zip_code_ex(void)          const;
-        als::u_node<double>       get_latitude_ex(void)          const;
-        als::u_node<double>       get_longitude_ex(void)         const;
-        als::u_node<std::string>  get_timezone_ex(void)          const;
-        als::u_node<std::string>  get_city_timezone_ex(void)     const;
-        als::u_node<std::string>  get_timezone_gmt_ex(void)      const;
-        als::u_node<std::int32_t> get_gmt_offset_ex(void)        const;
-        als::u_node<std::int32_t> get_dst_offset_ex(void)        const;
-        als::u_node<std::string>  get_isp_ex(void)               const;
-        als::u_node<std::string>  get_as_ex(void)                const;
-        als::u_node<std::string>  get_org_ex(void)               const;
-        als::u_node<std::string>  get_reverse_dns_ex(void)       const;
-        als::u_node<bool>         get_hosting_status_ex(void)    const;
-        als::u_node<bool>         get_proxy_status_ex(void)      const;
-        als::u_node<bool>         get_mobile_status_ex(void)     const;
-        als::u_node<std::string>  get_currency_ex(void)          const;
-        als::u_node<std::string>  get_currency_code_ex(void)     const;
-        als::u_node<std::string>  get_currency_symbol_ex(void)   const;
-        als::u_node<double>       get_currency_rates_ex(void)    const;
-        als::u_node<std::string>  get_currency_plural_ex(void)   const;
+    // extra information getters
+    als::u_node<std::string> get_ip_ex() const;
+    als::u_node<std::string> get_ip_type_ex() const;
+    als::u_node<std::string> get_continent_ex() const;
+    als::u_node<std::string> get_continent_code_ex() const;
+    als::u_node<std::string> get_country_ex() const;
+    als::u_node<std::string> get_country_code_ex() const;
+    als::u_node<std::string> get_country_capital_ex() const;
+    als::u_node<std::string> get_country_ph_code_ex() const;
+    als::u_node<std::string> get_country_neighbors_ex() const;
+    als::u_node<std::string> get_region_ex() const;
+    als::u_node<std::string> get_region_code_ex() const;
+    als::u_node<std::string> get_city_ex() const;
+    als::u_node<std::string> get_city_district_ex() const;
+    als::u_node<std::string> get_zip_code_ex() const;
+    als::u_node<double> get_latitude_ex() const;
+    als::u_node<double> get_longitude_ex() const;
+    als::u_node<std::string> get_timezone_ex() const;
+    als::u_node<std::string> get_city_timezone_ex() const;
+    als::u_node<std::string> get_timezone_gmt_ex() const;
+    als::u_node<std::int32_t> get_gmt_offset_ex() const;
+    als::u_node<std::int32_t> get_dst_offset_ex() const;
+    als::u_node<std::string> get_isp_ex() const;
+    als::u_node<std::string> get_as_ex() const;
+    als::u_node<std::string> get_org_ex() const;
+    als::u_node<std::string> get_reverse_dns_ex() const;
+    als::u_node<bool> get_hosting_status_ex() const;
+    als::u_node<bool> get_proxy_status_ex() const;
+    als::u_node<bool> get_mobile_status_ex() const;
+    als::u_node<std::string> get_currency_ex() const;
+    als::u_node<std::string> get_currency_code_ex() const;
+    als::u_node<std::string> get_currency_symbol_ex() const;
+    als::u_node<double>      get_currency_rates_ex() const;
+    als::u_node<std::string> get_currency_plural_ex() const;
 };
 
 #endif // IPINFO_INFORMER_HPP

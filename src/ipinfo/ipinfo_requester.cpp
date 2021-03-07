@@ -10,8 +10,8 @@
 #include <functional> // std::function (for lambdas)
 #include <numeric>    // std::accumulate
 
-const std::string
-ipi::srv::requester::__get_ready_request_info_fields(const als::str &host) const
+std::string
+ipinfo::srv::requester::__get_info_fields(const std::string &host) const
 {
     const auto &fields{ constants::REQUEST_INFO_FIELDS.at(host) };
     const auto itemize {
@@ -20,38 +20,43 @@ ipi::srv::requester::__get_ready_request_info_fields(const als::str &host) const
         }
     };
 
-    return std::accumulate(std::next(fields.begin()),
-            fields.end(), fields.at(0u), itemize);
+    return std::move(
+        std::accumulate(std::next(fields.begin()),
+        fields.end(), fields.at(0u), itemize));
 }
 
-const std::string
-ipinfo::srv::requester::__get_ready_request_lang(
-        const std::string &host,
-        const std::string &lang) const
+std::string
+ipinfo::srv::requester::__get_lang(
+    const std::string &host,
+    const std::string &lang) const
 {
     const auto &langs{ constants::HOSTS_AVAILABLE_LANGS.at(host) };
     const auto res{ langs.find(lang) };
 
-    return (res != langs.end()) ? res->second : "";
+    return (res != langs.end()) ? res->second : std::move("");
 }
 
 std::string
-ipi::srv::requester::request(const als::req_attrs &req_attrs) const
+ipinfo::srv::requester::request(const als::req_attrs &ra) const
 {
-    const std::string &path{
-        constants::REQUEST_START_PATHS.at(req_attrs.host)};
+    const std::string &path {
+        constants::REQUEST_START_PATHS.at(ra.host)};
 
-    const auto &param_titles{
-        constants::REQUEST_PARAMETERS_TITLES.at(req_attrs.host)
+    const auto &param_titles {
+        constants::REQUEST_PARAMETERS_TITLES.at(ra.host)
     };
 
-    const cpr::Url url{ path + req_attrs.ip };
+    const std::string
+        fields{ __get_info_fields(ra.host) },
+        lang{ __get_lang(ra.host, ra.lang) };
+
     const cpr::Parameters params = {
-        {param_titles.at("fields"), this->__get_ready_request_info_fields(req_attrs.host)},
-        {param_titles.at("lang"), this->__get_ready_request_lang(req_attrs.host, req_attrs.lang)},
-        {param_titles.at("api_key"), req_attrs.api_key}
+        { param_titles.at("fields"), fields },
+        { param_titles.at("lang"), lang },
+        { param_titles.at("api_key"), ra.api_key }
     };
 
+    const cpr::Url url{ path + ra.ip };
     const cpr::Response resp{ cpr::Get(url, params) };
 
     if (200u != resp.status_code)
