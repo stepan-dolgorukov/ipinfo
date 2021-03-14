@@ -28,56 +28,56 @@ app::show_ip_info(
     const std::string &ip,
     const std::string &lang)
 {
-    ipinfo::usr::informer informer{};
-    ipinfo::usr::types::error error{};
+    ipinfo::usr::informer infr{};
+    ipinfo::usr::types::error err{};
 
-    informer.set_ip(ip);
-    informer.set_lang(lang);
+    infr.set_ip(ip);
+    infr.set_lang(lang);
 
     // You can set your API keys below.
     // In example they're initialized as empty strings.
     // But this initialization isn't compulsory.
 
-    informer.set_api_keys({
-        {ipi::als::C::AVAILABLE_HOSTS_IDS::IP_API_COM, {}},
-        {ipi::als::C::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {}}
+    infr.set_api_keys({
+        { ipi::als::C::AVAILABLE_HOSTS_IDS::IP_API_COM, {} },
+        { ipi::als::C::AVAILABLE_HOSTS_IDS::IPWHOIS_APP, {} }
     });
 
-    informer.run();
+    infr.run();
 
-    fmt::print("IP: {:s}\n", informer.get_ip());
-    fmt::print("IP type: {:s}\n", informer.get_ip_type());
-    fmt::print("Continent: {:s}\n", informer.get_continent());
-    fmt::print("Continent code: {}\n", informer.get_continent_code());
-    fmt::print("County: {:s}\n", informer.get_country());
-    fmt::print("Country code: {:s}\n", informer.get_country_code());
-    fmt::print("Country capital: {:s}\n", informer.get_country_capital());
-    fmt::print("Country phone code: {:s}\n", informer.get_country_ph_code());
-    fmt::print("Country neighbors: {:s}\n", informer.get_country_neighbors());
-    fmt::print("Region: {:s}\n", informer.get_region());
-    fmt::print("Region code: {:s}\n", informer.get_region_code());
-    fmt::print("City: {:s}\n", informer.get_city());
-    fmt::print("City district: {:s}\n", informer.get_city_district());
-    fmt::print("ZIP code: {:s}\n", informer.get_zip_code());
-    fmt::print("Latitude: {:.2f}\n", informer.get_latitude());
-    fmt::print("Longitude: {:.2f}\n", informer.get_longitude());
-    fmt::print("Timezone: {:s}\n", informer.get_timezone());
-    fmt::print("City timezone: {:s}\n", informer.get_city_timezone());
-    fmt::print("Timezone GMT: {:s}\n", informer.get_timezone_gmt());
-    fmt::print("GMT offset: {:d}\n", informer.get_gmt_offset());
-    fmt::print("DST offset: {:d}\n", informer.get_dst_offset());
-    fmt::print("ISP: {:s}\n", informer.get_isp());
-    fmt::print("AS: {:s}\n", informer.get_as());
-    fmt::print("Organization: {:s}\n", informer.get_org());
-    fmt::print("Reverse DNS lookup: {:s}\n", informer.get_reverse_dns());
-    fmt::print("Hosting, data center: {:d}\n", informer.get_hosting_status());
-    fmt::print("Proxy, VPN, Tor usage: {:d}\n", informer.get_proxy_status());
-    fmt::print("Mobile connection usage: {:d}\n", informer.get_mobile_status());
-    fmt::print("Currency: {:s}\n", informer.get_currency());
-    fmt::print("Currency code: {:s}\n",  informer.get_currency_code());
-    fmt::print("Currency symbol: {:s}\n", informer.get_currency_symbol());
-    fmt::print("Currency exchange rate to USD: {:.2f}\n", informer.get_currency_rates());
-    fmt::print("Currency plural: {:s}\n", informer.get_currency_plural());
+    fmt::print("IP: {:s}\n", infr.get_ip());
+    fmt::print("IP type: {:s}\n", infr.get_ip_type());
+    fmt::print("Continent: {:s}\n", infr.get_continent());
+    fmt::print("Continent code: {}\n", infr.get_continent_code());
+    fmt::print("County: {:s}\n", infr.get_country());
+    fmt::print("Country code: {:s}\n", infr.get_country_code());
+    fmt::print("Country capital: {:s}\n", infr.get_country_capital());
+    fmt::print("Country phone code: {:s}\n", infr.get_country_ph_code());
+    fmt::print("Country neighbors: {:s}\n", infr.get_country_neighbors());
+    fmt::print("Region: {:s}\n", infr.get_region());
+    fmt::print("Region code: {:s}\n", infr.get_region_code());
+    fmt::print("City: {:s}\n", infr.get_city());
+    fmt::print("City district: {:s}\n", infr.get_city_district());
+    fmt::print("ZIP code: {:s}\n", infr.get_zip_code());
+    fmt::print("Latitude: {:.2f}\n", infr.get_latitude());
+    fmt::print("Longitude: {:.2f}\n", infr.get_longitude());
+    fmt::print("Timezone: {:s}\n", infr.get_timezone());
+    fmt::print("City timezone: {:s}\n", infr.get_city_timezone());
+    fmt::print("Timezone GMT: {:s}\n", infr.get_timezone_gmt());
+    fmt::print("GMT offset: {:d}\n", infr.get_gmt_offset());
+    fmt::print("DST offset: {:d}\n", infr.get_dst_offset());
+    fmt::print("ISP: {:s}\n", infr.get_isp());
+    fmt::print("AS: {:s}\n", infr.get_as());
+    fmt::print("Organization: {:s}\n", infr.get_org());
+    fmt::print("Reverse DNS lookup: {:s}\n", infr.get_reverse_dns());
+    fmt::print("Hosting, data center: {:d}\n", infr.get_hosting_status());
+    fmt::print("Proxy, VPN, Tor usage: {:d}\n", infr.get_proxy_status());
+    fmt::print("Mobile connection usage: {:d}\n", infr.get_mobile_status());
+    fmt::print("Currency: {:s}\n", infr.get_currency());
+    fmt::print("Currency code: {:s}\n",  infr.get_currency_code());
+    fmt::print("Currency symbol: {:s}\n", infr.get_currency_symbol());
+    fmt::print("Currency exc. rate to USD: {:.2f}\n", infr.get_currency_rates());
+    fmt::print("Currency plural: {:s}\n", infr.get_currency_plural());
 
     return;
 }
