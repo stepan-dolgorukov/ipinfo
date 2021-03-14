@@ -13,10 +13,11 @@ INCLUDE_DIR := include
 TARGET_DIR := target
 
 TARG := $(TARGET_DIR)/lib$(PROJECT).so
-SRCS := $(shell find $(SRC_DIR)/ipinfo \
-		-iname "*.cpp" \
-		-type f \
-		-printf "%P ")
+SRCS := \
+  $(shell find $(SRC_DIR)/ipinfo \
+  -iname "*.cpp" \
+  -type f \
+  -printf "%P ")
 
 OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
 
@@ -28,11 +29,11 @@ INSTALL_INCLUDE_DIR := $(DESTDIR)$(PREFIX)/include/ipinfo
 # by user will be installed.
 
 INSTALL_HDRS := \
-	$(shell find $(INCLUDE_DIR)/ipinfo \
-	\( ! -name "*requester*" \) -and \
-	\( ! -name "*parser*" \) -and \
-	\( ! -name "*utiler*" \) -and \
-	-iname "*.hpp" -type f -printf "%p ")
+  $(shell find $(INCLUDE_DIR)/ipinfo \
+  \( ! -name "*requester*" \) -and \
+  \( ! -name "*parser*" \) -and \
+  \( ! -name "*utiler*" \) -and \
+  -iname "*.hpp" -type f -printf "%p ")
 
 CXX := g++
 CXXFLAGS := \
