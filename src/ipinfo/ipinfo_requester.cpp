@@ -37,7 +37,7 @@ ipinfo::srv::requester::__get_lang(
 }
 
 std::string
-ipinfo::srv::requester::request(const als::req_attrs &ra) const
+ipinfo::srv::requester::request(const srv::types::request_attributes &ra) const
 {
     const std::string &path {
         constants::REQUEST_START_PATHS.at(ra.host)};
