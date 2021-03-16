@@ -93,8 +93,7 @@ ipinfo::srv::utiler::is_lang_supported(const std::string &lang) const
 }
 
 bool
-ipinfo::srv::utiler::is_lang_supported(
-    const std::uint8_t lang_id) const
+ipinfo::srv::utiler::is_lang_supported(const std::uint8_t lang_id) const
 {
     return (lang_id < constants::AVAILABLE_LANGS.size());
 }
