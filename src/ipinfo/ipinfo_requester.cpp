@@ -6,7 +6,6 @@
 
 #include <cpr/cpr.h>
 
-#include <functional>
 #include <cstddef>    // std::size_t
 #include <numeric>    // std::accumulate
 
