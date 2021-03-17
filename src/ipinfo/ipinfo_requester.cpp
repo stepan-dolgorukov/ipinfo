@@ -33,7 +33,12 @@ ipinfo::srv::requester::__get_lang(
     const auto &langs{ constants::HOSTS_AVAILABLE_LANGS.at(host) };
     const auto res{ langs.find(lang) };
 
-    return (res != langs.end()) ? res->second : "";
+    if (res != langs.end())
+    {
+        return res->second;
+    }
+
+    return {};
 }
 
 std::string
