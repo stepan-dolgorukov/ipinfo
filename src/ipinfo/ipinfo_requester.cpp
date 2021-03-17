@@ -6,8 +6,8 @@
 
 #include <cpr/cpr.h>
 
+#include <functional>
 #include <cstddef>    // std::size_t
-#include <functional> // std::function (for lambdas)
 #include <numeric>    // std::accumulate
 
 std::string
@@ -15,14 +15,14 @@ ipinfo::srv::requester::__get_info_fields(const std::string &host) const
 {
     const auto &fields{ constants::REQUEST_INFO_FIELDS.at(host) };
     const auto itemize {
-        [](const std::string &chain, const std::string &elem) {
-            return std::move(chain + ',' + elem);
+        [](const std::string &s, const std::string &elem) {
+            return s + ',' + elem;
         }
     };
 
-    return std::move(
-        std::accumulate(std::next(fields.begin()),
-        fields.end(), fields.at(0u), itemize));
+    return std::accumulate(
+        std::next(fields.begin()),
+        fields.end(), fields.at(0u), itemize);
 }
 
 std::string
@@ -33,7 +33,7 @@ ipinfo::srv::requester::__get_lang(
     const auto &langs{ constants::HOSTS_AVAILABLE_LANGS.at(host) };
     const auto res{ langs.find(lang) };
 
-    return (res != langs.end()) ? res->second : std::move("");
+    return (res != langs.end()) ? res->second : "";
 }
 
 std::string
