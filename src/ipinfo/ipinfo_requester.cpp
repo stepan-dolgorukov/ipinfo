@@ -14,7 +14,7 @@ ipinfo::srv::requester::__get_info_fields(const std::string &host) const
 {
     const auto &fields{ constants::REQUEST_INFO_FIELDS.at(host) };
     const auto itemize {
-        [](const std::string &s, const std::string &elem) {
+        [](const std::string &s, const std::string &elem) -> std::string {
             return s + ',' + elem;
         }
     };
