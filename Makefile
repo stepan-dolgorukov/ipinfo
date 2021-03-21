@@ -11,8 +11,10 @@ OBJ_DIR := obj
 SRC_DIR := src
 INCLUDE_DIR := include
 TARGET_DIR := target
+LIB_EXTENSION := so
 
-TARG := $(TARGET_DIR)/lib$(PROJECT).so
+TARG := $(TARGET_DIR)/lib$(PROJECT).$(LIB_EXTENSION)
+
 SRCS := \
   $(shell find $(SRC_DIR)/ipinfo \
   -iname "*.cpp" \
@@ -24,6 +26,12 @@ OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
 PREFIX ?= /usr/local
 INSTALL_LIB_DIR := $(DESTDIR)$(PREFIX)/lib
 INSTALL_INCLUDE_DIR := $(DESTDIR)$(PREFIX)/include/ipinfo
+
+INSTALL_LIB_RIGHTS := 755
+INSTALL_INCLUDE_RIGHTS := 644
+
+INSTALL_LIB := $(TARG)
+UNINSTALL_LIB := $(INSTALL_LIB_DIR)/$(shell basename $(INSTALL_LIB))
 
 # There are only headers needed
 # by user will be installed.
@@ -112,21 +120,33 @@ install: $(TARG)
 	@ mkdir -p $(INSTALL_LIB_DIR)
 	@ mkdir -p $(INSTALL_INCLUDE_DIR)
 
-	@ echo "cp" $(TARG) "to" $(INSTALL_LIB_DIR)
-	@ cp $(TARG) $(INSTALL_LIB_DIR)
+	@ printf "%s\n" "installation..."
 
+	@ printf "dir: %s\n" $(INSTALL_LIB_DIR)
+	@ printf "\t%s\n" $(shell basename $(INSTALL_LIB))
+	@ install \
+		-Dm$(INSTALL_LIB_RIGHTS) \
+		$(INSTALL_LIB) \
+		$(INSTALL_LIB_DIR)
+
+	@ printf "dir: %s\n" $(INSTALL_INCLUDE_DIR)
 	@ $(foreach header, \
 		$(INSTALL_HDRS), \
-		echo "cp" $(header) "to" $(INSTALL_INCLUDE_DIR) && \
-		cp $(header) $(INSTALL_INCLUDE_DIR); )
+		printf "\t%s\n" $(shell basename $(header)) && \
+		install \
+			-Dm=$(INSTALL_INCLUDE_RIGHTS) \
+			$(header) \
+			$(INSTALL_INCLUDE_DIR); )
 
 uninstall:
-	@ (test -e "$(INSTALL_LIB_DIR)/lib$(PROJECT).so" \
-		&& (echo "rmv $(INSTALL_LIB_DIR)/lib$(PROJECT).so" && \
-			$(RM) "$(INSTALL_LIB_DIR)/lib$(PROJECT).so")) \
-		|| (echo "$(INSTALL_LIB_DIR)/lib$(PROJECT).so doesn't exist")
+	@ printf "%s\n" "deinstallation..."
+
+	@ (test -f $(UNINSTALL_LIB) \
+		&& (printf "rmv %s\n" $(UNINSTALL_LIB) && \
+			rm $(UNINSTALL_LIB))) \
+		|| (printf "%s doesn't exist\n" $(UNINSTALL_LIB))
 
 	@ (test -d $(INSTALL_INCLUDE_DIR) \
-		&& (echo "rmv $(INSTALL_INCLUDE_DIR)" && \
-			$(RM) -r $(INSTALL_INCLUDE_DIR))) \
-		|| (echo "$(INSTALL_INCLUDE_DIR) doesn't exist")
+		&& (printf "rmv %s\n" $(INSTALL_INCLUDE_DIR) && \
+			rm -r $(INSTALL_INCLUDE_DIR))) \
+		|| (printf "%s doesn't exist\n" $(INSTALL_INCLUDE_DIR))
