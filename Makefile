@@ -73,23 +73,25 @@ LDLIBS := \
 
 define chq_dir
 @ (test -d $(1) \
-	&& echo \"$(1)\" "alr exists") \
-	|| (echo "cr8" \"$(1)\" && mkdir $(1))
+	&& printf "%s dir alr exists\n" $(1)) \
+	|| (printf "cr8 %s dir\n" $(1) && \
+		mkdir $(1))
 endef
 
 define rmv_dir
 @ (test -d $(1) \
-	&& (echo "rmv" \"$(1)\" && rm -r $(1))) \
-	|| (echo \"$(1)\" "doesn't exist")
+	&& (printf "rmv %s\n" $(1) && \
+		rm -r $(1))) \
+	|| (printf "%s\n doesnt' exist" $(1))
 endef
 
 all: prepare $(TARG)
-	@ echo "bld" $(TARG)
+	@ printf "bld %s\n" $(TARG)
 
 $(TARG): $(OBJS)
 	@ $(foreach obj, \
 		$(shell find $(OBJ_DIR) -iname "*.cpp.o" -type f), \
-		echo "lnk" $(obj); )
+		printf "lnk %s\n" $(obj); )
 
 	@ $(CXX) \
 	$(LDFLAGS) \
@@ -99,7 +101,7 @@ $(TARG): $(OBJS)
 	-o $@
 
 $(OBJ_DIR)/%.cpp.o: $(SRC_DIR)/$(PROJECT)/%.cpp
-	@ echo "cmpl $<"
+	@ printf "cmpl %s\n" $<
 
 	@ $(CXX) \
 	$(CXXFLAGS) \
