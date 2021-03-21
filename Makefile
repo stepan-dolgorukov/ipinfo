@@ -85,7 +85,9 @@ define rmv_dir
 	|| (printf "%s\n doesnt' exist" $(1))
 endef
 
-all: prepare $(TARG)
+all: build
+
+build: prepare $(TARG)
 	@ printf "bld %s\n" $(TARG)
 
 $(TARG): $(OBJS)
@@ -118,7 +120,7 @@ clean:
 	$(call rmv_dir,$(OBJ_DIR))
 	$(call rmv_dir,$(TARGET_DIR))
 
-install: $(TARG)
+install: build
 	@ mkdir -p $(INSTALL_LIB_DIR)
 	@ mkdir -p $(INSTALL_INCLUDE_DIR)
 
