@@ -4,16 +4,23 @@
 	install \
 	uninstall
 
-PROJECT := ipinfo
+PROJECT_NAME := ipinfo
 DEBUG_MODE := 1
 
 OBJ_DIR := obj
 SRC_DIR := src
 INCLUDE_DIR := include
 TARGET_DIR := target
-LIB_EXTENSION := so
 
-TARG := $(TARGET_DIR)/lib$(PROJECT).$(LIB_EXTENSION)
+MAJOR_LIB_VER := 1
+MINOR_LIB_VER := 0
+PATCH_LIB_VER := 0
+
+FULL_LIB_VER := $(MAJOR_LIB_VER).$(MINOR_LIB_VER).$(PATCH_LIB_VER)
+
+LIB_FILE_EXTENSION := so
+LIB_FILE_NAME_NO_VER := lib$(PROJECT_NAME).$(LIB_FILE_EXTENSION)
+TARGET := $(TARGET_DIR)/$(LIB_FILE_NAME_NO_VER).$(FULL_LIB_VER)
 
 SRCS := \
   $(shell find $(SRC_DIR)/ipinfo \
@@ -27,16 +34,16 @@ PREFIX ?= /usr/local
 INSTALL_LIB_DIR := $(DESTDIR)$(PREFIX)/lib
 INSTALL_INCLUDE_DIR := $(DESTDIR)$(PREFIX)/include/ipinfo
 
-INSTALL_LIB_RIGHTS := 755
-INSTALL_INCLUDE_RIGHTS := 644
+INSTALL_LIB_FILE_RIGHTS := 755
+INSTALL_HEADER_FILES_RIGHTS := 644
 
-INSTALL_LIB := $(TARG)
-UNINSTALL_LIB := $(INSTALL_LIB_DIR)/$(shell basename $(INSTALL_LIB))
+INSTALL_LIB_FILE := $(TARGET)
+UNINSTALL_LIB_FILE := $(INSTALL_LIB_DIR)/$(shell basename $(INSTALL_LIB_FILE))
 
 # There are only headers needed
 # by user will be installed.
 
-INSTALL_HDRS := \
+INSTALL_HEADER_FILES := \
   $(shell find $(INCLUDE_DIR)/ipinfo \
   \( ! -name "*requester*" \) -and \
   \( ! -name "*parser*" \) -and \
@@ -71,29 +78,23 @@ LDLIBS := \
   -lcjson \
   -lcpr
 
-define chq_dir
-@ (test -d $(1) \
-	&& printf "%s dir alr exists\n" $(1)) \
-	|| (printf "cr8 %s dir\n" $(1) && \
-		mkdir $(1))
-endef
+create_dir = @ (test -d $(1)) || mkdir -p $(1)
+remove_dir = @ (test -d $(1) && rm -r $(1)) || true
 
-define rmv_dir
-@ (test -d $(1) \
-	&& (printf "rmv %s\n" $(1) && \
-		rm -r $(1))) \
-	|| (printf "%s\n doesnt' exist" $(1))
-endef
+create_link = @ ln -sf $(1) $(2)
+remove_link = @ (test -L $(1) && unlink $(1)) || true
+
+remove_file = @ (test -f $(1) && rm $(1)) || true
 
 all: build
 
-build: prepare $(TARG)
-	@ printf "bld %s\n" $(TARG)
+build: prepare $(TARGET)
+	$(info build of the $(shell basename $(TARGET)) is completed)
 
-$(TARG): $(OBJS)
+$(TARGET): $(OBJS)
 	@ $(foreach obj, \
 		$(shell find $(OBJ_DIR) -iname "*.cpp.o" -type f), \
-		printf "lnk %s\n" $(obj); )
+		$(info link $(shell basename $(obj))))
 
 	@ $(CXX) \
 	$(LDFLAGS) \
@@ -102,8 +103,8 @@ $(TARG): $(OBJS)
 	$^ \
 	-o $@
 
-$(OBJ_DIR)/%.cpp.o: $(SRC_DIR)/$(PROJECT)/%.cpp
-	@ printf "cmpl %s\n" $<
+$(OBJ_DIR)/%.cpp.o: $(SRC_DIR)/$(PROJECT_NAME)/%.cpp
+	$(info compile $(shell basename $<))
 
 	@ $(CXX) \
 	$(CXXFLAGS) \
@@ -113,44 +114,50 @@ $(OBJ_DIR)/%.cpp.o: $(SRC_DIR)/$(PROJECT)/%.cpp
 	-o $@
 
 prepare:
-	$(call chq_dir,$(OBJ_DIR))
-	$(call chq_dir,$(TARGET_DIR))
+	$(info create build directories)
+	$(call create_dir,$(OBJ_DIR))
+	$(call create_dir,$(TARGET_DIR))
 
 clean:
-	$(call rmv_dir,$(OBJ_DIR))
-	$(call rmv_dir,$(TARGET_DIR))
+	$(info remove build diectories)
+	$(call remove_dir,$(OBJ_DIR))
+	$(call remove_dir,$(TARGET_DIR))
 
 install: build
-	@ mkdir -p $(INSTALL_LIB_DIR)
-	@ mkdir -p $(INSTALL_INCLUDE_DIR)
+	$(info create installation folders)
+	$(call create_dir,$(INSTALL_LIB_DIR))
+	$(call create_dir,$(INSTALL_INCLUDE_DIR))
 
-	@ printf "%s\n" "installation..."
-
-	@ printf "dir: %s\n" $(INSTALL_LIB_DIR)
-	@ printf "\t%s\n" $(shell basename $(INSTALL_LIB))
-	@ install \
-		-Dm$(INSTALL_LIB_RIGHTS) \
-		$(INSTALL_LIB) \
+	$(info install library to $(INSTALL_LIB_DIR))
+	@ install -Dm$(INSTALL_LIB_FILE_RIGHTS) \
+		$(INSTALL_LIB_FILE) \
 		$(INSTALL_LIB_DIR)
 
-	@ printf "dir: %s\n" $(INSTALL_INCLUDE_DIR)
-	@ $(foreach header, \
-		$(INSTALL_HDRS), \
-		printf "\t%s\n" $(shell basename $(header)) && \
-		install \
-			-Dm=$(INSTALL_INCLUDE_RIGHTS) \
+	$(info install headers to $(INSTALL_INCLUDE_DIR))
+	@ $(foreach header,\
+		$(INSTALL_HEADER_FILES),\
+		install -Dm=$(INSTALL_HEADER_FILES_RIGHTS) \
 			$(header) \
 			$(INSTALL_INCLUDE_DIR); )
 
+	$(info create soft links in $(INSTALL_LIB_DIR))
+	$(call create_link,\
+		$(INSTALL_LIB_DIR)/$(LIB_FILE_NAME_NO_VER).$(FULL_LIB_VER),\
+		$(INSTALL_LIB_DIR)/$(LIB_FILE_NAME_NO_VER).$(MAJOR_LIB_VER))
+
+	$(call create_link,\
+		$(INSTALL_LIB_DIR)/$(LIB_FILE_NAME_NO_VER).$(MAJOR_LIB_VER),\
+		$(INSTALL_LIB_DIR)/$(LIB_FILE_NAME_NO_VER))
+
 uninstall:
-	@ printf "%s\n" "deinstallation..."
+	$(info remove library: $(UNINSTALL_LIB_FILE))
+	$(call remove_file,$(UNINSTALL_LIB_FILE))
 
-	@ (test -f $(UNINSTALL_LIB) \
-		&& (printf "rmv %s\n" $(UNINSTALL_LIB) && \
-			rm $(UNINSTALL_LIB))) \
-		|| (printf "%s doesn't exist\n" $(UNINSTALL_LIB))
+	$(info remove headers directory: $(INSTALL_INCLUDE_DIR))
+	$(call remove_dir,$(INSTALL_INCLUDE_DIR))
 
-	@ (test -d $(INSTALL_INCLUDE_DIR) \
-		&& (printf "rmv %s\n" $(INSTALL_INCLUDE_DIR) && \
-			rm -r $(INSTALL_INCLUDE_DIR))) \
-		|| (printf "%s doesn't exist\n" $(INSTALL_INCLUDE_DIR))
+	$(info remove soft links from $(INSTALL_LIB_DIR))
+	$(call remove_link,\
+		$(INSTALL_LIB_DIR)/$(LIB_FILE_NAME_NO_VER).$(MAJOR_LIB_VER))
+
+	$(call remove_link,$(INSTALL_LIB_DIR)/$(LIB_FILE_NAME_NO_VER))
