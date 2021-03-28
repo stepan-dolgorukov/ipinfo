@@ -63,9 +63,13 @@ CXXFLAGS := \
   -pipe
 
 ifeq ($(DEBUG_MODE), 1)
-	CXXFLAGS += -g3 -O0 -DIPINFO_DEBUG_MODE
+	CXXFLAGS += -g3
+	CXXFLAGS += -O0
+	CXXFLAGS += -DIPINFO_DEBUG_MODE
 else
-	CXXFLAGS += -Os -flto -march=native
+	CXXFLAGS += -Os
+	CXXFLAGS += -flto
+	CXXFLAGS += -march=native
 endif
 
 LDFLAGS := \
