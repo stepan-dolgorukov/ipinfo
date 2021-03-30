@@ -22,13 +22,13 @@ LIB_FILE_EXTENSION := so
 LIB_FILE_NAME_NO_VER := lib$(PROJECT_NAME).$(LIB_FILE_EXTENSION)
 TARGET := $(TARGET_DIR)/$(LIB_FILE_NAME_NO_VER).$(FULL_LIB_VER)
 
-SRCS := \
+SOURCE_CODE_FILES := \
   $(shell find $(SRC_DIR)/ipinfo \
   -iname "*.cpp" \
   -type f \
   -printf "%P ")
 
-OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
+OBJECT_CODE_FILES := $(SOURCE_CODE_FILES:%=$(OBJ_DIR)/%.o)
 
 PREFIX ?= /usr/local
 INSTALL_LIB_DIR := $(DESTDIR)$(PREFIX)/lib
@@ -95,7 +95,7 @@ all: build
 build: prepare $(TARGET)
 	$(info build of the $(shell basename $(TARGET)) is completed)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJECT_CODE_FILES)
 	@ $(foreach obj, \
 		$(shell find $(OBJ_DIR) -iname "*.cpp.o" -type f), \
 		$(info link $(shell basename $(obj))))
