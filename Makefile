@@ -4,7 +4,7 @@
 .PHONY: uninstall
 
 PROJECT_NAME := ipinfo
-DEBUG_MODE := 1
+DEBUG_BUILD_MODE := 1
 
 OBJ_DIR := obj
 SRC_DIR := src
@@ -60,10 +60,10 @@ CXXFLAGS += -Wsign-conversion
 CXXFLAGS += -Wlogical-op
 CXXFLAGS += -pipe
 
-ifeq ($(DEBUG_MODE), 1)
+ifeq ($(DEBUG_BUILD_MODE), 1)
 	CXXFLAGS += -g3
 	CXXFLAGS += -O0
-	CXXFLAGS += -DIPINFO_DEBUG_MODE
+	CXXFLAGS += -DIPINFO_DEBUG_BUILD_MODE
 else
 	CXXFLAGS += -Os
 	CXXFLAGS += -flto
