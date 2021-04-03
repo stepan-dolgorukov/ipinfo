@@ -1,8 +1,7 @@
-.PHONY:
-	prepare \
-	clean \
-	install \
-	uninstall
+.PHONY: prepare
+.PHONY: clean
+.PHONY: install
+.PHONY: uninstall
 
 PROJECT_NAME := ipinfo
 DEBUG_MODE := 1
@@ -51,16 +50,15 @@ INSTALL_HEADER_FILES := \
   -iname "*.hpp" -type f -printf "%p ")
 
 CXX := g++
-CXXFLAGS := \
-  -std=c++20 \
-  -Wall \
-  -Wextra \
-  -Wpedantic \
-  -Wconversion \
-  -Wunreachable-code \
-  -Wsign-conversion \
-  -Wlogical-op \
-  -pipe
+CXXFLAGS := -std=c++20
+CXXFLAGS += -Wall
+CXXFLAGS += -Wextra
+CXXFLAGS += -Wpedantic
+CXXFLAGS += -Wconversion
+CXXFLAGS += -Wunreachable-code
+CXXFLAGS += -Wsign-conversion
+CXXFLAGS += -Wlogical-op
+CXXFLAGS += -pipe
 
 ifeq ($(DEBUG_MODE), 1)
 	CXXFLAGS += -g3
@@ -72,15 +70,13 @@ else
 	CXXFLAGS += -march=native
 endif
 
-LDFLAGS := \
-  -Wl,-rpath=$(PREFIX)/lib \
-  -Wl,-rpath=./lib \
-  -Wl,-rpath=/usr/lib \
-  -Wl,-rpath=/usr/local/lib
+LDFLAGS := -Wl,-rpath=$(PREFIX)/lib
+LDFLAGS += -Wl,-rpath=./lib
+LDFLAGS += -Wl,-rpath=/usr/lib
+LDFLAGS += -Wl,-rpath=/usr/local/lib
 
-LDLIBS := \
-  -lcjson \
-  -lcpr
+LDLIBS := -lcjson
+LDLIBS += -lcpr
 
 create_dir = @ (test -d $(1)) || mkdir -p $(1)
 remove_dir = @ (test -d $(1) && rm -r $(1)) || true
