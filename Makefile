@@ -72,8 +72,6 @@ endif
 
 LDFLAGS := -Wl,-rpath=$(PREFIX)/lib
 LDFLAGS += -Wl,-rpath=./lib
-LDFLAGS += -Wl,-rpath=/usr/lib
-LDFLAGS += -Wl,-rpath=/usr/local/lib
 
 LDLIBS := -lcjson
 LDLIBS += -lcpr
