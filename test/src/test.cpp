@@ -55,7 +55,7 @@ test::show_ip_info(
 
     informer.set_ip(ip);
     informer.set_lang(lang);
-    informer.set_conn_num(conn_num);
+    informer.set_connections_num(conn_num);
 
     informer.run();
 
