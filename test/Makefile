@@ -18,7 +18,7 @@ MKDIR := /usr/bin/mkdir
 TEST  := /usr/bin/test
 ECHO  := /usr/bin/echo
 
-CXXFLAGS := -std=c++2a \
+CXXFLAGS := -std=c++20 \
             -Wall \
             -Wextra \
             -Wpedantic \
