@@ -102,7 +102,7 @@ test::show_ip_info_ex(
         const std::string &lang,
         const std::uint8_t conn_num)
 {
-    ipinfo::usr::informer informer{ip, lang, conn_num};
+    ipinfo::usr::informer informer{ip, lang};
     ipinfo::usr::types::error error{};
 
     ipinfo::usr::types::node<std::string>  str_cont{};
