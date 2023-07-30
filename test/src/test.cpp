@@ -50,8 +50,8 @@ test::show_ip_info(
         const std::string &lang,
         const std::uint8_t conn_num)
 {
-    ipinfo::user::interface::informer informer{};
-    ipinfo::user::types::error        error{};
+    ipinfo::usr::informer informer{};
+    ipinfo::usr::types::error error{};
 
     informer.set_ip(ip);
     informer.set_lang(lang);
@@ -102,13 +102,13 @@ test::show_ip_info_ex(
         const std::string &lang,
         const std::uint8_t conn_num)
 {
-    ipinfo::user::interface::informer       informer{ip, lang, conn_num};
-    ipinfo::user::types::error              error{};
+    ipinfo::usr::informer informer{ip, lang, conn_num};
+    ipinfo::usr::types::error error{};
 
-    ipinfo::user::types::node<std::string>  str_cont{};
-    ipinfo::user::types::node<std::int32_t> i32_cont{};
-    ipinfo::user::types::node<double>       dbl_cont{};
-    ipinfo::user::types::node<bool>         bool_cont{};
+    ipinfo::usr::types::node<std::string>  str_cont{};
+    ipinfo::usr::types::node<std::int32_t> i32_cont{};
+    ipinfo::usr::types::node<double>       dbl_cont{};
+    ipinfo::usr::types::node<bool>         bool_cont{};
 
     informer.run();
 
